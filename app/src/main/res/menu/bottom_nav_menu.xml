@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<item
+    android:id="@+id/iHome"
+    android:enabled="true"
+    android:icon="@drawable/ic_home"
+    android:title="Inicio"
+    app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/iExplorar"
+        android:enabled="true"
+        android:title="Explorar"
+        android:icon="@drawable/ic_explore"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/iTrabajo"
+        android:enabled="true"
+        android:title="Mensajes"
+        android:icon="@drawable/ic_message"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/iPerfil"
+        android:enabled="true"
+        android:title="Perfil"
+        android:icon="@drawable/ic_person"
+        app:showAsAction="ifRoom"/>
+</menu>
