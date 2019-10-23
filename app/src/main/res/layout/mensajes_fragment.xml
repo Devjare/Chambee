@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,15 +16,17 @@
         android:layout_margin="15dp">
 
         <SearchView
+            android:id="@+id/svBuscarMensaje"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <TextView
-            android:layout_width="wrap_content"
+
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Buscar"
+            android:layout_gravity="center"
             android:fontFamily="@font/nunito"
             android:textSize="15sp"
-            android:layout_gravity="center"/>
+            tools:visibility="invisible" />
 
     </LinearLayout>
 
@@ -41,11 +44,12 @@
             android:layout_marginStart="15dp"/>
 
         <ImageView
+            android:id="@+id/ivCrearMensaje"
             android:layout_alignParentRight="true"
             android:layout_marginEnd="20dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/enviado"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/msg"
             android:layout_gravity="end"/>
     </RelativeLayout>
 

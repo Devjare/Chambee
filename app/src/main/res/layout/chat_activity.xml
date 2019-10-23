@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#BEBCBC"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="#BEBCBC"
+            android:src="@drawable/izq_flecha"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#BEBCBC"
+            android:text="Chat"
+            android:fontFamily="@font/nunito"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:gravity="left|center"/>
+    </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/plantilla"
+            android:layout_margin="5dp">
+
+            <RelativeLayout
+                android:padding="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:text="Usuario"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/tvUserCelPhoneActual"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito"
+                        android:text="Puesto"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/informacion"/>
+            </RelativeLayout>
+
+            <View
+                android:background="#338B8B8B"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+         <!--   <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="mensajeria"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="mensajeria"/>
+
+                </RelativeLayout>
+            </ScrollView>-->
+
+           <RelativeLayout
+               android:layout_alignParentBottom="true"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:gravity="bottom">
+
+               <View
+                   android:background="#338B8B8B"
+                   android:layout_marginTop="5dp"
+                   android:layout_marginBottom="5dp"
+                   android:layout_width="match_parent"
+                   android:layout_height="1dp" />
+
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   android:layout_gravity="center">
+
+                   <ImageView
+                       android:id="@+id/ivFile"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:src="@drawable/clip"
+                       android:layout_marginLeft="2dp"
+                       android:layout_marginRight="2dp"
+                       android:layout_gravity="center"/>
+                   <ImageView
+                       android:id="@+id/imImagen"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:src="@drawable/imagen"
+                       android:layout_marginLeft="2dp"
+                       android:layout_marginRight="2dp"
+                       android:layout_gravity="center"/>
+
+                   <TextView
+                       android:id="@+id/tvChating"
+                       android:layout_width="270dp"
+                       android:layout_height="wrap_content"
+                       android:background="@drawable/item_tag"
+                       android:fontFamily="@font/nunito"
+                       android:padding="12dp"
+                       android:text="12345678"
+                       android:textSize="18sp"
+                       android:paddingStart="15dp"
+                       android:paddingEnd="15dp"
+                       android:layout_marginLeft="5dp"
+                       android:layout_marginRight="5dp"/>
+                   <ImageButton
+                       android:id="@+id/ivSend"
+                       android:layout_gravity="center"
+                       android:layout_width="40dp"
+                       android:layout_height="40dp"
+                       android:src="@drawable/enviar"
+                       android:background="@drawable/item_mensajes"
+                       android:paddingStart="12dp"
+                       android:padding="5dp"/>
+               </LinearLayout>
+           </RelativeLayout>
+
+
+        </RelativeLayout>
+    </LinearLayout>

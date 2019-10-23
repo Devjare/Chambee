@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:fontFamily="@font/nunito_semibold"
-            android:text="Nombre Completo"
+            android:text="Correo electrónico"
             android:textSize="20sp" />
 
         <View
@@ -55,10 +55,11 @@
             android:layout_marginBottom="20dp"
             android:background="#338B8B8B" />
 
+
         <LinearLayout
             android:layout_below="@+id/vRayita"
             android:id="@+id/llContrasenaActual"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:orientation="horizontal">
@@ -71,7 +72,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_semibold"
                     android:text="Actual"
@@ -79,11 +80,12 @@
                     android:paddingBottom="10dp"/>
 
                 <TextView
-                    android:id="@+id/tvNombreActual"
-                    android:layout_width="300dp"
+                    android:id="@+id/tvActualCorreoElectronico"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"
-                    android:text="Nombre de Usuario"
+                    android:padding="10dp"
+                    android:text="contraseña actual"
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -102,11 +104,10 @@
         <LinearLayout
             android:id="@+id/llNuevaContrasena"
             android:layout_below="@+id/vRayita3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:orientation="horizontal">
-
         </LinearLayout>
 
         <View
@@ -142,18 +143,18 @@
                     android:paddingBottom="10dp"/>
 
                 <EditText
-                    android:id="@+id/etNuevoNombre"
+                    android:id="@+id/etNuevoCorreoElectronico"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/item_tag"
                     android:fontFamily="@font/nunito"
                     android:padding="12dp"
-                    android:text="Nuevo Uusario"
+                    android:text="093749834"
                     android:textSize="18sp" />
 
             </LinearLayout>
-        </LinearLayout>
 
+        </LinearLayout>
 
 
         <RelativeLayout

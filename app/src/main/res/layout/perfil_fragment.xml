@@ -20,22 +20,18 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:text="@string/hello_blank_fragment"
                     android:src="@drawable/rectangulo"/>
 
+
                 <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/cim_ImageUser"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:src="@drawable/images"
-                    app:civ_border_width="1dp"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="-50dp"/>
+                    android:layout_marginTop="-50dp"
+                    android:src="@drawable/images"
+                    app:civ_border_width="1dp" />
 
-                <Space
-                    android:layout_width="50dp"
-                    android:layout_height="20dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -62,18 +58,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="00"
-                        android:textSize="24sp"/>
+                        android:textSize="20sp"/>
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/enviado"/>
+                        android:src="@drawable/cinta"
+                        android:layout_gravity="center"/>
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/enviado"/>
+                        android:src="@drawable/tiempo"
+                        android:layout_gravity="center"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginStart="15dp">
@@ -82,13 +80,15 @@
                         android:id="@+id/tvUserJob"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="puesto"
+                        android:text="Puesto"
                         android:fontFamily="@font/montserrat"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp"
+                        android:paddingEnd="8dp"/>
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/enviado"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/estrella"
+                        android:layout_gravity="center"
                         android:textSize="22sp"
                         android:fontFamily="sans-serif-thin"/>
                     <TextView
@@ -97,23 +97,19 @@
                         android:layout_height="wrap_content"
                         android:text="4.5"
                         android:fontFamily="@font/nunito"
-                        android:textSize="22sp"/>
+                        android:textSize="18sp"/>
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/enviado"
-                        android:textSize="22sp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0+"
                         android:fontFamily="@font/nunito"
-                        android:textSize="22sp"/>
+                        android:text="(10+)"
+                        android:textSize="18sp"
+                        android:paddingStart="3dp"/>
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginLeft="15dp"
@@ -153,23 +149,23 @@
                     android:text="Acerca de mi"
                     android:fontFamily="@font/nunito_bold"
                     android:textSize="20sp"
-                    android:layout_marginLeft="15dp"/>
+                    android:paddingLeft="20dp"/>
 
                 <TextView
                     android:id="@+id/tvUserDescription"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:text="Te ayudamos a arreglar tus desperfectos"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:fontFamily="@font/nunito"
-                    android:layout_marginLeft="15dp"/>
+                    android:paddingLeft="15dp"/>
 
                 <View
-                    android:background="#338B8B8B"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp" />
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="#338B8B8B" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -177,8 +173,7 @@
                     android:text="Servicios"
                     android:fontFamily="@font/nunito_bold"
                     android:textSize="20sp"
-                    android:layout_marginLeft="15dp"/>
-
+                    android:paddingLeft="20dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -201,22 +196,27 @@
                     android:text="Medallas"
                     android:fontFamily="@font/nunito_bold"
                     android:textSize="20sp"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:padding="5dp"/>
                 <LinearLayout
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginLeft="15dp">
+                    android:layout_marginLeft="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/enviado"/>
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/cinta"
+                        android:layout_margin="5dp"/>
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/enviado"/>
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/tiempo"
+                        android:layout_margin="5dp"/>
 
                 </LinearLayout>
 
@@ -226,21 +226,20 @@
                     android:layout_marginBottom="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="1dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Registros de trabajo"
                     android:textSize="20sp"
                     android:fontFamily="@font/nunito_bold"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:padding="5dp"/>
 
-                <Space
-                    android:layout_width="50dp"
-                    android:layout_height="5dp"/>
 
-                <ListView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
         </RelativeLayout>
