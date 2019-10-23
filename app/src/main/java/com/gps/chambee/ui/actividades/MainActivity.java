@@ -7,20 +7,32 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gps.chambee.R;
+import com.gps.chambee.ui.fragmentos.ExploraFragment;
 import com.gps.chambee.ui.fragmentos.InicioFragment;
+import com.gps.chambee.ui.fragmentos.NotificacionesFragment;
 
 public class MainActivity extends AppCompatActivity {
-    private boolean viewIsAtHome;
+
+    private ImageView ivNotificaciones;
     private BottomNavigationView bottomNavigation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bottomNavigation=findViewById(R.id.bottom_navigation);
+
+        bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setSelectedItemId(R.id.iHome);
+
+        Fragment sFragment = new InicioFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flFragments,sFragment).commit();
+
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -30,20 +42,23 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.iHome:
                         //addFragment(new InicioFragment());
                         sFragment =new InicioFragment();
-                        viewIsAtHome=true;
+                        break;
+                    case R.id.iExplorar:
+                        sFragment =new ExploraFragment();
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.flFragments,sFragment).commit();
                 return true;
             }
         });
-    }
-    private void addFragment(Fragment fragment){
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.flFragments,fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .addToBackStack(null)
-                .commit();
+
+        ivNotificaciones = findViewById(R.id.ivNotificaciones);
+        ivNotificaciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment sFragment = new NotificacionesFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.flFragments,sFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack(null).commit();
+            }
+        });
     }
 }

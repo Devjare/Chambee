@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/degradado_splash"
-    tools:context=".ui.actividades.SplashScreen">
+    tools:context=".ui.actividades.SplashScreenActivity">
     <RelativeLayout
         android:id="@+id/rlLogos"
         android:layout_width="wrap_content"
@@ -31,14 +31,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cham"
+            android:text="cham"
             android:textColor="@color/blanco"
             android:fontFamily="@font/montserrat_regular"
             android:textSize="25sp"></TextView>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bee"
+            android:text="bee"
             android:textColor="@color/amarillo"
             android:fontFamily="@font/montserrat_regular"
             android:textSize="25sp"></TextView>

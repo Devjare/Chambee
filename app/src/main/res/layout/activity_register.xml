@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/degradado_splash"
-    tools:context=".ui.actividades.Register">
+    tools:context=".ui.actividades.RegisterActivity">
     <LinearLayout
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
@@ -136,18 +136,6 @@
             android:textSize="14sp"
             android:text="Registrarse"
             android:elevation="8dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textAlignment="center"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/montserrat_regular"
-            android:textColor="@color/blanco"
-            android:text="¿Olvidaste tu contraseña?"/>
     </LinearLayout>
     <RelativeLayout
         android:id="@+id/rlAbajo"

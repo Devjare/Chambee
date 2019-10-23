@@ -1,8 +1,6 @@
 package com.gps.chambee.ui.fragmentos;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,8 +16,9 @@ import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.gps.chambee.R;
-import com.gps.chambee.ui.actividades.Publicacion;
-import com.gps.chambee.ui.actividades.PublicarTrabajo;
+import com.gps.chambee.ui.actividades.PublicacionActivity;
+import com.gps.chambee.ui.actividades.PublicarTrabajoActivity;
+import com.gps.chambee.ui.actividades.SolicitarEmpleoActivity;
 import com.gps.chambee.ui.adaptadores.PublicacionEmpresaAdapter;
 import com.gps.chambee.ui.adaptadores.PublicacionPersonaAdapter;
 
@@ -28,6 +27,7 @@ import java.util.List;
 
 public class InicioFragment extends Fragment {
 
+    private FloatingActionButton btnSolicitarEmpleo;
     private FloatingActionButton btnPublicarEmpleo;
     private RecyclerView rvPublicaciones;
     private RecyclerView rvPublicacionesEmpleados;
@@ -38,14 +38,19 @@ public class InicioFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inicio,container,false);
 
+        rvPublicaciones = view.findViewById(R.id.rvPublicaciones);
+        rvPublicacionesEmpleados = view.findViewById(R.id.rvPublicacionesEmpleados);
+        tvVerTodoEmpleos=view.findViewById(R.id.tvVerTodoEmpleos);
+        btnPublicarEmpleo=view.findViewById(R.id.btnPublicarEmpleo);
+        btnSolicitarEmpleo = view.findViewById(R.id.btnSolicitarEmpleo);
+
         //RecyclerView de publicaciones de empleadores
+
         List<Object> lista = new ArrayList<>();
         lista.add(0);
         lista.add(0);
 
         PublicacionEmpresaAdapter adapter = new PublicacionEmpresaAdapter(view.getContext(), lista);
-
-        rvPublicaciones = view.findViewById(R.id.rvPublicaciones);
         rvPublicaciones.setLayoutManager(new LinearLayoutManager(view.getContext()) {
             @Override
             public boolean canScrollVertically() {
@@ -55,15 +60,12 @@ public class InicioFragment extends Fragment {
         rvPublicaciones.setHasFixedSize(true);
         rvPublicaciones.setAdapter(adapter);
 
-        //
         //RecyclerView de publicaciones de personas
         List<Object> empleados=new ArrayList<>();
         empleados.add(0);
         empleados.add(0);
 
         PublicacionPersonaAdapter ppAdapter=new PublicacionPersonaAdapter(view.getContext(),empleados);
-
-        rvPublicacionesEmpleados = view.findViewById(R.id.rvPublicacionesEmpleados);
         rvPublicacionesEmpleados.setLayoutManager(new LinearLayoutManager(view.getContext()){
            @Override
            public boolean canScrollVertically(){
@@ -72,21 +74,22 @@ public class InicioFragment extends Fragment {
         });
         rvPublicacionesEmpleados.setAdapter(ppAdapter);
 
-        //
-
-        tvVerTodoEmpleos=view.findViewById(R.id.tvVerTodoEmpleos);
         tvVerTodoEmpleos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), Publicacion.class));
+                startActivity(new Intent(view.getContext(), PublicacionActivity.class));
             }
         });
-
-        btnPublicarEmpleo=view.findViewById(R.id.btnPublicarEmpleo);
         btnPublicarEmpleo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), PublicarTrabajo.class));
+                startActivity(new Intent(view.getContext(), PublicarTrabajoActivity.class));
+            }
+        });
+        btnSolicitarEmpleo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), SolicitarEmpleoActivity.class));
             }
         });
 

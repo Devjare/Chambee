@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/degradado_splash"
-    tools:context=".ui.actividades.Login">
+    tools:context=".ui.actividades.LoginActivity">
     <ScrollView
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
@@ -53,6 +53,7 @@
 
                 </LinearLayout>
                 <EditText
+                    android:id="@+id/etUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
@@ -67,6 +68,7 @@
                     android:background="@drawable/fondo_redondeado_blanco"
                     />
                 <EditText
+                    android:id="@+id/etContrasenaLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_contrasena"
@@ -82,6 +84,7 @@
                     android:background="@drawable/fondo_redondeado_blanco"
                     />
                 <Button
+                    android:id="@+id/btnIniciarSesion"
                     android:textColor="#000"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -96,6 +99,7 @@
                     android:text="Iniciar Sesión"
                     android:elevation="8dp"/>
                 <TextView
+                    android:id="@+id/tvOlvideContrasena"
                     android:fontFamily="@font/montserrat_regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

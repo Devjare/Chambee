@@ -10,25 +10,31 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.actividades.PublicarTrabajo"></activity>
-        <activity android:name=".ui.actividades.Publicacion" />
-        <activity android:name=".ui.actividades.postRegistro" />
-        <activity android:name=".ui.actividades.Register" />
-        <activity android:name=".ui.actividades.Login" />
-        <activity android:name=".ui.actividades.SplashScreen">
+        <activity android:name=".ui.actividades.BienvenidaActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.fragmentos.NotificacionesFragment" />
+        <activity android:name=".ui.actividades.SolicitarEmpleoActivity" />
+        <activity android:name=".ui.actividades.PostRegistroActivity" />
+        <activity android:name=".ui.actividades.PublicarTrabajoActivity" />
+        <activity android:name=".ui.actividades.PublicacionActivity" />
+        <activity android:name=".ui.actividades.postRegistro" />
+        <activity android:name=".ui.actividades.RegisterActivity" />
+        <activity android:name=".ui.actividades.LoginActivity" />
+        <activity android:name=".ui.actividades.SplashScreenActivity">
+
+        </activity>
         <activity android:name=".ui.actividades.MainActivity" />
     </application>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>
