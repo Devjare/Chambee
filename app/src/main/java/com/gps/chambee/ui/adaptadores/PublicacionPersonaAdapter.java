@@ -68,31 +68,39 @@ public class PublicacionPersonaAdapter extends RecyclerView.Adapter<PublicacionP
     public void onBindViewHolder(@NonNull final PublicacionPersonaAdapter.ViewHolder holder, int position) {
 
         PublicacionPersona publicacion = lista.get(position);
-        holder.tvComentariosPersona.setText(publicacion.getComentarios());
+
+        holder.tvComentariosPersona.setText(publicacion.getComentarios().toString());
         holder.tvDescripcionPersona.setText(publicacion.getDescripcion());
         holder.tvEtiquetaPublicacionPersona.setText(publicacion.getEtiqueta());
-        holder.tvLikesPersona.setText(publicacion.getInteresados());
+        holder.tvLikesPersona.setText(publicacion.getInteresados().toString());
         holder.tvNombrePersonaPublicacion.setText(publicacion.getNombrePersona());
-        holder.tvTiempoPublicacionPersona.setText(publicacion.getTiempo());
-        holder.tvVistosPersona.setText(publicacion.getVistos());
+        holder.tvTiempoPublicacionPersona.setText(publicacion.getTiempo().toString());
+        holder.tvVistosPersona.setText(publicacion.getVistos().toString());
 
-        new CUObtenerImagen(context,
-                new CasoUso.EventoPeticionAceptada<Bitmap>() {
-
-                    @Override
-                    public void alAceptarPeticion(Bitmap bitmap) {
-                        holder.civFotoPerfilPersona.setImageBitmap(bitmap);
-                    }
-                },
-                new CasoUso.EventoPeticionRechazada() {
-                    @Override
-                    public void alRechazarOperacion() {
-                        Bitmap imagen = BitmapFactory.decodeResource(
-                                context.getResources(),
-                                R.drawable.ic_person);
-                        holder.civFotoPerfilPersona.setImageBitmap(imagen);
-                    }
-                });
+        if (publicacion.getUrlImagenEmpresa().equals("default")) {
+            Bitmap defaultImg = BitmapFactory.decodeResource(
+                    context.getResources(),
+                    R.drawable.ic_person
+            );
+            if (defaultImg != null)
+                holder.civFotoPerfilPersona.setImageBitmap(defaultImg);
+        } else {
+            new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
+                @Override
+                public void alAceptarPeticion(Bitmap bitmap) {
+                    holder.civFotoPerfilPersona.setImageBitmap(bitmap);
+                }
+            }, new CasoUso.EventoPeticionRechazada() {
+                @Override
+                public void alRechazarOperacion() {
+                    Bitmap defaultImg = BitmapFactory.decodeResource(
+                            context.getResources(),
+                            R.drawable.ic_person
+                    );
+                    holder.civFotoPerfilPersona.setImageBitmap(defaultImg);
+                }
+            }).enviarPeticion(publicacion.getUrlImagenEmpresa());
+        }
 
     }
 

@@ -153,27 +153,31 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void iniciarSesion() {
-        String correo = etUsuario.getText().toString();
-        String contrasena = etContrasenaLogin.getText().toString();
 
-        new CFAutenticarUsuario(new CasoUsoFirebase.EventoPeticionAceptada<String>() {
-            @Override
-            public void alAceptarPeticion(String s) {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-
-                // TODO agregar usuario al singleton de sesion
-
-            }
-        }, new CasoUsoFirebase.EventoPeticionRechazada() {
-            @Override
-            public void alRechazarOperacion(DatabaseError databaseError) {
-
-                Toast.makeText(LoginActivity.this, "Las credenciales son incorrectas", Toast.LENGTH_LONG).show();
-
-            }
-        }).enviarPeticion(correo, contrasena);
+//        String correo = etUsuario.getText().toString();
+//        String contrasena = etContrasenaLogin.getText().toString();
+//
+//        new CFAutenticarUsuario(new CasoUsoFirebase.EventoPeticionAceptada<String>() {
+//            @Override
+//            public void alAceptarPeticion(String s) {
+//
+//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                startActivity(intent);
+//
+//                // TODO agregar usuario al singleton de sesion
+//
+//            }
+//        }, new CasoUsoFirebase.EventoPeticionRechazada() {
+//            @Override
+//            public void alRechazarOperacion(DatabaseError databaseError) {
+//
+//                Toast.makeText(LoginActivity.this, "Las credenciales son incorrectas", Toast.LENGTH_LONG).show();
+//
+//            }
+//        }).enviarPeticion(correo, contrasena);
     }
 
     @Override

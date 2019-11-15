@@ -3,6 +3,7 @@ package com.gps.chambee.ui.adaptadores;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,83 +69,68 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
         return new PublicacionEmpresaAdapter.ViewHolder(view);
     }
 
+    private String TAG = "PublicacionEmpresaAdapter";
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-      
+
         PublicacionEmpresa publicacion = (PublicacionEmpresa) lista.get(position);
 
-        holder.tvComentariosEmpresa.setText(publicacion.getComentarios());
+        holder.tvComentariosEmpresa.setText(publicacion.getComentarios().toString());
         holder.tvDescripcionPublicacionTrabajo.setText(publicacion.getDescripcion());
         holder.tvEtiquetaPrincipal.setText(publicacion.getEtiqueta());
-        holder.tvInteresados.setText(publicacion.getInteresados());
+        holder.tvInteresados.setText(publicacion.getInteresados().toString());
         holder.tvNombreReclutador.setText(publicacion.getNombreEmpresa());
-        holder.tvTiempoPublicacion.setText(publicacion.getTiempo());
+        holder.tvTiempoPublicacion.setText(publicacion.getTiempo().toString());
         holder.tvNombreTrabajoPublicacion.setText(publicacion.getNombreTrabajo());
-        holder.tvVistos.setText(publicacion.getVistos());
+        holder.tvVistos.setText(publicacion.getVistos().toString());
 
-        new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
-            @Override
-            public void alAceptarPeticion(Bitmap bitmap) {
-                holder.civFotoPerfilEmpresa.setImageBitmap(bitmap);
-            }
-        }, new CasoUso.EventoPeticionRechazada() {
-            @Override
-            public void alRechazarOperacion() {
-
-            }
-        }).enviarPeticion(publicacion.getUrlImagenEmpresa());
-
-        new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
-            @Override
-            public void alAceptarPeticion(Bitmap bitmap) {
-                holder.ivImagenPublicacionTrabajo.setImageBitmap(bitmap);
-            }
-        }, new CasoUso.EventoPeticionRechazada() {
-            @Override
-            public void alRechazarOperacion() {
-
-            }
-        }).enviarPeticion(publicacion.getUrlImagenTrabajo());
-        final Bitmap imagenTrabajo = null;
-        Bitmap imagenEmpresa = null;
-
-        new CUObtenerImagen(
-                context,
-                new CasoUso.EventoPeticionAceptada<Bitmap>() {
-
-                    @Override
-                    public void alAceptarPeticion(Bitmap bitmap) {
-                        holder.civFotoPerfilEmpresa.setImageBitmap(bitmap);
-                    }
-                },
-                new CasoUso.EventoPeticionRechazada() {
-                    @Override
-                    public void alRechazarOperacion() {
-                        Bitmap imagen = BitmapFactory.decodeResource(
-                                context.getResources(),
-                                R.drawable.ic_person);
-                        holder.civFotoPerfilEmpresa.setImageBitmap(imagen);
-                    }
-                }).enviarPeticion(publicacion.getUrlImagenEmpresa());
-
-        new CUObtenerImagen(
-                context,
-                new CasoUso.EventoPeticionAceptada<Bitmap>() {
-                    @Override
-                    public void alAceptarPeticion(Bitmap bitmap) {
-                        holder.ivImagenPublicacionTrabajo.setImageBitmap(bitmap);
-                    }
-                },
-                new CasoUso.EventoPeticionRechazada() {
-                    @Override
-                    public void alRechazarOperacion() {
-                        Bitmap imagen = BitmapFactory.decodeResource(
-                                context.getResources(),
-                                R.drawable.ic_person);
-                        holder.civFotoPerfilEmpresa.setImageBitmap(imagen);
-                    }
+        if (publicacion.getUrlImagenEmpresa().equals("default")) {
+            Bitmap defaultImg = BitmapFactory.decodeResource(
+                    context.getResources(),
+                    R.drawable.ic_person
+            );
+            holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
+        } else {
+            new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
+                @Override
+                public void alAceptarPeticion(Bitmap bitmap) {
+                    holder.civFotoPerfilEmpresa.setImageBitmap(bitmap);
                 }
-        ).enviarPeticion(publicacion.getUrlImagenTrabajo());
+            }, new CasoUso.EventoPeticionRechazada() {
+                @Override
+                public void alRechazarOperacion() {
+                    Bitmap defaultImg = BitmapFactory.decodeResource(
+                            context.getResources(),
+                            R.drawable.ic_person
+                    );
+                    holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
+                }
+            }).enviarPeticion(publicacion.getUrlImagenEmpresa());
+        }
+
+        if (publicacion.getUrlImagenTrabajo().equals("default")) {
+            Bitmap defaultImg = BitmapFactory.decodeResource(
+                    context.getResources(),
+                    R.drawable.ic_portfolio
+            );
+            holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
+        } else {
+            new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
+                @Override
+                public void alAceptarPeticion(Bitmap bitmap) {
+                    holder.ivImagenPublicacionTrabajo.setImageBitmap(bitmap);
+                }
+            }, new CasoUso.EventoPeticionRechazada() {
+                @Override
+                public void alRechazarOperacion() {
+                    Bitmap defaultImg = BitmapFactory.decodeResource(
+                            context.getResources(),
+                            R.drawable.ic_portfolio
+                    );
+                    holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
+                }
+            }).enviarPeticion(publicacion.getUrlImagenTrabajo());
+        }
     }
 
     @Override
