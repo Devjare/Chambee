@@ -18,6 +18,7 @@ public class Usuario implements Parcelable {
         this.correoElectronico = builder.correoElectronico;
         this.telefono = builder.telefono;
         this.contrasenia = builder.contrasenia;
+        this.id = builder.id;
     }
 
     protected Usuario(Parcel in) {
@@ -147,5 +148,17 @@ public class Usuario implements Parcelable {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "nombre='" + nombre + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", correoElectronico='" + correoElectronico + '\'' +
+                ", contrasenia='" + contrasenia + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", id='" + id + '\'' +
+                '}';
     }
 }

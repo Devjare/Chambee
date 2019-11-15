@@ -7,18 +7,27 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DatabaseError;
 import com.gps.chambee.R;
+import com.gps.chambee.entidades.Usuario;
+import com.gps.chambee.negocios.casos.firebase.CFEnviarMensaje;
+import com.gps.chambee.negocios.casos.firebase.CFListarUsuarios;
+import com.gps.chambee.negocios.casos.firebase.CasoUsoFirebase;
 import com.gps.chambee.ui.fragmentos.ExploraFragment;
 import com.gps.chambee.ui.fragmentos.InicioFragment;
 import com.gps.chambee.ui.fragmentos.MensajesFragment;
 import com.gps.chambee.ui.fragmentos.NotificacionesFragment;
 import com.gps.chambee.ui.fragmentos.PerfilFragment;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,5 +91,44 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.flFragments,sFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack(null).commit();
             }
         });
+
+        listUsers();
+    }
+
+    private void listUsers() {
+        new CFListarUsuarios(new CasoUsoFirebase.EventoPeticionAceptada<List<Usuario>>() {
+            @Override
+            public void alAceptarPeticion(List<Usuario> usuarios) {
+                Toast.makeText(MainActivity.this, String.valueOf(usuarios.size()), Toast.LENGTH_SHORT).show();
+                sendMessage(usuarios);
+            }
+        }, new CasoUsoFirebase.EventoPeticionRechazada() {
+            @Override
+            public void alRechazarOperacion(DatabaseError databaseError) {
+                Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        }).enviarPeticion();
+    }
+
+    private void sendMessage(List<Usuario> usuarios) {
+        Log.e("chambee", usuarios.toString());
+
+        String emisor = usuarios.get(0).getId();
+        String receptor = usuarios.get(1).getId();
+        String mensaje = "hola perro k ace";
+
+        Log.e("chambee", String.format("emisor: '%s', receptor: '%s', mensaje: '%s'", emisor, receptor, mensaje));
+
+        new CFEnviarMensaje(new CasoUsoFirebase.EventoPeticionAceptada<String>() {
+            @Override
+            public void alAceptarPeticion(String s) {
+                Toast.makeText(MainActivity.this, "Mensaje enviado", Toast.LENGTH_SHORT).show();
+            }
+        }, new CasoUsoFirebase.EventoPeticionRechazada() {
+            @Override
+            public void alRechazarOperacion(DatabaseError databaseError) {
+                Toast.makeText(MainActivity.this, "Error mensaje no enviado", Toast.LENGTH_SHORT).show();
+            }
+        }).enviarPeticion(emisor, receptor, mensaje);
     }
 }

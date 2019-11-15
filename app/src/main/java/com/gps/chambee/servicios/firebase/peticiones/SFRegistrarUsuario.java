@@ -56,7 +56,7 @@ public class SFRegistrarUsuario extends ServicioFirebaseEscritura {
                 datos.put("telefono", usuario.getTelefono());
 
                 databaseReference.setValue(datos)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful())

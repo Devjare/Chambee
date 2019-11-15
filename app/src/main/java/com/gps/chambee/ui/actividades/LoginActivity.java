@@ -3,6 +3,7 @@ package com.gps.chambee.ui.actividades;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etContrasenaLogin;
     private Button btnIniciarSesion;
     private TextView tvOlvideContrasena;
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +156,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void iniciarSesion() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.show();
+
         String correo = etUsuario.getText().toString();
         String contrasena = etContrasenaLogin.getText().toString();
 
@@ -163,6 +169,8 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
 
+                progressDialog.dismiss();
+
                 // TODO agregar usuario al singleton de sesion
 
             }
@@ -171,6 +179,7 @@ public class LoginActivity extends AppCompatActivity {
             public void alRechazarOperacion(DatabaseError databaseError) {
 
                 Toast.makeText(LoginActivity.this, "Las credenciales son incorrectas", Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
 
             }
         }).enviarPeticion(correo, contrasena);
