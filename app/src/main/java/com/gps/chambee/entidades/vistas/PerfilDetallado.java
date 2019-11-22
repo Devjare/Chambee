@@ -23,19 +23,76 @@ public class PerfilDetallado implements Parcelable {
 
     public PerfilDetallado(){}
 
-    public PerfilDetallado(String urlPerfil, String urlPortada, String nombrePersona, String apellidosPersona, int edad, String puesto, double estrellas, String estado, String ciudad, String acerca, List<String> servicios, List<Medalla> medallas) {
-        this.urlPerfil = urlPerfil;
-        this.urlPortada = urlPortada;
-        this.nombrePersona = nombrePersona;
-        this.apellidosPersona = apellidosPersona;
-        this.edad = edad;
-        this.puesto = puesto;
-        this.estrellas = estrellas;
-        this.estado = estado;
-        this.ciudad = ciudad;
-        this.acerca = acerca;
-        this.servicios = servicios;
-        this.medallas = medallas;
+    public PerfilDetallado(PerfilDetalladoBuilder perfilDetalleBuilder) {
+    }
+
+    public static class PerfilDetalladoBuilder {
+        public String urlPerfil;
+        public String urlPortada;
+        public String nombrePersona;
+        public String apellidosPersona;
+        public int edad;
+        public String puesto;
+        public double estrellas;
+        public String estado;
+        public String ciudad;
+        public String acerca;
+        public List<String> servicios;
+        public List<Medalla> medallas;
+
+        public PerfilDetalladoBuilder(){}
+
+        public void setUrlPerfil(String urlPerfil) {
+            this.urlPerfil = urlPerfil;
+        }
+
+        public void setUrlPortada(String urlPortada) {
+            this.urlPortada = urlPortada;
+        }
+
+        public void setNombrePersona(String nombrePersona) {
+            this.nombrePersona = nombrePersona;
+        }
+
+        public void setApellidosPersona(String apellidosPersona) {
+            this.apellidosPersona = apellidosPersona;
+        }
+
+        public void setEdad(int edad) {
+            this.edad = edad;
+        }
+
+        public void setPuesto(String puesto) {
+            this.puesto = puesto;
+        }
+
+        public void setEstrellas(double estrellas) {
+            this.estrellas = estrellas;
+        }
+
+        public void setEstado(String estado) {
+            this.estado = estado;
+        }
+
+        public void setCiudad(String ciudad) {
+            this.ciudad = ciudad;
+        }
+
+        public void setAcerca(String acerca) {
+            this.acerca = acerca;
+        }
+
+        public void setServicios(List<String> servicios) {
+            this.servicios = servicios;
+        }
+
+        public void setMedallas(List<Medalla> medallas) {
+            this.medallas = medallas;
+        }
+
+        public PerfilDetallado build(){
+            return new PerfilDetallado(this);
+        }
     }
 
     public String getUrlPerfil() {

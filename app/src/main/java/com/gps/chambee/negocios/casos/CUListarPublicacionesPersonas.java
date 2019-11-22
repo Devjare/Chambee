@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public class CUListarPublicacionesPersonas extends  CasoUso{
+public class CUListarPublicacionesPersonas extends CasoUso{
 
     public CUListarPublicacionesPersonas(Context context, EventoPeticionAceptada eventoPeticionAceptada, EventoPeticionRechazada eventoPeticionRechazada) {
         super(context, eventoPeticionAceptada, eventoPeticionRechazada);
@@ -40,5 +40,4 @@ public class CUListarPublicacionesPersonas extends  CasoUso{
             }
         });
     }
-
 }

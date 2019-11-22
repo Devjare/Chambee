@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Medalla;
 import com.gps.chambee.entidades.vistas.PerfilDetallado;
+import com.gps.chambee.entidades.vistas.Puesto;
+import com.gps.chambee.negocios.casos.CUListarPuestos;
 import com.gps.chambee.negocios.casos.CUObtenerImagen;
 import com.gps.chambee.negocios.casos.CUSeleccionarMedallas;
 import com.gps.chambee.negocios.casos.CasoUso;
@@ -74,19 +76,16 @@ public class PerfilFragment extends Fragment {
         });
         rvEtiquetas.setAdapter(adapter);
 
-        List<Object> list = new ArrayList<>();
-        lista.add(0);
-        lista.add(0);
-        lista.add(0);
+        final List<Puesto> listaPuestos = new ArrayList<>();
 
-        RegistroTrabajosAdapter adapte = new RegistroTrabajosAdapter(view.getContext(),lista);
+        RegistroTrabajosAdapter adapte = new RegistroTrabajosAdapter(view.getContext(),listaPuestos);
         rvRegistroTrabajos.setLayoutManager(new LinearLayoutManager(view.getContext()));
         rvRegistroTrabajos.setAdapter(adapte);
 
         //
-        List<Medalla> listaMedallas = new ArrayList<>();
+        final List<Medalla> listaMedallas = new ArrayList<>();
 
-        MedallasAdapter adMedallas = new MedallasAdapter(view.getContext(),listaMedallas);
+        final MedallasAdapter adMedallas = new MedallasAdapter(view.getContext(),listaMedallas);
         rvMedallas.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayout.HORIZONTAL, false) {
             @Override
             public boolean canScrollVertically() {
@@ -131,7 +130,7 @@ public class PerfilFragment extends Fragment {
         new CUSeleccionarMedallas(getContext(), new CasoUso.EventoPeticionAceptada<List<Medalla>>() {
             @Override
             public void alAceptarPeticion(List<Medalla> medallas) {
-
+                llenarMedallas(listaMedallas, view);
             }
         }, new CasoUso.EventoPeticionRechazada() {
             @Override
@@ -139,6 +138,18 @@ public class PerfilFragment extends Fragment {
 
             }
         }).enviarPeticion();
+
+        new CUListarPuestos(getContext(), new CasoUso.EventoPeticionAceptada<List<Puesto>>() {
+            @Override
+            public void alAceptarPeticion(List<Puesto> puestos) {
+                llenarRegistroTrabajoAdapter(listaPuestos, view);
+            }
+        }, new CasoUso.EventoPeticionRechazada() {
+            @Override
+            public void alRechazarOperacion() {
+
+            }
+        });
 
         new CUSeleccionarPerfilDetallado(getContext(), new CasoUso.EventoPeticionAceptada<List<PerfilDetallado>>() {
             @Override
@@ -163,5 +174,15 @@ public class PerfilFragment extends Fragment {
         });
         rvMedallas.setHasFixedSize(true);
         rvMedallas.setAdapter(adapter);
+    }
+
+    private void llenarRegistroTrabajoAdapter(List<Puesto> puestos, View view){
+        RegistroTrabajosAdapter adapter = new RegistroTrabajosAdapter(view.getContext(), puestos);
+        rvRegistroTrabajos.setLayoutManager(new LinearLayoutManager(view.getContext()){
+            @Override
+            public boolean canScrollVertically(){return false;}
+        });
+        rvRegistroTrabajos.setHasFixedSize(true);
+        rvRegistroTrabajos.setAdapter(adapter);
     }
 }
