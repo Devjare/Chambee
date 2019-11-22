@@ -78,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:text="Lugar"/>
             <EditText
+                android:id="@+id/etLugar"
                 android:singleLine="true"
                 android:layout_marginTop="10dp"
                 android:padding="15dp"
@@ -168,6 +169,7 @@
                 android:background="@drawable/fondo_redondeado_blanco_contorno"
                 />
             <Button
+                android:id="@+id/btnPublicar"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="20dp"
                 android:textColor="@color/blanco"

@@ -142,7 +142,6 @@ public class PostRegistroUnoFragment extends Fragment {
         abrirCamara();
         Log.i("Si entro","Entro en el request permission");
         Toast.makeText(getContext(), "Despues de pedir permisos", Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
