@@ -7,14 +7,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gps.chambee.R;
-import com.gps.chambee.entidades.Categoria;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class EtiquetaAdapter extends RecyclerView.Adapter<EtiquetaAdapter.ViewHolder> {
+public class ServiciosAdapter extends RecyclerView.Adapter<ServiciosAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -27,22 +26,22 @@ public class EtiquetaAdapter extends RecyclerView.Adapter<EtiquetaAdapter.ViewHo
         }
     }
     private Context context;
-    private List<Object> lista;
+    private List<String> lista;
 
-    public EtiquetaAdapter(Context context, List<Object> lista){
+    public ServiciosAdapter(Context context, List<String> lista){
         this.context=context;
         this.lista=lista;
     }
 
     @NonNull
     @Override
-    public EtiquetaAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ServiciosAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.item_etiquetas,parent,false);
-        return new EtiquetaAdapter.ViewHolder(view);
+        return new ServiciosAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EtiquetaAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ServiciosAdapter.ViewHolder holder, int position) {
     }
 
     @Override

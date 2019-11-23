@@ -20,11 +20,12 @@ import com.gps.chambee.entidades.Medalla;
 import com.gps.chambee.entidades.vistas.PerfilDetallado;
 import com.gps.chambee.entidades.vistas.Puesto;
 import com.gps.chambee.negocios.casos.CUListarPuestos;
+import com.gps.chambee.negocios.casos.CUListarServicios;
 import com.gps.chambee.negocios.casos.CUObtenerImagen;
 import com.gps.chambee.negocios.casos.CUSeleccionarMedallas;
 import com.gps.chambee.negocios.casos.CasoUso;
 import com.gps.chambee.negocios.casos.firebase.CUSeleccionarPerfilDetallado;
-import com.gps.chambee.ui.adaptadores.EtiquetaAdapter;
+import com.gps.chambee.ui.adaptadores.ServiciosAdapter;
 import com.gps.chambee.ui.adaptadores.MedallasAdapter;
 import com.gps.chambee.ui.adaptadores.RegistroTrabajosAdapter;
 
@@ -44,7 +45,7 @@ public class PerfilFragment extends Fragment {
     private TextView tvNumeroCalificaciones;
     private TextView tvCiudadUsuario;
     private TextView tvAcercaDeMiPerfil;
-    private RecyclerView rvEtiquetas;
+    private RecyclerView rvServicios;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,19 +63,18 @@ public class PerfilFragment extends Fragment {
         tvCiudadUsuario = view.findViewById(R.id.tvCiudadUsuario);
         tvAcercaDeMiPerfil = view.findViewById(R.id.tvAcercaDeMiPerfil);
         rvMedallas = view.findViewById(R.id.rvMedallas);
-        rvEtiquetas = view.findViewById(R.id.rvEtiquetas);
+        rvServicios = view.findViewById(R.id.rvServicios);
 
-        List<Object> lista = new ArrayList<>();
-        lista.add(0);
+        List<String> lista = new ArrayList<>();
 
-        EtiquetaAdapter adapter = new EtiquetaAdapter(view.getContext(),lista);
-        rvEtiquetas.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayout.HORIZONTAL, false) {
+        ServiciosAdapter adapter = new ServiciosAdapter(view.getContext(),lista);
+        rvServicios.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayout.HORIZONTAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         });
-        rvEtiquetas.setAdapter(adapter);
+        rvServicios.setAdapter(adapter);
 
         final List<Puesto> listaPuestos = new ArrayList<>();
 
@@ -139,6 +139,18 @@ public class PerfilFragment extends Fragment {
             }
         }).enviarPeticion();
 
+        new CUListarServicios(getContext(), new CasoUso.EventoPeticionAceptada<List<String>>() {
+            @Override
+            public void alAceptarPeticion(List<String> strings) {
+
+            }
+        }, new CasoUso.EventoPeticionRechazada() {
+            @Override
+            public void alRechazarOperacion() {
+
+            }
+        });
+
         new CUListarPuestos(getContext(), new CasoUso.EventoPeticionAceptada<List<Puesto>>() {
             @Override
             public void alAceptarPeticion(List<Puesto> puestos) {
@@ -174,6 +186,16 @@ public class PerfilFragment extends Fragment {
         });
         rvMedallas.setHasFixedSize(true);
         rvMedallas.setAdapter(adapter);
+    }
+
+    private void llenarServicios(List<String> listaServicios, View view){
+        ServiciosAdapter adapter = new ServiciosAdapter(view.getContext(), listaServicios);
+        rvServicios.setLayoutManager(new LinearLayoutManager(view.getContext()){
+            @Override
+            public boolean canScrollVertically(){return false;}
+        });
+        rvServicios.setHasFixedSize(true);
+        rvServicios.setAdapter(adapter);
     }
 
     private void llenarRegistroTrabajoAdapter(List<Puesto> puestos, View view){

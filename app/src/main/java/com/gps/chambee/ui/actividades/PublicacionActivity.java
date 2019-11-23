@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Categoria;
-import com.gps.chambee.entidades.Comentario;
 import com.gps.chambee.entidades.vistas.ComentarioPublicacion;
 import com.gps.chambee.entidades.vistas.DetallePublicacionEmpresa;
 import com.gps.chambee.entidades.Perfil;
@@ -23,9 +22,8 @@ import com.gps.chambee.negocios.casos.CUObtenerDetallesPublicacionEmpresa;
 import com.gps.chambee.negocios.casos.CasoUso;
 import com.gps.chambee.ui.adaptadores.CategoriasAdapter;
 import com.gps.chambee.ui.adaptadores.ComentarioTrabajoAdapter;
-import com.gps.chambee.ui.adaptadores.EtiquetaAdapter;
+import com.gps.chambee.ui.adaptadores.ServiciosAdapter;
 import com.gps.chambee.ui.adaptadores.InteresadosAdapter;
-import com.gps.chambee.ui.adaptadores.RegistroTrabajosAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,12 +60,12 @@ public class PublicacionActivity extends AppCompatActivity {
         civFotoPerfil = findViewById(R.id.civFotoPerfil);
         rvInteresados = findViewById(R.id.rvInteresados);
         etComentario = findViewById(R.id.etComentario);
-        rvEtiquetas = findViewById(R.id.rvEtiquetas);
+        rvEtiquetas = findViewById(R.id.rvServicios);
 
         List<Object> lista = new ArrayList<>();
         lista.add(0);
 
-        EtiquetaAdapter adapter = new EtiquetaAdapter(this,lista);
+        ServiciosAdapter adapter = new ServiciosAdapter(this,lista);
         rvEtiquetas.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false) {
             @Override
             public boolean canScrollVertically() {
