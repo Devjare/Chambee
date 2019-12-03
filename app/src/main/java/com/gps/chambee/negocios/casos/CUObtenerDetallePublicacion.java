@@ -32,7 +32,7 @@ public class CUObtenerDetallePublicacion extends CasoUso<DetallePublicacion> {
                         PresentadorDetallesPublicacion presentador = new PresentadorDetallesPublicacion();
                         DetallePublicacion publicacion = presentador.procesar(response);
 
-                        eventoPeticionAceptada.alAceptarPeticion(response);
+                        eventoPeticionAceptada.alAceptarPeticion(publicacion);
                     }
                 },
                 new Response.ErrorListener() {
