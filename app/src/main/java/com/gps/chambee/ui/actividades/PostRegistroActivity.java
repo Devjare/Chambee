@@ -36,20 +36,19 @@ public class PostRegistroActivity extends AppCompatActivity {
 
     private Bitmap imagenUsuario;
     private String acercaDeMi;
-
     private String profesion;
-
     private String localidad;
     private String colonia;
     private String fecha;
 
+    List<Fragment> lista = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_registro2);
 
-        final List<Fragment> lista = new ArrayList<>();
+        lista = new ArrayList<>();
         lista.add(new PostRegistroUnoFragment());
         lista.add(new PostRegistroDosFragment());
         lista.add(new PostRegistroTresFragment());
@@ -65,42 +64,7 @@ public class PostRegistroActivity extends AppCompatActivity {
         btnSiguientePuntos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = lista.get(vpPostRegistro.getCurrentItem());
-                switch (vpPostRegistro.getCurrentItem()){
-                    case 0:{
-                        PostRegistroUnoFragment post1 = (PostRegistroUnoFragment) fragment;
-                        imagenUsuario = post1.getImagenUsuario();
-                        acercaDeMi = post1.getAcercaDeMi();
-
-                        break;
-                    }
-                    case 1:{
-                        PostRegistroDosFragment post2 = (PostRegistroDosFragment) fragment;
-                        profesion = post2.getProfesion();
-
-                        break;
-                    }
-                    case 2:{
-                        PostRegistroTresFragment post3 = (PostRegistroTresFragment ) fragment;
-                        localidad = post3.getLocalidad();
-                        colonia = post3.getColonia();
-                        fecha = post3.getFecha();
-
-                        break;
-                    }
-                }
-                Toast.makeText(PostRegistroActivity.this, "", Toast.LENGTH_SHORT).show();
-                Log.e("Post Registro activity", " imagen width "+imagenUsuario+" "+acercaDeMi+" acerca de mi:"+profesion+" profesion: "+localidad+" Localidad: "+colonia+" colonia: "+fecha+" fecha ");
-                int nextSlide = vpPostRegistro.getCurrentItem() + 1;
-                if (nextSlide < 3) {
-
-                    vpPostRegistro.setCurrentItem(nextSlide);
-
-
-                } else {
-                    startActivity(new Intent(PostRegistroActivity.this, MainActivity.class));
-                    finish();
-                }
+                manejarSiguienteFragment();
             }
         });
 
@@ -146,12 +110,48 @@ public class PostRegistroActivity extends AppCompatActivity {
         }
     }
 
-    private void nextSlide() {
+    private void manejarSiguienteFragment() {
+
+        Fragment fragment = lista.get(vpPostRegistro.getCurrentItem());
+
+        switch (vpPostRegistro.getCurrentItem()) {
+
+            case 0: {
+                PostRegistroUnoFragment post1 = (PostRegistroUnoFragment) fragment;
+                imagenUsuario = post1.getImagenUsuario();
+                acercaDeMi = post1.getAcercaDeMi();
+                break;
+            }
+
+            case 1: {
+                PostRegistroDosFragment post2 = (PostRegistroDosFragment) fragment;
+                profesion = post2.getProfesion();
+                break;
+            }
+
+            case 2: {
+                PostRegistroTresFragment post3 = (PostRegistroTresFragment ) fragment;
+                localidad = post3.getLocalidad();
+                colonia = post3.getColonia();
+                fecha = post3.getFecha();
+                break;
+            }
+        }
+
         int nextSlide = vpPostRegistro.getCurrentItem() + 1;
+
         if (nextSlide < 3) {
             vpPostRegistro.setCurrentItem(nextSlide);
         } else {
-
+            actualizarDatosUsuario();
         }
+    }
+
+    private void actualizarDatosUsuario() {
+        // TODO Hacer la validacion de los datos de postregistro
+        // TODO Servicio web para la actualizacion de los datos del perfil del usuario recien registrado
+
+        startActivity(new Intent(PostRegistroActivity.this, MainActivity.class));
+        finish();
     }
 }

@@ -11,7 +11,7 @@ import com.gps.chambee.servicios.web.implementaciones.SWObtenerImagen;
 
 public class CUObtenerImagen extends CasoUso<Bitmap> {
     public CUObtenerImagen(Context context,
-                           EventoPeticionAceptada eventoPeticionAceptada,
+                           EventoPeticionAceptada<Bitmap> eventoPeticionAceptada,
                            EventoPeticionRechazada eventoPeticionRechazada) {
         super(context, eventoPeticionAceptada, eventoPeticionRechazada);
     }

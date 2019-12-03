@@ -19,7 +19,7 @@
             android:paddingStart="15dp"
             android:layout_width="60dp"
             android:layout_height="fill_parent"
-            android:id="@+id/ivRegresarConfiguracion"
+            android:id="@+id/ivRegresar"
             android:src="@drawable/ic_regresar"
             android:layout_gravity="center_vertical"/>
         <TextView
@@ -49,6 +49,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tvNombreUsuario"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_semibold"
@@ -60,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"
-                    android:text="Puesto"
+                    android:text="Numero de telefono"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -80,35 +81,14 @@
             android:background="#228B8B8B"
             android:layout_width="match_parent"
             android:layout_height="1dp" />
-        <ScrollView
-            android:layout_below="@+id/vEnMen"
-            android:layout_above="@+id/vLineaMensaje"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChat"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></RelativeLayout>
-        </ScrollView>
+            android:layout_height="match_parent"
+            android:layout_below="@id/vEnMen"
+            android:layout_above="@id/vLineaMensaje"/>
 
-        <!--   <ScrollView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-               <RelativeLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content">
-
-                   <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:text="mensajeria"/>
-
-                   <TextView
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:text="mensajeria"/>
-
-               </RelativeLayout>
-           </ScrollView>-->
         <View
             android:id="@+id/vLineaMensaje"
             android:layout_above="@+id/rlEnviarMensajes"
@@ -132,11 +112,11 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center">
                 <EditText
+                    android:id="@+id/etMensaje"
                     android:layout_weight="1"
                     android:imeOptions="actionSend"
                     android:layout_gravity="center_vertical"
                     android:singleLine="true"
-                    android:id="@+id/etNuevoNombre"
                     android:padding="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -145,6 +125,7 @@
                     android:background="@drawable/fondo_redondeado_blanco_contorno"
                     />
                 <ImageView
+                    android:id="@+id/ivEnviarMensaje"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="15dp"
                     android:layout_width="30dp"
@@ -152,7 +133,5 @@
                     android:src="@drawable/ic_send"/>
             </LinearLayout>
         </RelativeLayout>
-
-
     </RelativeLayout>
 </LinearLayout>

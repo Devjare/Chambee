@@ -18,9 +18,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseError;
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Usuario;
+import com.gps.chambee.entidades.UsuarioFirebase;
 import com.gps.chambee.negocios.casos.firebase.CFEnviarMensaje;
 import com.gps.chambee.negocios.casos.firebase.CFListarUsuarios;
 import com.gps.chambee.negocios.casos.firebase.CasoUsoFirebase;
+import com.gps.chambee.ui.Sesion;
 import com.gps.chambee.ui.fragmentos.ExploraFragment;
 import com.gps.chambee.ui.fragmentos.InicioFragment;
 import com.gps.chambee.ui.fragmentos.MensajesFragment;
@@ -90,7 +92,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        foo();
         //listUsers();
+    }
+
+    private void foo() {
+        UsuarioFirebase usuarioFirebase = (UsuarioFirebase) Sesion.instance().obtenerEntidad(UsuarioFirebase.getNombreClase());
+        Toast.makeText(this, usuarioFirebase.toString(), Toast.LENGTH_SHORT).show();
     }
 
     private void listUsers() {

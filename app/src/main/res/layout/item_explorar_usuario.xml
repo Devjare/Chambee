@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:paddingTop="15dp"
+    android:paddingEnd="20dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/llEncabezado"
+        android:orientation="horizontal">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civFotoPerfilExplorarUsuario"
+            android:layout_width="80dp"
+            android:layout_height="fill_parent"
+            android:src="@color/colorFinal"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvNombreExplorarUsuario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:text="Nombre"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ciudad"/>
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/ivMensajeUsuario"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_message"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

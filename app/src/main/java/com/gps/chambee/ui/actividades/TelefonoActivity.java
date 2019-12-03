@@ -2,6 +2,7 @@ package com.gps.chambee.ui.actividades;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,11 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gps.chambee.R;
-import com.gps.chambee.entidades.SingletonSesion;
-import com.gps.chambee.entidades.Usuario;
+import com.gps.chambee.entidades.UsuarioFirebase;
 import com.gps.chambee.negocios.casos.CUActualizarUsuario;
 import com.gps.chambee.negocios.casos.CasoUso;
 import com.gps.chambee.negocios.validadores.ValidadorTelefono;
+import com.gps.chambee.ui.Sesion;
 
 public class TelefonoActivity extends AppCompatActivity {
 
@@ -23,8 +24,9 @@ public class TelefonoActivity extends AppCompatActivity {
     private TextView tvTelefonoActual;
     private EditText etNuevoCorreo;
     private Button btnListoTelefono;
+    private ProgressDialog progressDialog;
 
-    Usuario usuario = (Usuario) SingletonSesion.getInstance().getObjetosSesion().get("Usuario");
+    private UsuarioFirebase usuarioFirebase = (UsuarioFirebase) Sesion.instance().obtenerEntidad(UsuarioFirebase.getNombreClase());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,8 @@ public class TelefonoActivity extends AppCompatActivity {
         btnListoTelefono = findViewById(R.id.btnListoTelefono);
         ivRegresarTelefono = findViewById(R.id.ivRegresarTelefono);
 
+        tvTelefonoActual.setText(usuarioFirebase.getTelefono());
+
         ivRegresarTelefono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,37 +50,40 @@ public class TelefonoActivity extends AppCompatActivity {
         btnListoTelefono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String telefono = etNuevoCorreo.getText().toString();
-                ValidadorTelefono validadorTelefono = new ValidadorTelefono(telefono);
-
-                if(!validadorTelefono.validar()){
-                    Toast.makeText(TelefonoActivity.this, validadorTelefono.ultimoError().mensajeError(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                CUActualizarUsuario cuActualizarUsuario = new CUActualizarUsuario(
-                        TelefonoActivity.this,
-                        new CasoUso.EventoPeticionAceptada<String>() {
-                            @Override
-                            public void alAceptarPeticion(String s) {
-                                finish();
-                            }
-                        }, new CasoUso.EventoPeticionRechazada() {
-                    @Override
-                    public void alRechazarOperacion() {
-                        Toast.makeText(TelefonoActivity.this, "No tienes internet.", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                }
-                );
-
-                usuario.setTelefono(telefono);
-
-                TelefonoActivity.super.onBackPressed();
+                actualizarTelefono();
             }
         });
+    }
 
-        tvTelefonoActual.setText(usuario.getCorreoElectronico());
+    private void actualizarTelefono() {
+        progressDialog = new ProgressDialog(this);
+
+        String telefono = etNuevoCorreo.getText().toString();
+        ValidadorTelefono validadorTelefono = new ValidadorTelefono(telefono);
+
+        if(!validadorTelefono.validar()) {
+            Toast.makeText(TelefonoActivity.this, validadorTelefono.ultimoError().mensajeError(), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        new CUActualizarUsuario(this, new CasoUso.EventoPeticionAceptada<String>() {
+
+            @Override
+            public void alAceptarPeticion(String s) {
+                progressDialog.dismiss();
+
+                Sesion.instance().agregarEntidad(UsuarioFirebase.getNombreClase(), usuarioFirebase);
+                finish();
+            }
+
+        }, new CasoUso.EventoPeticionRechazada() {
+
+            @Override
+            public void alRechazarOperacion() {
+                progressDialog.dismiss();
+                Toast.makeText(TelefonoActivity.this, "No tienes internet.", Toast.LENGTH_LONG).show();
+            }
+
+        });
     }
 }

@@ -64,11 +64,13 @@ public class ExploraFragment extends Fragment {
 
         tabExplorar.addTab(tabExplorar.newTab().setText("Empleos"));
         tabExplorar.addTab(tabExplorar.newTab().setText("Empleados"));
+        tabExplorar.addTab(tabExplorar.newTab().setText("Usuarios"));
         tabExplorar.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         Adapter adapter = new Adapter(getChildFragmentManager());
         adapter.addFragment(new ExplorarEmpleosFragment(),"Empleo");
         adapter.addFragment(new ExplorarEmpleadosFragment(),"Empleado");
+        adapter.addFragment(new ExplorarUsuariosFragment(),"Usuarios");
         vpExplora.setAdapter(adapter);
 
         return view;

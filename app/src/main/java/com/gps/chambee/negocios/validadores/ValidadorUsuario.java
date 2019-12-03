@@ -36,8 +36,8 @@ public class ValidadorUsuario extends Validador<Usuario> {
             @Override
             public boolean validar() {
                 String nombre = t.getNombre();
-                Pattern regex = Pattern.compile("[^a-zA-Z]");
-                return !regex.matcher(nombre).find();
+                Pattern regex = Pattern.compile("^([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ\\']+[\\s])+([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ\\'])+[\\s]?([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ\\'])?$");
+                return regex.matcher(nombre).find();
             }
 
         }, new ErrorValidacion() {
@@ -74,8 +74,8 @@ public class ValidadorUsuario extends Validador<Usuario> {
             @Override
             public boolean validar() {
                 String apellidos = t.getApellidos();
-                Pattern regex = Pattern.compile("[^a-zA-Z]");
-                return !regex.matcher(apellidos).find();
+                Pattern regex = Pattern.compile("^([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ\\']+[\\s])+([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ\\'])+[\\s]?([A-Za-zÁÉÍÓÚñáéíóúÑ]{0}?[A-Za-zÁÉÍÓÚñáéíóúÑ\\'])?$");
+                return regex.matcher(apellidos).find();
             }
 
         }, new ErrorValidacion() {
