@@ -32,9 +32,7 @@ public class ValidadorContrasenia extends Validador<String> {
         agregarValidacion(new ValidadorPropiedad() {
             @Override
             public boolean validar() {
-                if(t.length()<6)
-                    return false;
-                return true;
+                return t.length() >= 6;
             }
 
         }, new ErrorValidacion() {

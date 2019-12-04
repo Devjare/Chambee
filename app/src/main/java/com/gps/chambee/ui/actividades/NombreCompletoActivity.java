@@ -15,12 +15,13 @@ import com.gps.chambee.R;
 import com.gps.chambee.entidades.UsuarioFirebase;
 import com.gps.chambee.negocios.casos.CUActualizarUsuario;
 import com.gps.chambee.negocios.casos.CasoUso;
+import com.gps.chambee.negocios.validadores.ValidadorPool;
 import com.gps.chambee.negocios.validadores.propiedades.ValidadorNombre;
 import com.gps.chambee.ui.Sesion;
 
 public class NombreCompletoActivity extends AppCompatActivity {
 
-    private TextView etNombreActual;
+    private TextView tvNombreActual;
     private EditText etNuevoNombre;
     private EditText etNuevoApellido;
     private Button btnListoNombre;
@@ -34,13 +35,13 @@ public class NombreCompletoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nombre_completo);
 
-        etNombreActual = findViewById(R.id.tvNombreActual);
+        tvNombreActual = findViewById(R.id.tvNombreActual);
         etNuevoApellido = findViewById(R.id.etNuevoApellido);
         etNuevoNombre = findViewById(R.id.etNuevoNombre);
         btnListoNombre = findViewById(R.id.btnListoNombre);
         ivRegresarNombre = findViewById(R.id.ivRegresarNombre);
 
-        etNombreActual.setText(usuarioFirebase.getNombres() + " " + usuarioFirebase.getApellidos());
+        tvNombreActual.setText(usuarioFirebase.getNombres() + " " + usuarioFirebase.getApellidos());
 
         ivRegresarNombre.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,25 +59,26 @@ public class NombreCompletoActivity extends AppCompatActivity {
     }
 
     private void actualizarNombre() {
-        progressDialog = new ProgressDialog(this);
-
         String nombres = etNuevoNombre.getText().toString();
         String apellidos = etNuevoApellido.getText().toString();
 
-        ValidadorNombre validadorNombres = new ValidadorNombre(nombres);
-        ValidadorNombre validadorApellidos = new ValidadorNombre(apellidos);
+        ValidadorPool validadorPool = new ValidadorPool.Builder()
+                .agregarValidador(new ValidadorNombre(nombres))
+                .agregarValidador(new ValidadorNombre(apellidos))
+                .build();
 
-        if(!validadorNombres.validar()) {
-            Toast.makeText(NombreCompletoActivity.this, validadorNombres.ultimoError().mensajeError(), Toast.LENGTH_LONG).show();
+        if (!validadorPool.validarTodo()) {
+            Toast.makeText(NombreCompletoActivity.this, validadorPool.ultimoError().mensajeError(), Toast.LENGTH_LONG).show();
             return;
         }
 
-        if(!validadorApellidos.validar()) {
-            Toast.makeText(NombreCompletoActivity.this, validadorApellidos.ultimoError().mensajeError(), Toast.LENGTH_LONG).show();
-            return;
-        }
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Actualizando...");
+        progressDialog.show();
 
-        new CUActualizarUsuario(this, new CasoUso.EventoPeticionAceptada<String>() {
+        // TODO Caso de uso para actualizar el nombre del usuario
+
+        /*new CUActualizarUsuario(this, new CasoUso.EventoPeticionAceptada<String>() {
 
             @Override
             public void alAceptarPeticion(String s) {
@@ -94,6 +96,6 @@ public class NombreCompletoActivity extends AppCompatActivity {
                 Toast.makeText(NombreCompletoActivity.this, "No tienes internet.", Toast.LENGTH_LONG).show();
             }
 
-        });
+        });*/
     }
 }

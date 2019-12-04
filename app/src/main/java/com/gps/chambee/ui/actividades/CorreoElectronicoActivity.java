@@ -16,6 +16,7 @@ import com.gps.chambee.entidades.UsuarioFirebase;
 import com.gps.chambee.negocios.casos.CUActualizarUsuario;
 import com.gps.chambee.negocios.casos.CasoUso;
 import com.gps.chambee.negocios.validadores.ValidadorCorreo;
+import com.gps.chambee.negocios.validadores.propiedades.ValidadorCorreoElectronico;
 import com.gps.chambee.ui.Sesion;
 
 public class CorreoElectronicoActivity extends AppCompatActivity {
@@ -56,17 +57,21 @@ public class CorreoElectronicoActivity extends AppCompatActivity {
     }
 
     private void actualizarCorreo() {
-        progressDialog = new ProgressDialog(this);
-
         String correoElectronico = etNuevoCorreo.getText().toString();
-        ValidadorCorreo validadorCorreo = new ValidadorCorreo(correoElectronico);
+        ValidadorCorreoElectronico validador = new ValidadorCorreoElectronico(correoElectronico);
 
-        if (!validadorCorreo.validar()) {
-            Toast.makeText(this, validadorCorreo.ultimoError().mensajeError(), Toast.LENGTH_LONG).show();
+        if (!validador.validar()) {
+            Toast.makeText(this, validador.ultimoError().mensajeError(), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        new CUActualizarUsuario(this, new CasoUso.EventoPeticionAceptada<String>() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Actualizando...");
+        progressDialog.show();
+
+        // TODO Caso de uso para actualizar el correo del usuario
+
+        /*new CUActualizarUsuario(this, new CasoUso.EventoPeticionAceptada<String>() {
 
             @Override
             public void alAceptarPeticion(String s) {
@@ -81,9 +86,9 @@ public class CorreoElectronicoActivity extends AppCompatActivity {
             @Override
             public void alRechazarOperacion() {
                 progressDialog.dismiss();
-                Toast.makeText(CorreoElectronicoActivity.this, "No tienes internet.", Toast.LENGTH_LONG).show();
+                Toast.makeText(CorreoElectronicoActivity.this, "No tienes internet.", Toast.LENGTH_SHORT).show();
             }
 
-        });
+        });*/
     }
 }

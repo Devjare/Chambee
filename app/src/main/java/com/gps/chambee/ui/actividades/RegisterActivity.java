@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,14 +15,13 @@ import com.google.firebase.database.DatabaseError;
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Usuario;
 import com.gps.chambee.entidades.UsuarioFirebase;
-import com.gps.chambee.negocios.casos.CUIniciarSesion;
-import com.gps.chambee.negocios.casos.CURegistrarUsuario;
-import com.gps.chambee.negocios.casos.CasoUso;
-import com.gps.chambee.negocios.casos.firebase.CFAutenticarUsuario;
 import com.gps.chambee.negocios.casos.firebase.CFRegistrarUsuario;
 import com.gps.chambee.negocios.casos.firebase.CFSeleccionarUsuarioFirebase;
 import com.gps.chambee.negocios.casos.firebase.CasoUsoFirebase;
-import com.gps.chambee.negocios.validadores.ValidadorUsuario;
+import com.gps.chambee.negocios.validadores.ValidadorPool;
+import com.gps.chambee.negocios.validadores.propiedades.ValidadorContrasenia;
+import com.gps.chambee.negocios.validadores.propiedades.ValidadorCorreoElectronico;
+import com.gps.chambee.negocios.validadores.propiedades.ValidadorNombre;
 import com.gps.chambee.servicios.firebase.ServicioFirebase;
 import com.gps.chambee.servicios.firebase.peticiones.SFRegistrarUsuario;
 import com.gps.chambee.ui.Sesion;
@@ -61,22 +59,50 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registrar();
+                validarDatosRegistro();
             }
         });
     }
 
-    private void registrar() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.show();
+    private void validarDatosRegistro() {
+        ValidadorPool validadorPool;
+
+        // validar datos del usuario
+
+        validadorPool = new ValidadorPool.Builder()
+                .agregarValidador(new ValidadorNombre(etNombreUsuario.getText().toString()))
+                .agregarValidador(new ValidadorNombre(etNombre.getText().toString()))
+                .agregarValidador(new ValidadorNombre(etApellidos.getText().toString()))
+                .agregarValidador(new ValidadorCorreoElectronico(etCorreo.getText().toString()))
+                .build();
+
+        if (!validadorPool.validarTodo()) {
+            Toast.makeText(this, validadorPool.ultimoError().mensajeError(), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // validar contrasenas
 
         String contrasena = etContrasena.getText().toString();
         String contrasenaConfimada = etConfirmarContrasena.getText().toString();
+
+        validadorPool = new ValidadorPool.Builder()
+                .agregarValidador(new ValidadorContrasenia(contrasena))
+                .build();
+
+        if (!validadorPool.validarTodo()) {
+            Toast.makeText(this, validadorPool.ultimoError().mensajeError(), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // checar que las contrasenas sean iguales
 
         if (!contrasena.equals(contrasenaConfimada)) {
             Toast.makeText(this, "Las contrasenas no coinciden", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        // validarDatosRegistro al usuario
 
         usuario = new Usuario.UsuarioBuilder()
                 .setId(etNombreUsuario.getText().toString())
@@ -86,16 +112,6 @@ public class RegisterActivity extends AppCompatActivity {
                 .setContrasenia(etConfirmarContrasena.getText().toString())
                 .setTelefono("8311146563")
                 .build();
-
-        ValidadorUsuario validadorUsuario = new ValidadorUsuario(usuario);
-
-        if (!validadorUsuario.validar()) {
-            progressDialog.dismiss();
-            Toast.makeText(this, validadorUsuario.ultimoError().mensajeError(), Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        progressDialog.dismiss();
 
         registrarUsuarioFB();
     }
@@ -123,6 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void registrarUsuarioFB() {
         progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Registrando usuario...");
         progressDialog.show();
 
         new SFRegistrarUsuario(new ServicioFirebase.EventoTareaCompletada<String>() {
@@ -146,6 +163,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void agregarUsuarioSesion() {
         progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Iniciando sesión...");
         progressDialog.show();
 
         // agregar usuario al singleton de sesion
@@ -170,7 +188,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }).enviarPeticion();
 
-        // TODO agregar usuario (normal, no firebase) al singleton de sesion
         // TODO servicio web para obtener datos del usuario (normal, no firebase)
+        // TODO agregar usuario (normal, no firebase) al singleton de sesion
     }
 }
