@@ -5,5 +5,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sw_cambio_calles">chabee.online/escritura/serviceweb_cambio_calles.php</string>
     <string name="sw_alta_calles">chabee.online/escritura/serviceweb_alta_calles.php</string>
-    <string name="login">chambee.online/chambe_php/escritura/alta/login</string>
+    <string name="login_usuario">http://chambee.online/chambee_php/lectura/funciones/validacion_usuario_usuario.php</string>
+    <string name="login_telefono">http://chambee.online/chambe_php/lectura/funciones/validacion_usuario_telefono.php</string>
+    <string name="login_correo">http://chambee.online/chambee_php/lectura/funciones/validacion_usuario_correo.php</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.gps.chambee.R;
 import com.gps.chambee.entidades.Usuario;
 import com.gps.chambee.servicios.web.ServicioWeb;
 import com.gps.chambee.servicios.web.ServicioWebEscritura;
@@ -40,10 +41,11 @@ SWRegistrarUsuario extends ServicioWebEscritura {
     protected Request definirRequest(String url, Object... args) {
         Usuario usuario = (Usuario) args[0];
 
-        //falta retornar los valores hasta que entregue los url panda
-
-
-
+        String contrasena = args[1].toString();
         return null;
+
+
+
+
     }
 }

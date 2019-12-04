@@ -91,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (!validadorUsuario.validar()) {
             progressDialog.dismiss();
-            Toast.makeText(this, validadorUsuario.ultimoError().mensajeError(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, validadorUsuario.ultimoError().mensajeError(), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -108,14 +108,14 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void alAceptarPeticion(String s) {
                 progressDialog.dismiss();
-                Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_SHORT).show();
             }
         }, new CasoUsoFirebase.EventoPeticionRechazada() {
             @Override
             public void alRechazarOperacion(DatabaseError databaseError) {
 
                 progressDialog.dismiss();
-                Toast.makeText(RegisterActivity.this, "No se pudo hacer el registro sw", Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, "No se pudo hacer el registro sw", Toast.LENGTH_SHORT).show();
 
             }
         }).enviarPeticion(usuario);

@@ -12,7 +12,7 @@ public class ValidadorTelefono extends Validador<String> {
         agregarValidacion(new ValidadorPropiedad() {
             @Override
             public boolean validar() {
-                return !t.isEmpty();
+                return t.isEmpty();
             }
         }, new ErrorValidacion() {
             @Override
@@ -31,7 +31,7 @@ public class ValidadorTelefono extends Validador<String> {
             public boolean validar() {
 
                 Pattern regex = Pattern.compile("^/d(?:-/d{3}){3}/d$");
-                return !regex.matcher(t).find();
+                return regex.matcher(t).find();
             }
         }, new ErrorValidacion() {
             @Override

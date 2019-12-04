@@ -6,6 +6,7 @@ import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
@@ -85,7 +86,9 @@ public class LoginActivity extends AppCompatActivity {
         btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                iniciarSesionFirebase();
+                //iniciarSesionFirebase();
+                iniciarSesionSW();
+
             }
         });
     }
@@ -95,9 +98,6 @@ public class LoginActivity extends AppCompatActivity {
         String credencial = etUsuario.getText().toString();
         String contrasena = etContrasenaLogin.getText().toString();
         ValidadorContrasenia validadorContrasenia = new ValidadorContrasenia(contrasena);
-
-
-
 
         // validamos si es correo
 
@@ -113,13 +113,15 @@ public class LoginActivity extends AppCompatActivity {
         int tipoInicio = 0;
         if (validadorCorreo.validar() == true) {
             tipoInicio = 1;
+            Log.e("Validacion ","Si entró en correo");
         }else {
             Toast.makeText(LoginActivity.this, validadorCorreo.ultimoError().mensajeError(), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (validadorNombreUsuario.validar() == true) {
+        /*if (validadorNombreUsuario.validar() == true) {
             tipoInicio = 2;
+            Log.e("Validacion ","Si entró en nombre usuario");
         }else {
             Toast.makeText(LoginActivity.this, validadorNombreUsuario.ultimoError().mensajeError(), Toast.LENGTH_SHORT).show();
             return;
@@ -127,17 +129,18 @@ public class LoginActivity extends AppCompatActivity {
 
         if (validadorTelefono.validar() == true) {
             tipoInicio = 3;
+            Log.e("Validacion ","Si entró en telefono");
         }else {
             Toast.makeText(LoginActivity.this, validadorTelefono.ultimoError().mensajeError(), Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
 
 
-        CUIniciarSesion cuIniciarSesion = new CUIniciarSesion(LoginActivity.this, new CasoUso.EventoPeticionAceptada<Usuario>() {
+        CUIniciarSesion cuIniciarSesion = new CUIniciarSesion(LoginActivity.this, new CasoUso.EventoPeticionAceptada<String>() {
             @Override
-            public void alAceptarPeticion(Usuario usuario) {
+            public void alAceptarPeticion(String usuario) {
                 Intent sharedIntent = new Intent(LoginActivity.this, MainActivity.class);//check this out
-                sharedIntent.putExtra("usuario", usuario);
+
                 startActivity(sharedIntent);
                 finish();
 
