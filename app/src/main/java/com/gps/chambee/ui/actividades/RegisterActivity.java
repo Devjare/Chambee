@@ -112,8 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .setContrasenia(etConfirmarContrasena.getText().toString())
                 .setTelefono("8311146563")
                 .build();
-
-<<<<<<< HEAD
+      
         ValidadorUsuario validadorUsuario = new ValidadorUsuario(usuario);
 
         if (!validadorUsuario.validar()) {
@@ -123,9 +122,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         progressDialog.dismiss();
-
-=======
->>>>>>> 84b3d0773a81f698c958b1e397b2f1c91f5e355b
         registrarUsuarioFB();
     }
 
