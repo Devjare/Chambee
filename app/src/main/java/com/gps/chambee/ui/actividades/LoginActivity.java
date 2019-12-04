@@ -26,12 +26,13 @@ import com.gps.chambee.negocios.casos.firebase.CFSeleccionarUsuarioFirebase;
 import com.gps.chambee.negocios.casos.firebase.CasoUsoFirebase;
 import com.gps.chambee.negocios.casos.CUIniciarSesion;
 import com.gps.chambee.negocios.casos.CasoUso;
-import com.gps.chambee.negocios.validadores.Validador;
 import com.gps.chambee.negocios.validadores.ValidadorCorreo;
 import com.gps.chambee.negocios.validadores.ValidadorNombreUsuario;
-import com.gps.chambee.negocios.validadores.ValidadorTelefono;
+import com.gps.chambee.negocios.validadores.ValidadorPool;
+import com.gps.chambee.negocios.validadores.propiedades.ValidadorTelefono;
 import com.gps.chambee.negocios.validadores.propiedades.ValidadorContrasenia;
 import com.gps.chambee.ui.Sesion;
+import com.gps.chambee.ui.Utils;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -159,43 +160,55 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void iniciarSesionFirebase() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.show();
+
+        // checar conexion a Internet
+
+        if (!Utils.tieneConexionInternet(this)) {
+            Toast.makeText(this, "No tienes conexión a Internet", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // obtener datos y validarlos
 
         String correo = etUsuario.getText().toString();
         String contrasena = etContrasenaLogin.getText().toString();
 
-        ValidadorContrasenia validadorContrasenia = new ValidadorContrasenia(contrasena);
-        ValidadorCorreo validadorCorreo = new ValidadorCorreo(correo);
+        ValidadorPool validadorPool = new ValidadorPool.Builder()
+                .agregarValidador(new ValidadorCorreo(correo))
+                .agregarValidador(new ValidadorContrasenia(contrasena))
+                .build();
 
-        if (validadorContrasenia.validar() == false ){
-            Toast.makeText(this, validadorContrasenia.ultimoError().mensajeError(), Toast.LENGTH_SHORT).show();
-            progressDialog.dismiss();
-            return;
-        }else if(validadorCorreo.validar() == false){
-            Toast.makeText(this, validadorCorreo.ultimoError().mensajeError(), Toast.LENGTH_SHORT).show();
-            progressDialog.dismiss();
+        if (!validadorPool.validarTodo()) {
+            Toast.makeText(this, validadorPool.ultimoError().mensajeError(), Toast.LENGTH_LONG).show();
             return;
         }
 
+        // proceder con inicio de sesion
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Comprobando usuario...");
+        progressDialog.show();
 
         new CFAutenticarUsuario(new CasoUsoFirebase.EventoPeticionAceptada<String>() {
             @Override
             public void alAceptarPeticion(String s) {
                 progressDialog.dismiss();
                 agregarUsuarioSesion();
+
             }
         }, new CasoUsoFirebase.EventoPeticionRechazada() {
             @Override
             public void alRechazarOperacion(DatabaseError databaseError) {
                 progressDialog.dismiss();
                 Toast.makeText(LoginActivity.this, "Las credenciales son incorrectas", Toast.LENGTH_LONG).show();
+
             }
         }).enviarPeticion(correo, contrasena);
     }
 
     private void agregarUsuarioSesion() {
         progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Iniciando sesión...");
         progressDialog.show();
 
         // agregar usuario al singleton de sesion
@@ -208,6 +221,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
+
             }
         }, new CasoUsoFirebase.EventoPeticionRechazada() {
             @Override
@@ -215,11 +229,12 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.dismiss();
 
                 Toast.makeText(LoginActivity.this, "Error al obtener usuario de firebase", Toast.LENGTH_SHORT).show();
+
             }
         }).enviarPeticion();
 
-        // TODO agregar usuario al singleton de sesion
         // TODO servicio web para obtener datos del usuario
+        // TODO agregar usuario al singleton de sesion
     }
 
     @Override

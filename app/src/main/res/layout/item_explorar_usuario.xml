@@ -13,16 +13,21 @@
             android:id="@+id/civFotoPerfilExplorarUsuario"
             android:layout_width="80dp"
             android:layout_height="fill_parent"
-            android:src="@color/colorFinal"
-            />
+            android:src="@color/colorFinal" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvReceptor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/tvNombreExplorarUsuario"
                     android:layout_width="wrap_content"
@@ -31,6 +36,7 @@
                     android:fontFamily="@font/nunito_semibold"
                     android:text="Nombre"/>
                 <TextView
+                    android:id="@+id/tvCiudadUsuario"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ciudad"/>

@@ -45,7 +45,7 @@ public class ValidadorCorreo extends Validador<String> {
         }, new ErrorValidacion() {
             @Override
             public String mensajeError() {
-                return "El correo electronico no tiene el formato correcto";
+                return "El correo electronico debe de tener el siguiente formato: ejemplo@dominio.com";
             }
 
             @Override

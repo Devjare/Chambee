@@ -12,8 +12,8 @@ import com.gps.chambee.R;
 
 public class SeguridadActivity extends AppCompatActivity {
 
-    private LinearLayout llContrasena;
     private ImageView ivRegresarSeguridad;
+    private LinearLayout llContrasena;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +26,14 @@ public class SeguridadActivity extends AppCompatActivity {
         ivRegresarSeguridad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SeguridadActivity.super.onBackPressed();
+                finish();
             }
         });
 
         llContrasena.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SeguridadActivity.this,PasswordActivity.class));
+                startActivity(new Intent(SeguridadActivity.this, PasswordActivity.class));
             }
         });
 

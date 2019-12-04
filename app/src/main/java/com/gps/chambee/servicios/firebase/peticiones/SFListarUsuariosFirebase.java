@@ -9,9 +9,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.gps.chambee.servicios.firebase.ServicioFirebaseLectura;
 
-public class SFListarUsuarios extends ServicioFirebaseLectura {
+public class SFListarUsuariosFirebase extends ServicioFirebaseLectura {
 
-    public SFListarUsuarios(EventoTareaCompletada<DataSnapshot> eventoTareaCompletada, EventoTareaCancelada eventoTareaCancelada) {
+    public SFListarUsuariosFirebase(EventoTareaCompletada<DataSnapshot> eventoTareaCompletada, EventoTareaCancelada eventoTareaCancelada) {
         super(eventoTareaCompletada, eventoTareaCancelada);
     }
 

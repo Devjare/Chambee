@@ -13,21 +13,25 @@ import com.gps.chambee.R;
 public class RecuperarPasswordActivity extends AppCompatActivity {
 
     private Button btnVerificarCodigo;
-
+    private EditText etCodigoRecuperarContrasena;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recuperar_password);
 
-
-
         btnVerificarCodigo = findViewById(R.id.btnVerificarCodigo);
+        etCodigoRecuperarContrasena = findViewById(R.id.etCodigoRecuperarContrasena);
+
         btnVerificarCodigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RecuperarPasswordActivity.this, PasswordNuevaActivity.class));
+                validarCodigo();
             }
         });
+    }
+
+    private void validarCodigo() {
+        startActivity(new Intent(RecuperarPasswordActivity.this, PasswordNuevaActivity.class));
     }
 }

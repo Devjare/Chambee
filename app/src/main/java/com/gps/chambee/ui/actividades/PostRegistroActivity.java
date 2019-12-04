@@ -8,16 +8,16 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.gps.chambee.R;
+import com.gps.chambee.negocios.validadores.ValidadorPool;
+import com.gps.chambee.negocios.validadores.propiedades.ValidadorStringNoVacio;
 import com.gps.chambee.ui.adaptadores.PostRegistroAdapter;
 import com.gps.chambee.ui.fragmentos.PostRegistroDosFragment;
 import com.gps.chambee.ui.fragmentos.PostRegistroTresFragment;
@@ -34,6 +34,7 @@ public class PostRegistroActivity extends AppCompatActivity {
     private ImageView[] dots;
     private Button btnSiguientePuntos;
 
+    // Datos de post-registro
     private Bitmap imagenUsuario;
     private String acercaDeMi;
     private String profesion;
@@ -41,21 +42,21 @@ public class PostRegistroActivity extends AppCompatActivity {
     private String colonia;
     private String fecha;
 
-    List<Fragment> lista = new ArrayList<>();
+    List<Fragment> fragmentos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_registro2);
 
-        lista = new ArrayList<>();
-        lista.add(new PostRegistroUnoFragment());
-        lista.add(new PostRegistroDosFragment());
-        lista.add(new PostRegistroTresFragment());
+        fragmentos = new ArrayList<>();
+        fragmentos.add(new PostRegistroUnoFragment());
+        fragmentos.add(new PostRegistroDosFragment());
+        fragmentos.add(new PostRegistroTresFragment());
 
         vpPostRegistro = findViewById(R.id.vpPostRegistro);
 
-        prAdapter = new PostRegistroAdapter(getSupportFragmentManager(), lista);
+        prAdapter = new PostRegistroAdapter(getSupportFragmentManager(), fragmentos);
 
         vpPostRegistro.setAdapter(prAdapter);
 
@@ -70,24 +71,19 @@ public class PostRegistroActivity extends AppCompatActivity {
 
         createDots(0);
         vpPostRegistro.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+            @Override public void onPageScrollStateChanged(int state) { }
 
             @Override
             public void onPageSelected(int position) {
                 createDots(position);
+
                 if (position == 2) {
                     btnSiguientePuntos.setText("Terminar");
-                } else {
+                }
+                else {
                     btnSiguientePuntos.setText("Avanzar");
                 }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
     }
@@ -112,7 +108,7 @@ public class PostRegistroActivity extends AppCompatActivity {
 
     private void manejarSiguienteFragment() {
 
-        Fragment fragment = lista.get(vpPostRegistro.getCurrentItem());
+        Fragment fragment = fragmentos.get(vpPostRegistro.getCurrentItem());
 
         switch (vpPostRegistro.getCurrentItem()) {
 
@@ -120,20 +116,32 @@ public class PostRegistroActivity extends AppCompatActivity {
                 PostRegistroUnoFragment post1 = (PostRegistroUnoFragment) fragment;
                 imagenUsuario = post1.getImagenUsuario();
                 acercaDeMi = post1.getAcercaDeMi();
+
+                if (!validarDatosFragmento1())
+                    return;
+
                 break;
             }
 
             case 1: {
                 PostRegistroDosFragment post2 = (PostRegistroDosFragment) fragment;
                 profesion = post2.getProfesion();
+
+                if (!validarDatosFragmento2())
+                    return;
+
                 break;
             }
 
             case 2: {
-                PostRegistroTresFragment post3 = (PostRegistroTresFragment ) fragment;
+                PostRegistroTresFragment post3 = (PostRegistroTresFragment) fragment;
                 localidad = post3.getLocalidad();
                 colonia = post3.getColonia();
                 fecha = post3.getFecha();
+
+                if (!validarDatosFragmento3())
+                    return;
+
                 break;
             }
         }
@@ -142,13 +150,50 @@ public class PostRegistroActivity extends AppCompatActivity {
 
         if (nextSlide < 3) {
             vpPostRegistro.setCurrentItem(nextSlide);
-        } else {
-            actualizarDatosUsuario();
+        }
+        else {
+            actualizarPerfilUsuarioIniciarSesion();
         }
     }
 
-    private void actualizarDatosUsuario() {
-        // TODO Hacer la validacion de los datos de postregistro
+    private boolean validarDatosFragmento1() {
+        ValidadorStringNoVacio validador = new ValidadorStringNoVacio(acercaDeMi);
+
+        if (!validador.validar()) {
+            Toast.makeText(this, validador.ultimoError().mensajeError(), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean validarDatosFragmento2() {
+        ValidadorStringNoVacio validador = new ValidadorStringNoVacio(profesion);
+
+        if (!validador.validar()) {
+            Toast.makeText(this, validador.ultimoError().mensajeError(), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean validarDatosFragmento3() {
+        ValidadorPool validadorPool = new ValidadorPool.Builder()
+                .agregarValidador(new ValidadorStringNoVacio(localidad))
+                .agregarValidador(new ValidadorStringNoVacio(colonia))
+                .agregarValidador(new ValidadorStringNoVacio(fecha))
+                .build();
+
+        if (!validadorPool.validarTodo()) {
+            Toast.makeText(this, validadorPool.ultimoError().mensajeError(), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    private void actualizarPerfilUsuarioIniciarSesion() {
         // TODO Servicio web para la actualizacion de los datos del perfil del usuario recien registrado
 
         startActivity(new Intent(PostRegistroActivity.this, MainActivity.class));

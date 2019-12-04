@@ -13,9 +13,7 @@ import android.widget.Toast;
 
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.UsuarioFirebase;
-import com.gps.chambee.negocios.casos.CUActualizarUsuario;
-import com.gps.chambee.negocios.casos.CasoUso;
-import com.gps.chambee.negocios.validadores.ValidadorTelefono;
+import com.gps.chambee.negocios.validadores.propiedades.ValidadorTelefono;
 import com.gps.chambee.ui.Sesion;
 
 public class TelefonoActivity extends AppCompatActivity {
@@ -43,7 +41,7 @@ public class TelefonoActivity extends AppCompatActivity {
         ivRegresarTelefono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TelefonoActivity.super.onBackPressed();
+                finish();
             }
         });
 
@@ -56,17 +54,21 @@ public class TelefonoActivity extends AppCompatActivity {
     }
 
     private void actualizarTelefono() {
-        progressDialog = new ProgressDialog(this);
-
         String telefono = etNuevoCorreo.getText().toString();
         ValidadorTelefono validadorTelefono = new ValidadorTelefono(telefono);
 
-        if(!validadorTelefono.validar()) {
+        if (!validadorTelefono.validar()) {
             Toast.makeText(TelefonoActivity.this, validadorTelefono.ultimoError().mensajeError(), Toast.LENGTH_LONG).show();
             return;
         }
 
-        new CUActualizarUsuario(this, new CasoUso.EventoPeticionAceptada<String>() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Actualizando...");
+        progressDialog.show();
+
+        // TODO Caso de uso para actualizar telefono del usuario
+
+        /*new CUActualizarUsuario(this, new CasoUso.EventoPeticionAceptada<String>() {
 
             @Override
             public void alAceptarPeticion(String s) {
@@ -84,6 +86,6 @@ public class TelefonoActivity extends AppCompatActivity {
                 Toast.makeText(TelefonoActivity.this, "No tienes internet.", Toast.LENGTH_LONG).show();
             }
 
-        });
+        });*/
     }
 }

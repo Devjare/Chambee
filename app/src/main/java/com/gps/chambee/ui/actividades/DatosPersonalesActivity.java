@@ -24,7 +24,6 @@ public class DatosPersonalesActivity extends AppCompatActivity {
     private TextView tvUserEmailAddress;
     private TextView tvUserPhone;
 
-    private Usuario usuario;
     private UsuarioFirebase usuarioFirebase;
 
     @Override
@@ -47,10 +46,10 @@ public class DatosPersonalesActivity extends AppCompatActivity {
             }
         });
 
-        llTelefono.setOnClickListener(new View.OnClickListener() {
+        llNombre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(DatosPersonalesActivity.this, TelefonoActivity.class));
+                startActivity(new Intent(DatosPersonalesActivity.this, NombreCompletoActivity.class));
             }
         });
 
@@ -61,10 +60,10 @@ public class DatosPersonalesActivity extends AppCompatActivity {
             }
         });
 
-        llNombre.setOnClickListener(new View.OnClickListener() {
+        llTelefono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(DatosPersonalesActivity.this, NombreCompletoActivity.class));
+                startActivity(new Intent(DatosPersonalesActivity.this, TelefonoActivity.class));
             }
         });
 
@@ -77,5 +76,4 @@ public class DatosPersonalesActivity extends AppCompatActivity {
         tvUserEmailAddress.setText(usuarioFirebase.getCorreo());
         tvUserPhone.setText(usuarioFirebase.getTelefono());
     }
-
 }
