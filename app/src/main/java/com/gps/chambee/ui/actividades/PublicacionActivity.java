@@ -9,33 +9,26 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Categoria;
-import com.gps.chambee.entidades.Comentario;
 import com.gps.chambee.entidades.Usuario;
 import com.gps.chambee.entidades.vistas.ComentarioPublicacion;
 import com.gps.chambee.entidades.vistas.DetallePublicacion;
 import com.gps.chambee.entidades.Perfil;
-import com.gps.chambee.negocios.casos.CUObtenerDetallePublicacion;
 import com.gps.chambee.negocios.casos.CURegistrarComentarioPublicacion;
-import com.gps.chambee.negocios.casos.CUSeleccionarCategorias;
-import com.gps.chambee.negocios.casos.CUSeleccionarComentarios;
-import com.gps.chambee.negocios.casos.CUSeleccionarInteresados;
 import com.gps.chambee.negocios.casos.CasoUso;
 import com.gps.chambee.ui.Sesion;
 import com.gps.chambee.ui.adaptadores.ComentarioTrabajoAdapter;
 import com.gps.chambee.ui.adaptadores.EtiquetaAdapter;
 import com.gps.chambee.ui.adaptadores.InteresadosAdapter;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,6 +50,8 @@ public class PublicacionActivity extends AppCompatActivity {
     private TextView tvCostos;
     private EditText etComentario;
 
+    private DetallePublicacion detallePublicacion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,12 +72,29 @@ public class PublicacionActivity extends AppCompatActivity {
         rvEtiquetas = findViewById(R.id.rvEtiquetas);
         ivComentar = findViewById(R.id.ivComentar);
 
+        ivComentar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Agregar servicio web para comentar.
+
+                
+
+            }
+        });
+
+        ivRegresarPublicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Programar regresar de detalle publicacion a principal.
+            }
+        });
+
         final Usuario usuario = (Usuario) Sesion.instance().obtenerEntidad("usuario");
 
         Intent intent = getIntent();
         final int idPublicacion = intent.getIntExtra("id", -1);
 
-        DetallePublicacion detallePublicacion = new DetallePublicacion.DetallePublicacionBuilder()
+        detallePublicacion = new DetallePublicacion.DetallePublicacionBuilder()
                 .setCantidadInteresados(1)
                 .setTrabajo("Trabajo 1")
                 .setCantidadInteresados(10)
@@ -150,18 +162,31 @@ public class PublicacionActivity extends AppCompatActivity {
                 getApplicationContext(),
                 detallePublicacion.getListaAreasDeInteres());
         rvEtiquetas.setAdapter(categoriasAdapter);
+        rvEtiquetas.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
 
         ComentarioTrabajoAdapter comentariosAdapter = new ComentarioTrabajoAdapter(
                 getApplicationContext(),
                 detallePublicacion.getListaComentarios()
         );
         rvComentariosTrabajo.setAdapter(comentariosAdapter);
+        rvComentariosTrabajo.setLayoutManager(new LinearLayoutManager(this));
 
         InteresadosAdapter interesadosAdapter = new InteresadosAdapter(
                 getApplicationContext(),
                 detallePublicacion.getListaInteresados()
         );
         rvInteresados.setAdapter(interesadosAdapter);
+        rvInteresados.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
 
 //        new CUObtenerDetallePublicacion(
 //            getApplicationContext(),
