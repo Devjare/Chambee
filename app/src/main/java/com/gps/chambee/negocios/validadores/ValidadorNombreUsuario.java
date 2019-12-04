@@ -13,12 +13,12 @@ public class ValidadorNombreUsuario extends Validador<String> {
         agregarValidacion(new ValidadorPropiedad() {
             @Override
             public boolean validar() {
-                return !t.isEmpty();
+                return t.isEmpty();
             }
         }, new ErrorValidacion() {
             @Override
             public String mensajeError() {
-                return "No puede estar vacío";
+                return "No puede estar vacío el nombre de usuario";
             }
 
             @Override
@@ -34,7 +34,7 @@ public class ValidadorNombreUsuario extends Validador<String> {
             public boolean validar() {
                 String nombre = t;
                 Pattern regex = Pattern.compile("[^a-zA-Z]");
-                return !regex.matcher(nombre).find();
+                return regex.matcher(nombre).find();
             }
 
         }, new ErrorValidacion() {
@@ -54,7 +54,7 @@ public class ValidadorNombreUsuario extends Validador<String> {
             public boolean validar() {
                 String nombre = t;
                 Pattern regex = Pattern.compile("^[a-zA-Z0-9_-]{3,16}$");
-                return !regex.matcher(nombre).find();
+                return regex.matcher(nombre).find();
             }
         }, new ErrorValidacion() {
             @Override
@@ -70,3 +70,4 @@ public class ValidadorNombreUsuario extends Validador<String> {
 
     }
 }
+

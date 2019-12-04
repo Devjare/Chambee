@@ -112,7 +112,16 @@ public class RegisterActivity extends AppCompatActivity {
                 .setContrasenia(etConfirmarContrasena.getText().toString())
                 .setTelefono("8311146563")
                 .build();
+      
+        ValidadorUsuario validadorUsuario = new ValidadorUsuario(usuario);
 
+        if (!validadorUsuario.validar()) {
+            progressDialog.dismiss();
+            Toast.makeText(this, validadorUsuario.ultimoError().mensajeError(), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        progressDialog.dismiss();
         registrarUsuarioFB();
     }
 
@@ -124,14 +133,14 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void alAceptarPeticion(String s) {
                 progressDialog.dismiss();
-                Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_SHORT).show();
             }
         }, new CasoUsoFirebase.EventoPeticionRechazada() {
             @Override
             public void alRechazarOperacion(DatabaseError databaseError) {
 
                 progressDialog.dismiss();
-                Toast.makeText(RegisterActivity.this, "No se pudo hacer el registro sw", Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, "No se pudo hacer el registro sw", Toast.LENGTH_SHORT).show();
 
             }
         }).enviarPeticion(usuario);
