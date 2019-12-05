@@ -1,6 +1,7 @@
 package com.gps.chambee.negocios.presentadores;
 
 import com.gps.chambee.entidades.vistas.PublicacionEmpresa;
+import com.gps.chambee.entidades.vistas.PublicacionGeneral;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,21 +27,21 @@ public class PresentadorListaPublicacionEmpresa extends Presentador<List<Publica
             }
 
             assert jsonObject != null;
-            PublicacionEmpresa publicacion = new PublicacionEmpresa.PublicacionEmpresaBuilder()
-                    .setNombreEmpresa(jsonObject.optString("nombre_empresa"))
-                    .setNombreTrabajo(jsonObject.optString("nombre_trabajo"))
-                    .setComentarios(jsonObject.optInt("comentarios"))
-                    .setDescripcion(jsonObject.optString("descripcion"))
-                    .setEtiqueta(jsonObject.optString("etiqueta"))
-                    .setInteresada(jsonObject.optInt("interesada"))
-                    .setInteresados(jsonObject.optInt("interesados"))
-                    .setTiempo(jsonObject.optString("tiempo"))
-                    .setVista(jsonObject.optInt("vista"))
-                    .setVistos(jsonObject.optInt("vistos"))
-                    .setUrlImagenTrabajo(jsonObject.optString("url_imagen_trabajo"))
-                    .setUrlImagenEmpresa(jsonObject.optString("url_imagen_empresa")).build();
+//            PublicacionEmpresa publicacion = new PublicacionEmpresa.PublicacionEmpresaBuilder()
+//                    .setNombreEmpresa(jsonObject.optString("nombre_empresa"))
+//                    .setNombreTrabajo(jsonObject.optString("nombre_trabajo"))
+//                    .setComentarios(jsonObject.optInt("comentarios"))
+//                    .setDescripcion(jsonObject.optString("descripcion"))
+//                    .setEtiqueta(jsonObject.optString("etiqueta"))
+//                    .setInteresada(jsonObject.optInt("interesada"))
+//                    .setInteresados(jsonObject.optInt("interesados"))
+//                    .setTiempo(jsonObject.optString("tiempo"))
+//                    .setVista(jsonObject.optInt("vista"))
+//                    .setVistos(jsonObject.optInt("vistos"))
+//                    .setUrlImagenTrabajo(jsonObject.optString("url_imagen_trabajo"))
+//                    .setUrlImagenEmpresa(jsonObject.optString("url_imagen_empresa")).build();
 
-            publicaciones.add(publicacion);
+            //publicaciones.add(publicacion);
         }
 
         return publicaciones;

@@ -3,6 +3,7 @@ package com.gps.chambee.servicios.web.implementaciones;
 import android.content.Context;
 
 import com.android.volley.Response;
+import com.gps.chambee.R;
 import com.gps.chambee.servicios.web.ServicioWebLectura;
 
 import org.json.JSONObject;
@@ -14,6 +15,6 @@ public class SWListarPublicaciones extends ServicioWebLectura {
 
     @Override
     protected String definirUrl(Object... args) {
-        return null;
+        return context.getString(R.string.sw_listar_todas_publicaciones);
     }
 }

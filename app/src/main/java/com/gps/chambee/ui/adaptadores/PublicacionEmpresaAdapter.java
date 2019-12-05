@@ -90,18 +90,18 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
       
         PublicacionEmpresa publicacion = lista.get(position);
 
-        holder.idPublicacion = publicacion.getIdPublicacionEmpresa();
+        holder.idPublicacion = publicacion.getIdPublicacion();
 
         holder.tvComentariosEmpresa.setText(publicacion.getComentarios().toString());
         holder.tvDescripcionPublicacionTrabajo.setText(publicacion.getDescripcion());
         holder.tvEtiquetaPrincipal.setText(publicacion.getEtiqueta());
         holder.tvInteresados.setText(publicacion.getInteresados().toString());
-        holder.tvNombreReclutador.setText(publicacion.getNombreEmpresa());
+        holder.tvNombreReclutador.setText(publicacion.getNombreTrabajo());
         holder.tvTiempoPublicacion.setText(publicacion.getTiempo().toString());
-        holder.tvNombreTrabajoPublicacion.setText(publicacion.getNombreTrabajo());
+        holder.tvNombreTrabajoPublicacion.setText(publicacion.getNombre());
         holder.tvVistos.setText(publicacion.getVistos().toString());
 
-        if (publicacion.getUrlImagenEmpresa().equals("default")) {
+        if (publicacion.getUrlImagen().equals("default")) {
             Bitmap defaultImg = BitmapFactory.decodeResource(
                     context.getResources(),
                     R.drawable.ic_person
@@ -124,10 +124,10 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
                     );
                     holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
                 }
-            }).enviarPeticion(publicacion.getUrlImagenEmpresa());
+            }).enviarPeticion(publicacion.getUrlImagen());
         }
 
-        if (publicacion.getUrlImagenTrabajo().equals("default")) {
+        if (publicacion.getUrlImagenTrabajo().equals("desc_publicacion")) {
             Bitmap defaultImg = BitmapFactory.decodeResource(
                     context.getResources(),
                     R.drawable.ic_portfolio

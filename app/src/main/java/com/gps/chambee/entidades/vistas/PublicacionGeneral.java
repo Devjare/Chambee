@@ -318,4 +318,40 @@ public class PublicacionGeneral implements Parcelable {
     public void setInteresada(Integer interesada) {
         this.interesada = interesada;
     }
+
+    public PublicacionEmpresa toPublicacionEmpresa() {
+        return  new PublicacionEmpresa.PublicacionEmpresaBuilder()
+                .setVistos(this.vistos)
+                .setVista(this.vista)
+                .setUrlImagenTrabajo(this.urlImagenTrabajo)
+                .setUrlImagen(this.urlImagen)
+                .setTiempo(this.tiempo)
+                .setNombreTrabajo(this.nombreTrabajo)
+                .setNombre(this.nombre)
+                .setInteresados(this.interesados)
+                .setEtiqueta(this.etiqueta)
+                .setDescripcion(this.descripcion)
+                .setComentarios(this.comentarios)
+                .setIdPublicacion(this.idPublicacion)
+                .setInteresada(this.interesada)
+                .build();
+    }
+
+    public PublicacionPersona toPublicacionPersona() {
+        return  new PublicacionPersona.PublicacionPersonaBuilder()
+                .setVistos(this.vistos)
+                .setVista(this.vista)
+                .setUrlImagenTrabajo(this.urlImagenTrabajo)
+                .setUrlImagen(this.urlImagen)
+                .setTiempo(this.tiempo)
+                .setNombreTrabajo(this.nombreTrabajo)
+                .setNombre(this.nombre)
+                .setInteresados(this.interesados)
+                .setEtiqueta(this.etiqueta)
+                .setDescripcion(this.descripcion)
+                .setComentarios(this.comentarios)
+                .setIdPublicacion(this.idPublicacion)
+                .setInteresada(this.interesada)
+                .build();
+    }
 }

@@ -34,6 +34,8 @@ import com.gps.chambee.ui.adaptadores.CategoriasAdapter;
 import com.gps.chambee.ui.adaptadores.PublicacionEmpresaAdapter;
 import com.gps.chambee.ui.adaptadores.PublicacionPersonaAdapter;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class InicioFragment extends Fragment {
@@ -90,15 +92,8 @@ public class InicioFragment extends Fragment {
 
 
     private void cargarInicio(final View view){
-
         cargarCategorias(view);
-
         cargarPublicaciones(view);
-
-        cargarPublicacionesEmpresas(view);
-
-        cargarPublicacionesPersonas(view);
-
     }
 
     private void cargarPublicaciones(final View view) {
@@ -106,7 +101,7 @@ public class InicioFragment extends Fragment {
                 new CasoUso.EventoPeticionAceptada<List<PublicacionGeneral>>() {
                     @Override
                     public void alAceptarPeticion(List<PublicacionGeneral> publicacionGenerals) {
-
+                        llenarPublicaciones(publicacionGenerals, view);
                     }
                 },
                 new CasoUso.EventoPeticionRechazada() {
@@ -117,36 +112,24 @@ public class InicioFragment extends Fragment {
                 }).enviarPeticion();
     }
 
-    private void cargarPublicacionesEmpresas(final View view) {
-        new CUListarPublicacionesEmpresas(getContext(),
-                new CasoUso.EventoPeticionAceptada<List<PublicacionEmpresa>>() {
-                    @Override
-                    public void alAceptarPeticion(List<PublicacionEmpresa> publicaciones) {
-                        // mostrar categorías.
-                        llenarPublicacionesEmpresas(publicaciones, view);
-                    }
-                }, new CasoUso.EventoPeticionRechazada() {
-            @Override
-            public void alRechazarOperacion() {
-                Toast.makeText(getContext(), "Fallo al cargar: publicaciones de empresas ", Toast.LENGTH_SHORT).show();
-            }
-        }).enviarPeticion();
-    }
+    private void llenarPublicaciones(List<PublicacionGeneral> pubilcaciones, final View view) {
 
-    private void cargarPublicacionesPersonas(final View view) {
-        new CUListarPublicacionesPersonas(
-                getContext(),
-                new CasoUso.EventoPeticionAceptada<List<PublicacionPersona>>() {
-                    @Override
-                    public void alAceptarPeticion(List<PublicacionPersona> publicacionPersonas) {
-                        llenarPublicacionesPersonas(publicacionPersonas, view);
-                    }
-                }, new CasoUso.EventoPeticionRechazada() {
-            @Override
-            public void alRechazarOperacion() {
-                Toast.makeText(getContext(), "Fallo al cargar Publicaciones de personas", Toast.LENGTH_SHORT).show();
+        List<PublicacionPersona> publicacionPersonas = new ArrayList<>();
+        List<PublicacionEmpresa> publicacionEmpresas = new ArrayList<>();
+
+        for (PublicacionGeneral publicacion: pubilcaciones) {
+
+            if (publicacion.getUrlImagenTrabajo().length() < 1 && publicacion.getNombreTrabajo().length() < 1){
+
+                publicacionPersonas.add(publicacion.toPublicacionPersona());
+            }else{
+                PublicacionEmpresa publicacionEmpresa = publicacion.toPublicacionEmpresa();
+                publicacionEmpresas.add( publicacionEmpresa );
             }
-        }).enviarPeticion();
+        }
+
+        llenarPublicacionesEmpresas(publicacionEmpresas, view);
+        llenarPublicacionesPersonas(publicacionPersonas, view);
     }
 
     private void cargarCategorias(final View view) {
@@ -166,8 +149,6 @@ public class InicioFragment extends Fragment {
 
         cuSeleccionarCategorias.enviarPeticion();
     }
-
-
 
     private void llenarCategorias(List<Categoria> categorias, View view) {
 

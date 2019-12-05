@@ -27,18 +27,19 @@ public class PresentadorListaPublicacionesGenerales extends Presentador<List<Pub
 
             assert jsonObject != null;
             PublicacionGeneral publicacion = new PublicacionGeneral.PublicacionGeneralBuilder()
-                    .setNombre(jsonObject.optString("nombre_empresa"))
-                    .setNombreTrabajo(jsonObject.optString("nombre_trabajo"))
-                    .setComentarios(jsonObject.optInt("comentarios"))
-                    .setDescripcion(jsonObject.optString("descripcion"))
+                    .setIdPublicacion(jsonObject.optInt("id_publicacion"))
+                    .setNombre(jsonObject.optString("nombre_usuario"))
+                    .setNombreTrabajo(jsonObject.optString("titulo_publicacion"))
+                    .setComentarios(json.optInt("comentarios"))
+                    .setDescripcion(jsonObject.optString("desc_publicacion"))
                     .setEtiqueta(jsonObject.optString("etiqueta"))
                     .setInteresada(jsonObject.optInt("interesada"))
                     .setInteresados(jsonObject.optInt("interesados"))
-                    .setTiempo(jsonObject.optString("tiempo"))
+                    .setTiempo(jsonObject.optString("tiempo_publicacion"))
                     .setVista(jsonObject.optInt("vista"))
                     .setVistos(jsonObject.optInt("vistos"))
-                    .setUrlImagenTrabajo(jsonObject.optString("url_imagen_trabajo"))
-                    .setUrlImagen(jsonObject.optString("url_imagen_empresa")).build();
+                    .setUrlImagenTrabajo(jsonObject.optString("url_desc_publicacion"))
+                    .setUrlImagen(jsonObject.optString("url_perfil_perfil")).build();
 
             publicaciones.add(publicacion);
         }

@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.request.RequestOptions;
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.vistas.PublicacionPersona;
 import com.gps.chambee.negocios.casos.CasoUso;
@@ -41,7 +44,7 @@ public class PublicacionPersonaAdapter extends RecyclerView.Adapter<PublicacionP
 
             super(itemView);
 
-            civFotoPerfilPersona = itemView.findViewById(R.id.civFotoPerfil);
+            civFotoPerfilPersona = itemView.findViewById(R.id.civFotoPerfilPersona);
             tvNombrePersonaPublicacion = itemView.findViewById(R.id.tvNombrePersonaPublicacion);
             tvTiempoPublicacionPersona = itemView.findViewById(R.id.tvTiempoPublicacionPersona);
             tvEtiquetaPublicacionPersona = itemView.findViewById(R.id.tvEtiquetaPublicacionPersona);
@@ -84,17 +87,17 @@ public class PublicacionPersonaAdapter extends RecyclerView.Adapter<PublicacionP
 
         PublicacionPersona publicacion = lista.get(position);
 
-        holder.idPublicacion = publicacion.getIdPublicacionPersona();
+        holder.idPublicacion = publicacion.getIdPublicacion();
 
         holder.tvComentariosPersona.setText(publicacion.getComentarios().toString());
         holder.tvDescripcionPersona.setText(publicacion.getDescripcion());
         holder.tvEtiquetaPublicacionPersona.setText(publicacion.getEtiqueta());
         holder.tvLikesPersona.setText(publicacion.getInteresados().toString());
-        holder.tvNombrePersonaPublicacion.setText(publicacion.getNombrePersona());
+        holder.tvNombrePersonaPublicacion.setText(publicacion.getNombre());
         holder.tvTiempoPublicacionPersona.setText(publicacion.getTiempo().toString());
         holder.tvVistosPersona.setText(publicacion.getVistos().toString());
 
-        if (publicacion.getUrlImagenPersona().equals("default")) {
+        if (publicacion.getUrlImagen().equals("default")) {
             Bitmap defaultImg = BitmapFactory.decodeResource(
                     context.getResources(),
                     R.drawable.ic_person
@@ -105,7 +108,19 @@ public class PublicacionPersonaAdapter extends RecyclerView.Adapter<PublicacionP
             new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
                 @Override
                 public void alAceptarPeticion(Bitmap bitmap) {
-                    holder.civFotoPerfilPersona.setImageBitmap(bitmap);
+
+                    if (bitmap == null){
+                        Bitmap defaultImg = BitmapFactory.decodeResource(
+                                context.getResources(),
+                                R.drawable.ic_person
+                        );
+                        holder.civFotoPerfilPersona.setImageBitmap(defaultImg);
+                    }
+
+                    Glide.with(context)
+                            .load(bitmap)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(holder.civFotoPerfilPersona);
                 }
             }, new CasoUso.EventoPeticionRechazada() {
                 @Override
@@ -114,14 +129,17 @@ public class PublicacionPersonaAdapter extends RecyclerView.Adapter<PublicacionP
                             context.getResources(),
                             R.drawable.ic_person
                     );
-                    holder.civFotoPerfilPersona.setImageBitmap(defaultImg);
+
+                    Glide.with(context)
+                            .load(defaultImg)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(holder.civFotoPerfilPersona);
+
                 }
-            }).enviarPeticion(publicacion.getUrlImagenPersona());
+            }).enviarPeticion(publicacion.getUrlImagen());
         }
 
     }
-
-    //Cambia el nombre de la UrlImagenEmpresa a Persona
 
     @Override
     public int getItemCount() {

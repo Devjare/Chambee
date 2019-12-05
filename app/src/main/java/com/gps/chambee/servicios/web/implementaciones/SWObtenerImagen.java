@@ -17,7 +17,8 @@ public class SWObtenerImagen extends ServicioWebImagen {
     @Override
     protected String definirUrl(Object... args) {
         String urlImagen = args[0].toString();
-        return context.getString(R.string.sw_obtener_imagen) + urlImagen;
+        return urlImagen;
     }
+
 }
 
