@@ -20,6 +20,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Categoria;
 import com.gps.chambee.entidades.vistas.PublicacionEmpresa;
+import com.gps.chambee.entidades.vistas.PublicacionGeneral;
 import com.gps.chambee.entidades.vistas.PublicacionPersona;
 import com.gps.chambee.negocios.casos.CUListarPublicaciones;
 import com.gps.chambee.negocios.casos.CUListarPublicacionesEmpresas;
@@ -92,7 +93,7 @@ public class InicioFragment extends Fragment {
 
         cargarCategorias(view);
 
-        // cargarPublicaciones(view);
+        cargarPublicaciones(view);
 
         cargarPublicacionesEmpresas(view);
 
@@ -101,7 +102,19 @@ public class InicioFragment extends Fragment {
     }
 
     private void cargarPublicaciones(final View view) {
-        //  new CUListarPublicaciones(view);
+        new CUListarPublicaciones(getContext(),
+                new CasoUso.EventoPeticionAceptada<List<PublicacionGeneral>>() {
+                    @Override
+                    public void alAceptarPeticion(List<PublicacionGeneral> publicacionGenerals) {
+
+                    }
+                },
+                new CasoUso.EventoPeticionRechazada() {
+                    @Override
+                    public void alRechazarOperacion() {
+
+                    }
+                }).enviarPeticion();
     }
 
     private void cargarPublicacionesEmpresas(final View view) {
