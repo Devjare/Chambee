@@ -9,14 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.gps.chambee.R;
+import com.gps.chambee.negocios.validadores.propiedades.ValidadorStringNoVacio;
 
 public class SolicitarEmpleoActivity extends AppCompatActivity {
 
-    private EditText etPublicar;
-    private CircleImageView civFotoUsuario;
     private ImageView ivRegresarSolicitarTrabajo;
+    private CircleImageView civFotoUsuario;
+    private EditText etPublicar;
     private ImageView ivSubirImagenPublicacion;
     private Button btnPublicar;
 
@@ -29,21 +31,40 @@ public class SolicitarEmpleoActivity extends AppCompatActivity {
         civFotoUsuario = findViewById(R.id.civFotoPerfil);
         ivRegresarSolicitarTrabajo = findViewById(R.id.ivRegresarSolicitarTrabajo);
         ivSubirImagenPublicacion = findViewById(R.id.ivSubirImagenPublicacion);
-
         btnPublicar = findViewById(R.id.btnPublicar);
 
-        btnPublicar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SolicitarEmpleoActivity.super.onBackPressed();
-            }
-        });
+        // TODO Poner imagen de perfil del usuario
 
         ivRegresarSolicitarTrabajo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SolicitarEmpleoActivity.super.onBackPressed();
+                finish();
             }
         });
+
+        btnPublicar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                publicar();
+            }
+        });
+    }
+
+    private void publicar() {
+
+        // obtener datos de la UI
+
+        String publicacion = etPublicar.getText().toString();
+
+        // validar datos
+
+        ValidadorStringNoVacio validador = new ValidadorStringNoVacio(publicacion);
+
+        if (!validador.validar()) {
+            Toast.makeText(this, validador.ultimoError().mensajeError(), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // TODO Servicio web para hacer publicacion
     }
 }

@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.gps.chambee.R;
 
@@ -43,10 +41,11 @@ public class PostRegistroTresFragment extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        fecha = i2+"/"+(i1+1)+"/"+i;
+                        fecha = i2+"-"+(i1+1)+"-"+i;
                         btnFecha.setText(fecha);
                     }
-                }, ano,mes,dia);
+                }, ano, mes, dia);
+
                 datePickerDialog.show();
             }
         });

@@ -49,7 +49,7 @@
             <ImageView
                 android:id="@+id/ivSubirImagen"
                 android:layout_marginTop="10dp"
-                android:src="@color/amarillo"
+                android:src="@color/colorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"/>
             <TextView
@@ -67,43 +67,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:hint="Lorem ipsum"
+                android:hint="¿Que trabajo buscas u ofreces?"
                 android:background="@drawable/fondo_redondeado_blanco_contorno"
                 />
-            <TextView
-                android:textSize="20sp"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/nunito_semibold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lugar"/>
-            <EditText
-                android:singleLine="true"
-                android:layout_marginTop="10dp"
-                android:padding="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:hint="Lorem ipsum"
-                android:background="@drawable/fondo_redondeado_blanco_contorno"
-                />
-            <TextView
-                android:textSize="20sp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/nunito_semibold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Areas de interes"/>
-            <EditText
-                android:id="@+id/etAreasInteres"
-                android:layout_marginTop="10dp"
-                android:padding="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:hint="Lorem ipsum"
-                android:background="@drawable/fondo_redondeado_blanco_contorno"
-                />
+
             <TextView
                 android:textSize="20sp"
                 android:layout_marginTop="15dp"
@@ -119,10 +86,52 @@
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:textSize="14sp"
+                android:hint="Describe el trabajo que buscas"
+                android:background="@drawable/fondo_redondeado_blanco_contorno"/>
+
+            <TextView
+                android:textSize="20sp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/nunito_semibold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lugar"
+                android:visibility="gone"/>
+            <EditText
+                android:singleLine="true"
+                android:layout_marginTop="10dp"
+                android:padding="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
                 android:hint="Lorem ipsum"
                 android:background="@drawable/fondo_redondeado_blanco_contorno"
-                />
+                android:visibility="gone"/>
             <TextView
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/nunito_semibold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Areas de interes"/>
+            <Spinner
+                android:id="@+id/sCategorias"
+                android:layout_marginTop="10dp"
+                android:padding="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textSize="14sp"
+                android:hint="Lorem ipsum"
+                android:background="@drawable/fondo_redondeado_blanco_contorno"/>
+
+            <mabbas007.tagsedittext.TagsEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"/>
+
+            <TextView
+                android:id="@+id/tvOpcionesAvanzadas"
                 android:layout_marginTop="20dp"
                 android:textSize="20sp"
                 android:layout_width="wrap_content"
@@ -131,43 +140,71 @@
                 android:singleLine="true"
                 android:textColor="#000"
                 android:text="Opciones Avanzadas"/>
-            <TextView
-                android:layout_marginTop="15dp"
-                android:textSize="20sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_semibold"
-                android:singleLine="true"
-                android:text="Paga del servicio"/>
-            <EditText
-                android:id="@+id/etPaga"
-                android:layout_marginTop="10dp"
-                android:padding="15dp"
+
+            <LinearLayout
+                android:id="@+id/llOpcionesAvanzadas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:hint="Lorem ipsum"
-                android:background="@drawable/fondo_redondeado_blanco_contorno"
-                />
-            <TextView
-                android:layout_marginTop="15dp"
-                android:textSize="20sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_semibold"
-                android:singleLine="true"
-                android:text="Tiempo de trabajo"/>
-            <EditText
-                android:id="@+id/etTiempoTrabajo"
-                android:layout_marginTop="10dp"
-                android:padding="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:hint="Lorem ipsum"
-                android:background="@drawable/fondo_redondeado_blanco_contorno"
-                />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_marginTop="15dp"
+                    android:textSize="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:singleLine="true"
+                    android:text="Paga del servicio"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/etPagaMin"
+                        android:padding="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="14sp"
+                        android:hint="Paga mínima"
+                        android:background="@drawable/fondo_redondeado_blanco_contorno"/>
+                    <EditText
+                        android:id="@+id/etPagaMax"
+                        android:padding="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.50"
+                        android:layout_marginStart="10dp"
+                        android:textSize="14sp"
+                        android:hint="Paga máxima"
+                        android:background="@drawable/fondo_redondeado_blanco_contorno"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_marginTop="15dp"
+                    android:textSize="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:singleLine="true"
+                    android:text="Tiempo de trabajo"/>
+                <EditText
+                    android:id="@+id/etTiempoTrabajo"
+                    android:layout_marginTop="10dp"
+                    android:padding="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:hint="Describe el tiempo que tomara realizar el trabajo"
+                    android:background="@drawable/fondo_redondeado_blanco_contorno"/>
+
+            </LinearLayout>
+
             <Button
+                android:id="@+id/bPublicar"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="20dp"
                 android:textColor="@color/blanco"

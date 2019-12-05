@@ -6,11 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragmentos.NotificacionesFragment"
     android:background="#eaeaea">
+
     <RelativeLayout
         android:id="@+id/rlTextoNotificaciones"
         android:layout_width="match_parent"
         android:background="#eaeaea"
         android:layout_height="80dp">
+
         <TextView
             android:layout_alignParentBottom="true"
             android:layout_width="wrap_content"
@@ -20,6 +22,7 @@
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/nunito_bold"
             android:text="Notificaciones"/>
+
         <TextView
             android:id="@+id/tvSalirNotificaciones"
             android:layout_alignParentBottom="true"
@@ -30,8 +33,9 @@
             android:textSize="20sp"
             android:layout_marginRight="20dp"
             android:fontFamily="@font/nunito_bold"
-            android:text="X"/>
+            android:text="x"/>
     </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:background="@drawable/fondo_redondeado_arriba_blanco"
         android:layout_below="@+id/rlTextoNotificaciones"

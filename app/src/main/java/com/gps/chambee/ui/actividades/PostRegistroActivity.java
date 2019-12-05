@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.gps.chambee.R;
 import com.gps.chambee.negocios.validadores.ValidadorPool;
+import com.gps.chambee.negocios.validadores.propiedades.ValidadorFecha;
 import com.gps.chambee.negocios.validadores.propiedades.ValidadorStringNoVacio;
 import com.gps.chambee.ui.adaptadores.PostRegistroAdapter;
 import com.gps.chambee.ui.fragmentos.PostRegistroDosFragment;
@@ -182,7 +183,7 @@ public class PostRegistroActivity extends AppCompatActivity {
         ValidadorPool validadorPool = new ValidadorPool.Builder()
                 .agregarValidador(new ValidadorStringNoVacio(localidad))
                 .agregarValidador(new ValidadorStringNoVacio(colonia))
-                .agregarValidador(new ValidadorStringNoVacio(fecha))
+                .agregarValidador(new ValidadorFecha(fecha))
                 .build();
 
         if (!validadorPool.validarTodo()) {

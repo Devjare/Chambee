@@ -1,20 +1,16 @@
 package com.gps.chambee.ui.fragmentos;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.gps.chambee.R;
 
 import androidx.fragment.app.Fragment;
 
 public class PostRegistroDosFragment extends Fragment {
-    //TODO check the information
 
     private EditText etProfesion;
 

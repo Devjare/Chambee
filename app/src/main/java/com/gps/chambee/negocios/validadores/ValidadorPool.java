@@ -32,6 +32,10 @@ public class ValidadorPool {
         return ultimoError;
     }
 
+    public void agregarValidador(Validador validador) {
+        validadores.add(validador);
+    }
+
     public boolean validarTodo() {
         for (int index = 0; index < validadores.size(); index++) {
             Validador validadorActual = validadores.get(index);

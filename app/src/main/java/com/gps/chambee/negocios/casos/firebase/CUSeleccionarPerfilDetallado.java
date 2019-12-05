@@ -14,27 +14,26 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public class CUSeleccionarPerfilDetallado extends CasoUso {
+public class CUSeleccionarPerfilDetallado extends CasoUso<PerfilDetallado> {
 
-    public CUSeleccionarPerfilDetallado(Context context, EventoPeticionAceptada eventoPeticionAceptada, EventoPeticionRechazada eventoPeticionRechazada) {
+    public CUSeleccionarPerfilDetallado(Context context, EventoPeticionAceptada<PerfilDetallado> eventoPeticionAceptada, EventoPeticionRechazada eventoPeticionRechazada) {
         super(context, eventoPeticionAceptada, eventoPeticionRechazada);
     }
 
     @Override
     protected ServicioWeb definirServicioWeb() {
-        return new SWSeleccionarPerfilDetallado(
-            context,
-            new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    PresentadorPerfilDetallado presentadorPerfilDetallado =
-                            new PresentadorPerfilDetallado();
-                    List<PerfilDetallado> perfilDetalladoList =
-                            (List<PerfilDetallado>) presentadorPerfilDetallado.procesar(response);
 
-                    eventoPeticionAceptada.alAceptarPeticion(perfilDetalladoList);
-                }
-            }, new Response.ErrorListener() {
+        return new SWSeleccionarPerfilDetallado(context, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                PresentadorPerfilDetallado presentador = new PresentadorPerfilDetallado();
+                PerfilDetallado perfilDetallado = presentador.procesar(response);
+                eventoPeticionAceptada.alAceptarPeticion(perfilDetallado);
+            }
+
+        }, new Response.ErrorListener() {
+
             @Override
             public void onErrorResponse(VolleyError error) {
                 eventoPeticionRechazada.alRechazarOperacion();

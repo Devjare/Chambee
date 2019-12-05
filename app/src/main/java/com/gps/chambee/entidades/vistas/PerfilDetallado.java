@@ -8,6 +8,7 @@ import com.gps.chambee.entidades.Medalla;
 import java.util.List;
 
 public class PerfilDetallado implements Parcelable {
+
     public String urlPerfil;
     public String urlPortada;
     public String nombrePersona;
