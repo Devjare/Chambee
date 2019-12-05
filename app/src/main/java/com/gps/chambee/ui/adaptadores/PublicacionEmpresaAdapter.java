@@ -84,11 +84,11 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
         return new PublicacionEmpresaAdapter.ViewHolder(view);
     }
 
-    private String TAG = "PublicacionEmpresaAdapter";
+    private String TAG = this.getClass().getSimpleName();
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
       
-        PublicacionEmpresa publicacion = (PublicacionEmpresa) lista.get(position);
+        PublicacionEmpresa publicacion = lista.get(position);
 
         holder.idPublicacion = publicacion.getIdPublicacionEmpresa();
 
@@ -108,6 +108,8 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
             );
             holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
         } else {
+
+            // Obtener imagen del perfil de la empresa.
             new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
                 @Override
                 public void alAceptarPeticion(Bitmap bitmap) {
@@ -132,6 +134,7 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
             );
             holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
         } else {
+            // Obtener imagen del trabajo de la empresa.
             new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
                 @Override
                 public void alAceptarPeticion(Bitmap bitmap) {

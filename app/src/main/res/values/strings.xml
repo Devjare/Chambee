@@ -6,4 +6,9 @@
     <string name="sw_cambio_calles">chabee.online/escritura/serviceweb_cambio_calles.php</string>
     <string name="sw_alta_calles">chabee.online/escritura/serviceweb_alta_calles.php</string>
     <string name="login">chambee.online/chambe_php/escritura/alta/login</string>
+    <string name="sw_select_publicaciones">http://www.chambee.online/chambee_php/lectura/serviceweb_lectura_publicaciones_todas.php</string>
+    <string name="sw_lectura_categorias">http://chambee.online/chambee_php/lectura/serviceweb_lectura_categorias.php</string>
+    <string name="sw_seleccionar_interesados">http://www.chambee.online/chambee_php/lectura/vistas/select_id_intersados.php</string>
+    <string name="sw_registrar_perfil">chabee.online/chambee_php/escritura/alta/serviceweb_alta_perfiles.php</string>
+    <string name="sw_obtener_imagen">url_servicio_web_imagen?imagen=</string>
 </resources>

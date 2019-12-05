@@ -18,7 +18,9 @@ public abstract class ServicioWeb<T> {
             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
     );
 
-    public ServicioWeb(Context context, Response.Listener<T> responseListener, Response.ErrorListener errorListener) {
+    public ServicioWeb(Context context,
+                       Response.Listener<T> responseListener,
+                       Response.ErrorListener errorListener) {
         this.context = context;
         this.responseListener = responseListener;
         this.errorListener = errorListener;
@@ -36,3 +38,4 @@ public abstract class ServicioWeb<T> {
     }
 
 }
+

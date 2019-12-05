@@ -12,7 +12,9 @@ import com.gps.chambee.servicios.web.implementaciones.SWIniciarSesion;
 import org.json.JSONObject;
 
 public class CUIniciarSesion  extends CasoUso<Usuario> {
-    public CUIniciarSesion(Context context, EventoPeticionAceptada<Usuario> eventoPeticionAceptada, EventoPeticionRechazada eventoPeticionRechazada) {
+    public CUIniciarSesion(Context context,
+                           EventoPeticionAceptada<Usuario> eventoPeticionAceptada,
+                           EventoPeticionRechazada eventoPeticionRechazada) {
         super(context, eventoPeticionAceptada, eventoPeticionRechazada);
     }
 
@@ -36,3 +38,4 @@ public class CUIniciarSesion  extends CasoUso<Usuario> {
 
     }
 }
+

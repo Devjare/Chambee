@@ -77,8 +77,6 @@ public class PublicacionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Agregar servicio web para comentar.
 
-                
-
             }
         });
 

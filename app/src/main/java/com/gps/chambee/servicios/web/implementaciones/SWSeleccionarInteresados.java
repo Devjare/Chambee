@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.gps.chambee.R;
 import com.gps.chambee.servicios.web.ServicioWebLectura;
 
 import org.json.JSONObject;
@@ -21,6 +22,7 @@ public class SWSeleccionarInteresados extends ServicioWebLectura {
 
     @Override
     protected String definirUrl(Object... args) {
-        return "";
+        int id = Integer.parseInt(args[0].toString());
+        return context.getString(R.string.sw_seleccionar_interesados) + "?id_publicaciones=" + id;
     }
 }

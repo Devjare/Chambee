@@ -1,6 +1,7 @@
 package com.gps.chambee.negocios.presentadores;
 
 import com.gps.chambee.entidades.vistas.PublicacionEmpresa;
+import com.gps.chambee.entidades.vistas.PublicacionGeneral;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,13 +10,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PresentadorListaPublicacionEmpresa extends Presentador<List<PublicacionEmpresa>> {
-
+public class PresentadorPublicacionGeneral extends Presentador<PublicacionGeneral> {
     @Override
-    public List<PublicacionEmpresa> procesar(JSONObject json) {
-
+    public PublicacionGeneral procesar(JSONObject json) {
         JSONArray jsonArray = json.optJSONArray("json");
-        List<PublicacionEmpresa> publicaciones = new ArrayList<>();
 
         for (int i = 0;i < jsonArray.length();i++){
             JSONObject jsonObject = null;
@@ -26,8 +24,8 @@ public class PresentadorListaPublicacionEmpresa extends Presentador<List<Publica
             }
 
             assert jsonObject != null;
-            PublicacionEmpresa publicacion = new PublicacionEmpresa.PublicacionEmpresaBuilder()
-                    .setNombreEmpresa(jsonObject.optString("nombre_empresa"))
+            PublicacionGeneral publicacion = new PublicacionGeneral.PublicacionGeneralBuilder()
+                    .setNombre(jsonObject.optString("nombre_empresa"))
                     .setNombreTrabajo(jsonObject.optString("nombre_trabajo"))
                     .setComentarios(jsonObject.optInt("comentarios"))
                     .setDescripcion(jsonObject.optString("descripcion"))
@@ -38,7 +36,7 @@ public class PresentadorListaPublicacionEmpresa extends Presentador<List<Publica
                     .setVista(jsonObject.optInt("vista"))
                     .setVistos(jsonObject.optInt("vistos"))
                     .setUrlImagenTrabajo(jsonObject.optString("url_imagen_trabajo"))
-                    .setUrlImagenEmpresa(jsonObject.optString("url_imagen_empresa")).build();
+                    .setUrlImagen(jsonObject.optString("url_imagen_empresa")).build();
 
             publicaciones.add(publicacion);
         }
