@@ -35,7 +35,7 @@ public class ComentarioTrabajoAdapter extends RecyclerView.Adapter<ComentarioTra
             super(itemView);
 
             civFotoComentario = itemView.findViewById(R.id.civFotoComentario);
-            tvComentarioPersona = itemView.findViewById(R.id.tvComentariosPersona);
+            tvComentarioPersona = itemView.findViewById(R.id.tvComentarioPersona);
             tvComentario = itemView.findViewById(R.id.tvComentario);
             //tvLikesComentario = itemView.findViewById(R.id.tvLikesComentario);
             tvComentariosComentario = itemView.findViewById(R.id.tvComentariosComentario);
@@ -48,8 +48,8 @@ public class ComentarioTrabajoAdapter extends RecyclerView.Adapter<ComentarioTra
     private List<ComentarioPublicacion> lista;
 
     public ComentarioTrabajoAdapter(Context context, List<ComentarioPublicacion> lista){
-        this.context=context;
-        this.lista=lista;
+        this.context = context;
+        this.lista = lista;
     }
 
     @NonNull

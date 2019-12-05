@@ -18,7 +18,9 @@ public abstract class CasoUso<T> {
     protected EventoPeticionAceptada<T> eventoPeticionAceptada;
     protected EventoPeticionRechazada eventoPeticionRechazada;
 
-    public CasoUso(Context context, EventoPeticionAceptada<T> eventoPeticionAceptada, EventoPeticionRechazada eventoPeticionRechazada) {
+    public CasoUso(Context context,
+                   EventoPeticionAceptada<T> eventoPeticionAceptada,
+                   EventoPeticionRechazada eventoPeticionRechazada) {
         this.context = context;
         this.eventoPeticionAceptada = eventoPeticionAceptada;
         this.eventoPeticionRechazada = eventoPeticionRechazada;
@@ -31,3 +33,4 @@ public abstract class CasoUso<T> {
         servicioWeb.enviarPeticion(args);
     }
 }
+

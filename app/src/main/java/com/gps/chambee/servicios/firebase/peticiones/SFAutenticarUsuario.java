@@ -11,7 +11,8 @@ import com.gps.chambee.servicios.firebase.ServicioFirebaseEscritura;
 
 public class SFAutenticarUsuario extends ServicioFirebaseEscritura {
 
-    public SFAutenticarUsuario(ServicioFirebase.EventoTareaCompletada<String> eventoTareaCompletada, EventoTareaCancelada eventoTareaCancelada) {
+    public SFAutenticarUsuario(ServicioFirebase.EventoTareaCompletada<String> eventoTareaCompletada,
+                               EventoTareaCancelada eventoTareaCancelada) {
         super(eventoTareaCompletada, eventoTareaCancelada);
     }
 
@@ -36,3 +37,5 @@ public class SFAutenticarUsuario extends ServicioFirebaseEscritura {
         });
     }
 }
+
+

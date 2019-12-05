@@ -6,7 +6,8 @@ import com.gps.chambee.servicios.firebase.peticiones.SFEnviarMensaje;
 
 public class CFEnviarMensaje extends CasoUsoFirebase<String> {
 
-    public CFEnviarMensaje(EventoPeticionAceptada<String> eventoPeticionAceptada, EventoPeticionRechazada eventoPeticionRechazada) {
+    public CFEnviarMensaje(EventoPeticionAceptada<String> eventoPeticionAceptada,
+                           EventoPeticionRechazada eventoPeticionRechazada) {
         super(eventoPeticionAceptada, eventoPeticionRechazada);
     }
 
@@ -25,3 +26,4 @@ public class CFEnviarMensaje extends CasoUsoFirebase<String> {
         });
     }
 }
+

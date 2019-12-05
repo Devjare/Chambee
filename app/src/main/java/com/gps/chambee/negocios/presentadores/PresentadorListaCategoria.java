@@ -13,7 +13,7 @@ import java.util.List;
 public class PresentadorListaCategoria extends Presentador<List<Categoria>> {
     @Override
     public List<Categoria> procesar(JSONObject json) {
-        JSONArray jsonArray = json.optJSONArray("categorias");
+        JSONArray jsonArray = json.optJSONArray("json");
         List<Categoria> categoriaList = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -39,3 +39,5 @@ public class PresentadorListaCategoria extends Presentador<List<Categoria>> {
         return categoriaList;
     }
 }
+
+

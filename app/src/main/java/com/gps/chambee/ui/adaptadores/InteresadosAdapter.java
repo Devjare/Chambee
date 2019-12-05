@@ -1,6 +1,8 @@
 package com.gps.chambee.ui.adaptadores;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,12 @@ public class InteresadosAdapter extends RecyclerView.Adapter<InteresadosAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+        Perfil perfil = lista.get(position);
+
+        if (perfil.getUrlPerfil() == "default"){
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_person);
+            holder.civInteresado.setImageBitmap(bitmap);
+        }
     }
 
     @Override

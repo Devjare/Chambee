@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.gps.chambee.R;
 import com.gps.chambee.entidades.Perfil;
 import com.gps.chambee.servicios.web.ServicioWeb;
 import com.gps.chambee.servicios.web.ServicioWebEscritura;
@@ -12,7 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SWRegistrarPerfil extends ServicioWebEscritura{
-    public SWRegistrarPerfil(Context context, Response.Listener<String> responseListener, Response.ErrorListener errorListener) {
+    public SWRegistrarPerfil(Context context,
+                             Response.Listener<String> responseListener,
+                             Response.ErrorListener errorListener) {
         super(context, responseListener, errorListener);
     }
 
@@ -37,11 +40,8 @@ public class SWRegistrarPerfil extends ServicioWebEscritura{
 
     @Override
     protected String definirUrl(Object... args) {
-        return "chabee.online/chambee_php/escritura/alta/serviceweb_alta_perfiles.php";
+        return context.getString(R.string.sw_registrar_perfil);
     }
 
-    @Override
-    protected Request definirRequest(String url, Object... args) {
-        return null;
-    }
 }
+

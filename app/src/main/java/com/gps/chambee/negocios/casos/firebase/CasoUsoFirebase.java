@@ -16,7 +16,8 @@ public abstract class CasoUsoFirebase<T> {
     protected EventoPeticionAceptada<T> eventoPeticionAceptada;
     protected EventoPeticionRechazada eventoPeticionRechazada;
 
-    public CasoUsoFirebase(EventoPeticionAceptada<T> eventoPeticionAceptada, EventoPeticionRechazada eventoPeticionRechazada) {
+    public CasoUsoFirebase(EventoPeticionAceptada<T> eventoPeticionAceptada,
+                           EventoPeticionRechazada eventoPeticionRechazada) {
         this.eventoPeticionAceptada = eventoPeticionAceptada;
         this.eventoPeticionRechazada = eventoPeticionRechazada;
     }
@@ -29,3 +30,4 @@ public abstract class CasoUsoFirebase<T> {
     }
 
 }
+
