@@ -5,12 +5,12 @@ import android.os.Parcelable;
 
 public class Usuario implements Parcelable {
 
+    private String id;
     private String nombre;
     private String apellidos;
     private String correoElectronico;
     private String contrasenia;
     private String telefono;
-    private String id;
 
     private Usuario(UsuarioBuilder builder) {
         this.nombre = builder.nombre;

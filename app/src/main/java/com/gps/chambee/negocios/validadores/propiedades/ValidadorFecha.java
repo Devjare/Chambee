@@ -15,6 +15,26 @@ public class ValidadorFecha extends Validador<String> {
 
             @Override
             public boolean validar() {
+                return t != null;
+            }
+
+        }, new ErrorValidacion() {
+
+            @Override
+            public String mensajeError() {
+                return "Debes ingresar una fecha";
+            }
+
+            @Override
+            public Object propiedadInvalida() {
+                return t;
+            }
+        });
+
+        agregarValidacion(new ValidadorPropiedad() {
+
+            @Override
+            public boolean validar() {
                 String[] tokens = t.split("-");
 
                 try {

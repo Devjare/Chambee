@@ -1,6 +1,5 @@
 package com.gps.chambee.ui.fragmentos;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,21 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Medalla;
+import com.gps.chambee.entidades.UsuarioFirebase;
 import com.gps.chambee.entidades.vistas.PerfilDetallado;
-import com.gps.chambee.negocios.casos.CUObtenerImagen;
-import com.gps.chambee.negocios.casos.CUSeleccionarMedallas;
+import com.gps.chambee.negocios.casos.CUSeleccionarPerfilDetallado;
 import com.gps.chambee.negocios.casos.CasoUso;
-import com.gps.chambee.negocios.casos.firebase.CUSeleccionarPerfilDetallado;
+import com.gps.chambee.ui.Sesion;
 import com.gps.chambee.ui.adaptadores.MedallasAdapter;
 import com.gps.chambee.ui.adaptadores.RegistroTrabajosAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PerfilFragment extends Fragment {
 
@@ -42,6 +40,8 @@ public class PerfilFragment extends Fragment {
     private RecyclerView rvEtiquetas;
     private RecyclerView rvMedallas;
     private RecyclerView rvRegistroTrabajos;
+
+    private UsuarioFirebase usuarioFirebase = (UsuarioFirebase) Sesion.instance().obtenerEntidad(UsuarioFirebase.getNombreClase());
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,39 +74,31 @@ public class PerfilFragment extends Fragment {
 
     private void seleccionarPerfilDetallado() {
 
-        // TODO Caso de uso para seleccionar el perfil detallado del usuario
-
-        // Suoponiendo que ya se obtuvo el perfil detallado del usuario...
-
-        PerfilDetallado perfilDetallado = new PerfilDetallado();
-
-        tvNombreUsuario.setText(perfilDetallado.getNombrePersona() + " " + perfilDetallado.getApellidosPersona());
-        tvEdadUsuario.setText(String.valueOf(perfilDetallado.getEdad()));
-        tvPuertoUsuario.setText(perfilDetallado.getPuesto());
-        tvPuntajeEstrellas.setText(String.valueOf(perfilDetallado.getEstrellas()));
-
-        /*new CUSeleccionarPerfilDetallado(getContext(), new CasoUso.EventoPeticionAceptada<PerfilDetallado>() {
+        new CUSeleccionarPerfilDetallado(getContext(), new CasoUso.EventoPeticionAceptada<PerfilDetallado>() {
 
             @Override
             public void alAceptarPeticion(PerfilDetallado perfilDetallado) {
-
+                tvNombreUsuario.setText(perfilDetallado.getNombreUsuario() + " " + perfilDetallado.getApellidosUsuario());
+                tvEdadUsuario.setText(String.valueOf(perfilDetallado.getFechaNac()));
+                tvPuertoUsuario.setText(perfilDetallado.getPuesto());
+                tvPuntajeEstrellas.setText(String.valueOf(perfilDetallado.getCalificacion()));
             }
 
         }, new CasoUso.EventoPeticionRechazada() {
 
             @Override
             public void alRechazarOperacion() {
-
+                Toast.makeText(getContext(), "Error al obtener perfil detallado del usuario", Toast.LENGTH_SHORT).show();
             }
 
-        }).enviarPeticion();*/
+        }).enviarPeticion(usuarioFirebase.getId());
     }
 
     private void listarMedallas() {
 
         // TODO Servicio web para listar medallas del usuario
 
-        MedallasAdapter adapter = new MedallasAdapter(getContext(), null);
+        MedallasAdapter adapter = new MedallasAdapter(getContext(), new ArrayList<Medalla>());
         rvMedallas.setAdapter(adapter);
         rvMedallas.setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -115,7 +107,7 @@ public class PerfilFragment extends Fragment {
 
         // TODO Servicio web para listar registros de trabajo
 
-        RegistroTrabajosAdapter adapter = new RegistroTrabajosAdapter(getContext(), null);
+        RegistroTrabajosAdapter adapter = new RegistroTrabajosAdapter(getContext(), new ArrayList<>());
         rvRegistroTrabajos.setAdapter(adapter);
         rvRegistroTrabajos.setLayoutManager(new LinearLayoutManager(getContext()));
     }

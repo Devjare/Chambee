@@ -1,42 +1,219 @@
 package com.gps.chambee.entidades.vistas;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+public class PerfilDetallado {
 
-import com.gps.chambee.entidades.Medalla;
+    public static class Builder {
 
-import java.util.List;
+        private String idUsuario;
+        private String nombreUsuario;
+        private String apellidosUsuario;
+        private String telefono;
+        private String correo;
+        private String contrasena;
+        private int idPerfil;
+        private String urlPerfil;
+        private String urlPortada;
+        private String acerca;
+        private String fechaNac;
+        private String puesto;
+        private float calificacion;
+        private String calle;
+        private String colonia;
+        private String ciudad;
+        private String estado;
+        private String pais;
 
-public class PerfilDetallado implements Parcelable {
+        public Builder setIdUsuario(String idUsuario) {
+            this.idUsuario = idUsuario;
+            return this;
+        }
 
-    public String urlPerfil;
-    public String urlPortada;
-    public String nombrePersona;
-    public String apellidosPersona;
-    public int edad;
-    public String puesto;
-    public double estrellas;
-    public String estado;
-    public String ciudad;
-    public String acerca;
-    public List<String> servicios;
-    public List<Medalla> medallas;
+        public Builder setNombreUsuario(String nombreUsuario) {
+            this.nombreUsuario = nombreUsuario;
+            return this;
+        }
 
-    public PerfilDetallado(){}
+        public Builder setApellidosUsuario(String apellidosUsuario) {
+            this.apellidosUsuario = apellidosUsuario;
+            return this;
+        }
 
-    public PerfilDetallado(String urlPerfil, String urlPortada, String nombrePersona, String apellidosPersona, int edad, String puesto, double estrellas, String estado, String ciudad, String acerca, List<String> servicios, List<Medalla> medallas) {
-        this.urlPerfil = urlPerfil;
-        this.urlPortada = urlPortada;
-        this.nombrePersona = nombrePersona;
-        this.apellidosPersona = apellidosPersona;
-        this.edad = edad;
-        this.puesto = puesto;
-        this.estrellas = estrellas;
-        this.estado = estado;
-        this.ciudad = ciudad;
-        this.acerca = acerca;
-        this.servicios = servicios;
-        this.medallas = medallas;
+        public Builder setTelefono(String telefono) {
+            this.telefono = telefono;
+            return this;
+        }
+
+        public Builder setCorreo(String correo) {
+            this.correo = correo;
+            return this;
+        }
+
+        public Builder setContrasena(String contrasena) {
+            this.contrasena = contrasena;
+            return this;
+        }
+
+        public Builder setIdPerfil(int idPerfil) {
+            this.idPerfil = idPerfil;
+            return this;
+        }
+
+        public Builder setUrlPerfil(String urlPerfil) {
+            this.urlPerfil = urlPerfil;
+            return this;
+        }
+
+        public Builder setUrlPortada(String urlPortada) {
+            this.urlPortada = urlPortada;
+            return this;
+        }
+
+        public Builder setAcerca(String acerca) {
+            this.acerca = acerca;
+            return this;
+        }
+
+        public Builder setFechaNac(String fechaNac) {
+            this.fechaNac = fechaNac;
+            return this;
+        }
+
+        public Builder setPuesto(String puesto) {
+            this.puesto = puesto;
+            return this;
+        }
+
+        public Builder setCalificacion(float calificacion) {
+            this.calificacion = calificacion;
+            return this;
+        }
+
+        public Builder setCalle(String calle) {
+            this.calle = calle;
+            return this;
+        }
+
+        public Builder setColonia(String colonia) {
+            this.colonia = colonia;
+            return this;
+        }
+
+        public Builder setCiudad(String ciudad) {
+            this.ciudad = ciudad;
+            return this;
+        }
+
+        public Builder setEstado(String estado) {
+            this.estado = estado;
+            return this;
+        }
+
+        public Builder setPais(String pais) {
+            this.pais = pais;
+            return this;
+        }
+
+        public PerfilDetallado build() {
+            return new PerfilDetallado(this);
+        }
+    }
+
+    private String idUsuario;
+    private String nombreUsuario;
+    private String apellidosUsuario;
+    private String telefono;
+    private String correo;
+    private String contrasena;
+    private int idPerfil;
+    private String urlPerfil;
+    private String urlPortada;
+    private String acerca;
+    private String fechaNac;
+    private String puesto;
+    private float calificacion;
+    private String calle;
+    private String colonia;
+    private String ciudad;
+    private String estado;
+    private String pais;
+
+    private PerfilDetallado() { }
+
+    public PerfilDetallado(Builder builder) {
+        this.idUsuario = builder.idUsuario;
+        this.nombreUsuario = builder.nombreUsuario;
+        this.apellidosUsuario = builder.apellidosUsuario;
+        this.telefono = builder.telefono;
+        this.correo = builder.correo;
+        this.contrasena = builder.contrasena;
+        this.idPerfil = builder.idPerfil;
+        this.urlPerfil = builder.urlPerfil;
+        this.urlPortada = builder.urlPortada;
+        this.acerca = builder.acerca;
+        this.fechaNac = builder.fechaNac;
+        this.puesto = builder.puesto;
+        this.calificacion = builder.calificacion;
+        this.calle = builder.calle;
+        this.colonia = builder.colonia;
+        this.ciudad = builder.ciudad;
+        this.estado = builder.estado;
+        this.pais = builder.pais;
+    }
+
+    public String getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getApellidosUsuario() {
+        return apellidosUsuario;
+    }
+
+    public void setApellidosUsuario(String apellidosUsuario) {
+        this.apellidosUsuario = apellidosUsuario;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    public int getIdPerfil() {
+        return idPerfil;
+    }
+
+    public void setIdPerfil(int idPerfil) {
+        this.idPerfil = idPerfil;
     }
 
     public String getUrlPerfil() {
@@ -55,28 +232,20 @@ public class PerfilDetallado implements Parcelable {
         this.urlPortada = urlPortada;
     }
 
-    public String getNombrePersona() {
-        return nombrePersona;
+    public String getAcerca() {
+        return acerca;
     }
 
-    public void setNombrePersona(String nombrePersona) {
-        this.nombrePersona = nombrePersona;
+    public void setAcerca(String acerca) {
+        this.acerca = acerca;
     }
 
-    public String getApellidosPersona() {
-        return apellidosPersona;
+    public String getFechaNac() {
+        return fechaNac;
     }
 
-    public void setApellidosPersona(String apellidosPersona) {
-        this.apellidosPersona = apellidosPersona;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
+    public void setFechaNac(String fechaNac) {
+        this.fechaNac = fechaNac;
     }
 
     public String getPuesto() {
@@ -87,20 +256,28 @@ public class PerfilDetallado implements Parcelable {
         this.puesto = puesto;
     }
 
-    public double getEstrellas() {
-        return estrellas;
+    public float getCalificacion() {
+        return calificacion;
     }
 
-    public void setEstrellas(double estrellas) {
-        this.estrellas = estrellas;
+    public void setCalificacion(float calificacion) {
+        this.calificacion = calificacion;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getCalle() {
+        return calle;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public String getColonia() {
+        return colonia;
+    }
+
+    public void setColonia(String colonia) {
+        this.colonia = colonia;
     }
 
     public String getCiudad() {
@@ -111,79 +288,19 @@ public class PerfilDetallado implements Parcelable {
         this.ciudad = ciudad;
     }
 
-    public String getAcerca() {
-        return acerca;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setAcerca(String acerca) {
-        this.acerca = acerca;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
-    public List<String> getServicios() {
-        return servicios;
+    public String getPais() {
+        return pais;
     }
 
-    public void setServicios(List<String> servicios) {
-        this.servicios = servicios;
-    }
-
-    public List<Medalla> getMedallas() {
-        return medallas;
-    }
-
-    public void setMedallas(List<Medalla> medallas) {
-        this.medallas = medallas;
-    }
-
-    public static Creator<PerfilDetallado> getCREATOR() {
-        return CREATOR;
-    }
-
-    protected PerfilDetallado(Parcel in) {
-        urlPerfil = in.readString();
-        urlPortada = in.readString();
-        nombrePersona = in.readString();
-        apellidosPersona = in.readString();
-        edad = in.readInt();
-        puesto = in.readString();
-        estrellas = in.readDouble();
-        estado = in.readString();
-        ciudad = in.readString();
-        acerca = in.readString();
-        servicios = in.createStringArrayList();
-        medallas = in.createTypedArrayList(Medalla.CREATOR);
-    }
-
-    public static final Creator<PerfilDetallado> CREATOR = new Creator<PerfilDetallado>() {
-        @Override
-        public PerfilDetallado createFromParcel(Parcel in) {
-            return new PerfilDetallado(in);
-        }
-
-        @Override
-        public PerfilDetallado[] newArray(int size) {
-            return new PerfilDetallado[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(urlPerfil);
-        parcel.writeString(urlPortada);
-        parcel.writeString(nombrePersona);
-        parcel.writeString(apellidosPersona);
-        parcel.writeInt(edad);
-        parcel.writeString(puesto);
-        parcel.writeDouble(estrellas);
-        parcel.writeString(estado);
-        parcel.writeString(ciudad);
-        parcel.writeString(acerca);
-        parcel.writeStringList(servicios);
-        parcel.writeTypedList(medallas);
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 }

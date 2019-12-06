@@ -7,13 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PresentadorPerfilDetallado  extends Presentador<PerfilDetallado> {
+
     @Override
     public PerfilDetallado procesar(JSONObject json) {
-        JSONArray jsonArray = json.optJSONArray("perfil_detallado");
+        JSONArray jsonArray = json.optJSONArray("json");
 
         JSONObject jsonObject = null;
         try{
@@ -23,18 +21,25 @@ public class PresentadorPerfilDetallado  extends Presentador<PerfilDetallado> {
         }
 
         assert jsonObject != null;
-        PerfilDetallado perfilDetallado = new PerfilDetallado();
-        perfilDetallado.setUrlPerfil(jsonObject.optString("perfil"));
-        perfilDetallado.setUrlPortada(jsonObject.optString("portada"));
-        perfilDetallado.setNombrePersona(jsonObject.optString("nombre"));
-        perfilDetallado.setApellidosPersona(jsonObject.optString("apellidos"));
-        perfilDetallado.setEdad(jsonObject.optInt("edad"));
-        perfilDetallado.setPuesto(jsonObject.optString("puesto"));
-        perfilDetallado.setEstrellas(jsonObject.optDouble("estrellas"));
-        perfilDetallado.setEstado(jsonObject.optString("estado"));
-        perfilDetallado.setCiudad(jsonObject.optString("ciudad"));
-        perfilDetallado.setAcerca(jsonObject.optString("acerca"));
 
-        return perfilDetallado;
+        return new PerfilDetallado.Builder()
+                .setIdUsuario(jsonObject.optString("id_usuario"))
+                .setNombreUsuario(jsonObject.optString("nombre_usuario"))
+                .setApellidosUsuario(jsonObject.optString("apellidos_usuario"))
+                .setTelefono(jsonObject.optString("telefono"))
+                .setCorreo(jsonObject.optString("correo"))
+                .setContrasena(jsonObject.optString("contrasena"))
+                .setIdPerfil(jsonObject.optInt("id_perfil"))
+                .setUrlPerfil(jsonObject.optString("url_perfil"))
+                .setUrlPortada(jsonObject.optString("url_portada"))
+                .setAcerca(jsonObject.optString("acerca"))
+                .setFechaNac(jsonObject.optString("fecha_nacimiento"))
+                .setCalificacion(Float.parseFloat(String.valueOf(jsonObject.optDouble("calificacion"))))
+                .setCalle(jsonObject.optString("calle"))
+                .setColonia(jsonObject.optString("colonia"))
+                .setCiudad(jsonObject.optString("ciudad"))
+                .setEstado(jsonObject.optString("estado"))
+                .setPais(jsonObject.optString("pais"))
+                .build();
     }
 }

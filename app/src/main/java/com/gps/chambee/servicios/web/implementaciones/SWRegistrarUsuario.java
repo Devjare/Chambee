@@ -2,48 +2,37 @@ package com.gps.chambee.servicios.web.implementaciones;
 
 import android.content.Context;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
-import com.gps.chambee.entidades.Usuario;
-import com.gps.chambee.servicios.web.ServicioWeb;
+import com.gps.chambee.entidades.UsuarioFirebase;
 import com.gps.chambee.servicios.web.ServicioWebEscritura;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class
-SWRegistrarUsuario extends ServicioWebEscritura {
+public class SWRegistrarUsuario extends ServicioWebEscritura {
+
     public SWRegistrarUsuario(Context context, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         super(context, listener, errorListener);
     }
 
     @Override
     protected Map<String, String> definirParams(Object... args) {
-        Usuario user = (Usuario) args[0];
+        UsuarioFirebase user = (UsuarioFirebase) args[0];
 
         Map<String, String> params = new HashMap<>();
-        params.put("nombre", user.getNombre());
+        params.put("id_usuarios", user.getId());
+        params.put("nombre", user.getNombres());
         params.put("apellidos", user.getApellidos());
-        params.put("correo_electronico", user.getCorreoElectronico());
         params.put("telefono", user.getTelefono());
-        params.put("contrasena", user.getContrasenia());
+        params.put("correo_electronico", user.getCorreo());
+        params.put("contrasena", user.getContrasena());
 
         return params;
     }
 
     @Override
     protected String definirUrl(Object... args) {
-        return "chabee.online/escritura/serviceweb_alta_usuarios.php";
+        return "http://chambee.online/chambee_php/escritura/alta/serviceweb_registrar_usuarios.php";
     }
 
-    @Override
-    protected Request definirRequest(String url, Object... args) {
-        Usuario usuario = (Usuario) args[0];
-
-        //falta retornar los valores hasta que entregue los url panda
-
-
-
-        return null;
-    }
 }
