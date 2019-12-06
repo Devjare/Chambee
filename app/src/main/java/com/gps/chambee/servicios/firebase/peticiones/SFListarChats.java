@@ -13,7 +13,9 @@ public class SFListarChats extends ServicioFirebaseLectura {
 
     private String idEmisor;
 
-    public SFListarChats(String idEmisor, EventoTareaCompletada<DataSnapshot> eventoTareaCompletada, EventoTareaCancelada eventoTareaCancelada) {
+    public SFListarChats(String idEmisor,
+                         EventoTareaCompletada<DataSnapshot> eventoTareaCompletada,
+                         EventoTareaCancelada eventoTareaCancelada) {
         super(eventoTareaCompletada, eventoTareaCancelada);
 
         this.idEmisor = idEmisor;
@@ -38,3 +40,5 @@ public class SFListarChats extends ServicioFirebaseLectura {
         });
     }
 }
+
+

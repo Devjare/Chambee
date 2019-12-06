@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Comentario;
 import com.gps.chambee.entidades.vistas.ComentarioPublicacion;
@@ -35,7 +37,7 @@ public class ComentarioTrabajoAdapter extends RecyclerView.Adapter<ComentarioTra
             super(itemView);
 
             civFotoComentario = itemView.findViewById(R.id.civFotoComentario);
-            tvComentarioPersona = itemView.findViewById(R.id.tvComentariosPersona);
+            tvComentarioPersona = itemView.findViewById(R.id.tvComentarioPersona);
             tvComentario = itemView.findViewById(R.id.tvComentario);
             //tvLikesComentario = itemView.findViewById(R.id.tvLikesComentario);
             tvComentariosComentario = itemView.findViewById(R.id.tvComentariosComentario);
@@ -48,8 +50,8 @@ public class ComentarioTrabajoAdapter extends RecyclerView.Adapter<ComentarioTra
     private List<ComentarioPublicacion> lista;
 
     public ComentarioTrabajoAdapter(Context context, List<ComentarioPublicacion> lista){
-        this.context=context;
-        this.lista=lista;
+        this.context = context;
+        this.lista = lista;
     }
 
     @NonNull
@@ -68,7 +70,12 @@ public class ComentarioTrabajoAdapter extends RecyclerView.Adapter<ComentarioTra
                 new CasoUso.EventoPeticionAceptada<Bitmap>() {
                     @Override
                     public void alAceptarPeticion(Bitmap bitmap) {
-                        holder.civFotoComentario.setImageBitmap(bitmap);
+
+                        Glide.with(context)
+                                .load(bitmap)
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(holder.civFotoComentario);
+
                     }
                 },
                 new CasoUso.EventoPeticionRechazada() {
@@ -78,7 +85,12 @@ public class ComentarioTrabajoAdapter extends RecyclerView.Adapter<ComentarioTra
                                 context.getResources(),
                                 R.drawable.ic_person
                         );
-                        holder.civFotoComentario.setImageBitmap(imagen);
+
+                        Glide.with(context)
+                                .load(imagen)
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(holder.civFotoComentario);
+
                     }
                 }
         ).enviarPeticion(comentario.getUrl_imagen());

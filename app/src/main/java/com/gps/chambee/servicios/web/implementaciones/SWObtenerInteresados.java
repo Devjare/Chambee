@@ -8,17 +8,14 @@ import com.gps.chambee.servicios.web.ServicioWebLectura;
 
 import org.json.JSONObject;
 
-public class SWSeleccionarCategorias extends ServicioWebLectura {
-
-    public SWSeleccionarCategorias(Context context,
-                                   Response.Listener<JSONObject> responseListener,
-                                   Response.ErrorListener errorListener) {
+public class SWObtenerInteresados extends ServicioWebLectura {
+    public SWObtenerInteresados(Context context, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
         super(context, responseListener, errorListener);
     }
 
     @Override
     protected String definirUrl(Object... args) {
-        return context.getString(R.string.sw_lectura_categorias);
+        int idPublicacion = Integer.parseInt(args[0].toString());
+        return context.getString(R.string.sw_leer_interesados) + "?id_publicaciones=" + idPublicacion;
     }
 }
-

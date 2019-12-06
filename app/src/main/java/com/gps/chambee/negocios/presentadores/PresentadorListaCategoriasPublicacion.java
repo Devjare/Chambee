@@ -1,8 +1,8 @@
 package com.gps.chambee.negocios.presentadores;
 
-import android.util.Log;
-
 import com.gps.chambee.entidades.Categoria;
+import com.gps.chambee.entidades.vistas.ComentarioPublicacion;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,34 +10,28 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PresentadorListaCategoria extends Presentador<List<Categoria>> {
+public class PresentadorListaCategoriasPublicacion extends Presentador<List<Categoria>> {
     @Override
     public List<Categoria> procesar(JSONObject json) {
         JSONArray jsonArray = json.optJSONArray("json");
-        List<Categoria> categoriaList = new ArrayList<>();
+        List<Categoria> categorias = new ArrayList<>();
 
-        for (int i = 0; i < jsonArray.length(); i++) {
+        for (int i = 0;i < jsonArray.length();i++){
             JSONObject jsonObject = null;
-            try {
+            try{
                 jsonObject = jsonArray.getJSONObject(i);
-                Log.i("PRESENTADOR LISTA CAT", "procesar: object: " + jsonObject.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             assert jsonObject != null;
             Categoria categoria = new Categoria.CategoriaBuilder()
-                    .setNombre(jsonObject.optString("categoria"))
-                    .build();
+                    .setId(jsonObject.optInt("id_categorias"))
+                    .setNombre(jsonObject.optString("categoria")).build();
 
-            categoriaList.add(categoria);
-        }
-        for (Categoria cat: categoriaList) {
-            Log.i("PRESENTADOR LISTA CAT", "procesar: cat: " + cat.getNombre().toString());
+            categorias.add(categoria);
         }
 
-        return categoriaList;
+        return categorias;
     }
 }
-
-

@@ -16,6 +16,8 @@ public class Perfil implements Parcelable {
     public String idCalle;
     public float calificacion;
 
+    public String nombre;
+
     protected Perfil(Parcel in) {
         urlPerfil = in.readString();
         urlPortada = in.readString();
@@ -76,6 +78,8 @@ public class Perfil implements Parcelable {
         public String idColonia;
         public float calificacion;
 
+        public String nombre;
+
         public PerfilBuilder(){ }
 
         public PerfilBuilder setCalificacion(float calificacion){
@@ -123,6 +127,11 @@ public class Perfil implements Parcelable {
             return this;
         }
 
+        public PerfilBuilder setNombre(String nombre) {
+            this.nombre = nombre;
+            return this;
+        }
+
         public Perfil build(){
             return new Perfil(this);
         }
@@ -140,6 +149,7 @@ public class Perfil implements Parcelable {
         this.fechaNacimiento = builder.fechaNacimiento;
         this.oficio = builder.oficio;
         this.id = builder.id;
+        this.nombre = builder.nombre;
     }
 
     public String getIdUsuario() {
@@ -228,5 +238,13 @@ public class Perfil implements Parcelable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

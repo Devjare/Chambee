@@ -6,9 +6,9 @@ import android.os.Parcelable;
 
 public class PublicacionEmpresa implements Parcelable {
 
-    private int idPublicacionEmpresa;
-    private String urlImagenEmpresa;
-    private String nombreEmpresa;
+    private int idPublicacion;
+    private String urlImagen;
+    private String nombre;
     private String tiempo;
     private String etiqueta;
     private Integer interesados;
@@ -17,16 +17,36 @@ public class PublicacionEmpresa implements Parcelable {
     private String descripcion;
     private String nombreTrabajo;
     private String urlImagenTrabajo;
-    // Campos que serán 1 o 0, dependiendo de lo que panda devuelva
-    // Servirán para indicar que el usuario actual, tiene o no
-    // vista o interesada la publicacion.
     private Integer vista;
     private Integer interesada;
 
+    private Integer idUsuario;
+    private String apellidos;
+    private String urlPortada;
+    private Double pagoMax;
+    private Double pagoMin;
+    private String fecha;
+
+    public PublicacionEmpresa(PublicacionEmpresaBuilder builder) {
+        this.idPublicacion = builder.idPublicacion;
+        this.urlImagen = builder.urlImagen;
+        this.nombre = builder.nombre;
+        this.tiempo = builder.tiempo;
+        this.etiqueta = builder.etiqueta;
+        this.interesados = builder.interesados;
+        this.comentarios = builder.comentarios;
+        this.vistos = builder.vistos;
+        this.descripcion = builder.descripcion;
+        this.nombreTrabajo = builder.nombreTrabajo;
+        this.urlImagenTrabajo = builder.urlImagenTrabajo;
+        this.vista = builder.vista;
+        this.interesada = builder.interesada;
+    }
+
     public static class PublicacionEmpresaBuilder {
-        private int idPublicacionEmpresa;
-        private String urlImagenEmpresa;
-        private String nombreEmpresa;
+        private int idPublicacion;
+        private String urlImagen;
+        private String nombre;
         private String tiempo;
         private String etiqueta;
         private Integer interesados;
@@ -35,88 +55,120 @@ public class PublicacionEmpresa implements Parcelable {
         private String descripcion;
         private String nombreTrabajo;
         private String urlImagenTrabajo;
-
         private Integer vista;
         private Integer interesada;
 
-        public PublicacionEmpresaBuilder setIdPublicacionEmpresa(int id){
-            idPublicacionEmpresa = id;
+        private Integer idUsuario;
+        private String apellidos;
+        private String urlPortada;
+        private Double pagoMax;
+        private Double pagoMin;
+        private String fecha;
+
+        public PublicacionEmpresa build() {
+            return new PublicacionEmpresa(this);
+        }
+
+        public PublicacionEmpresaBuilder setIdPublicacion(int idPublicacion) {
+            this.idPublicacion = idPublicacion;
             return this;
         }
 
-        public PublicacionEmpresaBuilder setUrlImagenEmpresa(String urlImagenEmpresa) {
-            this.urlImagenEmpresa = urlImagenEmpresa;
+        public PublicacionEmpresaBuilder setUrlImagen(String urlImagen) {
+            this.urlImagen = urlImagen;
             return this;
         }
-        public PublicacionEmpresaBuilder setNombreEmpresa(String nombreEmpresa) {
-            this.nombreEmpresa = nombreEmpresa;
+
+        public PublicacionEmpresaBuilder setNombre(String nombre) {
+            this.nombre = nombre;
             return this;
         }
+
         public PublicacionEmpresaBuilder setTiempo(String tiempo) {
             this.tiempo = tiempo;
             return this;
         }
+
         public PublicacionEmpresaBuilder setEtiqueta(String etiqueta) {
             this.etiqueta = etiqueta;
             return this;
         }
+
         public PublicacionEmpresaBuilder setInteresados(Integer interesados) {
             this.interesados = interesados;
             return this;
         }
+
         public PublicacionEmpresaBuilder setComentarios(Integer comentarios) {
             this.comentarios = comentarios;
             return this;
         }
+
         public PublicacionEmpresaBuilder setVistos(Integer vistos) {
             this.vistos = vistos;
             return this;
         }
+
         public PublicacionEmpresaBuilder setDescripcion(String descripcion) {
             this.descripcion = descripcion;
             return this;
         }
+
         public PublicacionEmpresaBuilder setNombreTrabajo(String nombreTrabajo) {
             this.nombreTrabajo = nombreTrabajo;
             return this;
         }
+
         public PublicacionEmpresaBuilder setUrlImagenTrabajo(String urlImagenTrabajo) {
             this.urlImagenTrabajo = urlImagenTrabajo;
             return this;
         }
+
         public PublicacionEmpresaBuilder setVista(Integer vista) {
             this.vista = vista;
             return this;
         }
+
         public PublicacionEmpresaBuilder setInteresada(Integer interesada) {
             this.interesada = interesada;
             return this;
         }
 
-        public PublicacionEmpresa build(){
-            return new PublicacionEmpresa(this);
+        public PublicacionEmpresaBuilder setIdUsuario(Integer idUsuario) {
+            this.idUsuario = idUsuario;
+            return this;
+        }
+
+        public PublicacionEmpresaBuilder setApellidos(String apellidos) {
+            this.apellidos = apellidos;
+            return this;
+        }
+
+        public PublicacionEmpresaBuilder setUrlPortada(String urlPortada) {
+            this.urlPortada = urlPortada;
+            return this;
+        }
+
+        public PublicacionEmpresaBuilder setPagoMax(Double pagoMax) {
+            this.pagoMax = pagoMax;
+            return this;
+        }
+
+        public PublicacionEmpresaBuilder setPagoMin(Double pagoMin) {
+            this.pagoMin = pagoMin;
+            return this;
+        }
+
+        public PublicacionEmpresaBuilder setFecha(String fecha) {
+            this.fecha = fecha;
+            return this;
         }
     }
 
-    public PublicacionEmpresa(PublicacionEmpresaBuilder builder) {
-        this.idPublicacionEmpresa = builder.idPublicacionEmpresa;
-        this.nombreEmpresa = builder.nombreEmpresa;
-        this.nombreTrabajo = builder.nombreTrabajo;
-        this.comentarios = builder.comentarios;
-        this.descripcion = builder.descripcion;
-        this.etiqueta = builder.etiqueta;
-        this.interesada = builder.interesada;
-        this.interesados = builder.interesados;
-        this.tiempo = builder.tiempo;
-        this.urlImagenEmpresa = builder.urlImagenEmpresa;
-        this.urlImagenTrabajo = builder.urlImagenTrabajo;
-        this.vista = builder.vista;
-        this.vistos = builder.vistos;
-    }
-
     protected PublicacionEmpresa(Parcel in) {
-        urlImagenEmpresa = in.readString();
-        nombreEmpresa = in.readString();
+        idPublicacion = in.readInt();
+        urlImagen = in.readString();
+        nombre = in.readString();
         tiempo = in.readString();
         etiqueta = in.readString();
         if (in.readByte() == 0) {
@@ -149,6 +201,53 @@ public class PublicacionEmpresa implements Parcelable {
         }
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(idPublicacion);
+        dest.writeString(urlImagen);
+        dest.writeString(nombre);
+        dest.writeString(tiempo);
+        dest.writeString(etiqueta);
+        if (interesados == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(interesados);
+        }
+        if (comentarios == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(comentarios);
+        }
+        if (vistos == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(vistos);
+        }
+        dest.writeString(descripcion);
+        dest.writeString(nombreTrabajo);
+        dest.writeString(urlImagenTrabajo);
+        if (vista == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(vista);
+        }
+        if (interesada == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(interesada);
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
     public static final Creator<PublicacionEmpresa> CREATOR = new Creator<PublicacionEmpresa>() {
         @Override
         public PublicacionEmpresa createFromParcel(Parcel in) {
@@ -161,44 +260,28 @@ public class PublicacionEmpresa implements Parcelable {
         }
     };
 
-    public String getUrlImagenEmpresa() {
-        return urlImagenEmpresa;
+    public int getIdPublicacion() {
+        return idPublicacion;
     }
 
-    public void setUrlImagenEmpresa(String urlImagenEmpresa) {
-        this.urlImagenEmpresa = urlImagenEmpresa;
+    public void setIdPublicacion(int idPublicacion) {
+        this.idPublicacion = idPublicacion;
     }
 
-    public int getIdPublicacionEmpresa() {
-        return idPublicacionEmpresa;
+    public String getUrlImagen() {
+        return urlImagen;
     }
 
-    public void setIdPublicacionEmpresa(int idPublicacionEmpresa) {
-        this.idPublicacionEmpresa = idPublicacionEmpresa;
+    public void setUrlImagen(String urlImagen) {
+        this.urlImagen = urlImagen;
     }
 
-    public Integer getVista() {
-        return vista;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setVista(Integer vista) {
-        this.vista = vista;
-    }
-
-    public Integer getInteresada() {
-        return interesada;
-    }
-
-    public void setInteresada(Integer interesada) {
-        this.interesada = interesada;
-    }
-
-    public String getNombreEmpresa() {
-        return nombreEmpresa;
-    }
-
-    public void setNombreEmpresa(String nombreEmpresa) {
-        this.nombreEmpresa = nombreEmpresa;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getTiempo() {
@@ -265,49 +348,96 @@ public class PublicacionEmpresa implements Parcelable {
         this.urlImagenTrabajo = urlImagenTrabajo;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public Integer getVista() {
+        return vista;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(urlImagenEmpresa);
-        dest.writeString(nombreEmpresa);
-        dest.writeString(tiempo);
-        dest.writeString(etiqueta);
-        if (interesados == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(interesados);
-        }
-        if (comentarios == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(comentarios);
-        }
-        if (vistos == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(vistos);
-        }
-        dest.writeString(descripcion);
-        dest.writeString(nombreTrabajo);
-        dest.writeString(urlImagenTrabajo);
-        if (vista == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(vista);
-        }
-        if (interesada == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(interesada);
-        }
+    public void setVista(Integer vista) {
+        this.vista = vista;
     }
+
+    public Integer getInteresada() {
+        return interesada;
+    }
+
+    public void setInteresada(Integer interesada) {
+        this.interesada = interesada;
+    }
+
+    public static Creator<PublicacionEmpresa> getCREATOR() {
+        return CREATOR;
+    }
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getUrlPortada() {
+        return urlPortada;
+    }
+
+    public void setUrlPortada(String urlPortada) {
+        this.urlPortada = urlPortada;
+    }
+
+    public Double getPagoMax() {
+        return pagoMax;
+    }
+
+    public void setPagoMax(Double pagoMax) {
+        this.pagoMax = pagoMax;
+    }
+
+    public Double getPagoMin() {
+        return pagoMin;
+    }
+
+    public void setPagoMin(Double pagoMin) {
+        this.pagoMin = pagoMin;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public PublicacionGeneral toPublicacionGeneral() {
+        return new PublicacionGeneral.PublicacionGeneralBuilder()
+                .setIdPublicacion(this.idPublicacion)
+                .setComentarios(this.comentarios)
+                .setDescripcion(this.descripcion)
+                .setEtiqueta(this.etiqueta)
+                .setInteresada(this.interesada)
+                .setInteresados(this.interesados)
+                .setNombre(this.nombre)
+                .setTiempo(this.tiempo)
+                .setNombreTrabajo(this.nombreTrabajo)
+                .setUrlImagen(this.urlImagen)
+                .setUrlImagenTrabajo(this.urlImagenTrabajo)
+                .setVista(this.vista)
+                .setVistos(this.vistos)
+                .setIdUsuario(this.idUsuario)
+                .setApellidos(this.apellidos)
+                .setUrlPortada(this.urlPortada)
+                .setPagoMax(this.pagoMax)
+                .setPagoMin(this.pagoMin)
+                .setFecha(this.fecha)
+                .build();
+    }
+
 }

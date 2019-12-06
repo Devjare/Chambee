@@ -11,9 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Publicacion;
 import com.gps.chambee.entidades.vistas.PublicacionEmpresa;
+import com.gps.chambee.entidades.vistas.PublicacionGeneral;
 import com.gps.chambee.entidades.vistas.PublicacionPersona;
 import com.gps.chambee.negocios.casos.CUObtenerImagen;
 import com.gps.chambee.negocios.casos.CasoUso;
@@ -41,7 +44,7 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
         TextView tvDescripcionPublicacionTrabajo;
         ImageView ivImagenPublicacionTrabajo;
 
-        int idPublicacion;
+        PublicacionEmpresa publicacion;
 
         public ViewHolder(@NonNull View itemView) {
 
@@ -62,7 +65,8 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, PublicacionActivity.class);
-                    intent.putExtra("id", idPublicacion);
+                    intent.putExtra("publicacion", publicacion.toPublicacionGeneral());
+                    intent.putExtra("tipo", PublicacionGeneral.EMPRESA);
                     context.startActivity(intent);
                 }
             });
@@ -84,34 +88,39 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
         return new PublicacionEmpresaAdapter.ViewHolder(view);
     }
 
-    private String TAG = "PublicacionEmpresaAdapter";
+    private String TAG = this.getClass().getSimpleName();
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
       
-        PublicacionEmpresa publicacion = (PublicacionEmpresa) lista.get(position);
+        PublicacionEmpresa publicacion = lista.get(position);
 
-        holder.idPublicacion = publicacion.getIdPublicacionEmpresa();
+        holder.publicacion = publicacion;
 
         holder.tvComentariosEmpresa.setText(publicacion.getComentarios().toString());
         holder.tvDescripcionPublicacionTrabajo.setText(publicacion.getDescripcion());
         holder.tvEtiquetaPrincipal.setText(publicacion.getEtiqueta());
         holder.tvInteresados.setText(publicacion.getInteresados().toString());
-        holder.tvNombreReclutador.setText(publicacion.getNombreEmpresa());
+        holder.tvNombreReclutador.setText(publicacion.getNombreTrabajo());
         holder.tvTiempoPublicacion.setText(publicacion.getTiempo().toString());
-        holder.tvNombreTrabajoPublicacion.setText(publicacion.getNombreTrabajo());
+        holder.tvNombreTrabajoPublicacion.setText(publicacion.getNombre());
         holder.tvVistos.setText(publicacion.getVistos().toString());
 
-        if (publicacion.getUrlImagenEmpresa().equals("default")) {
+        if (publicacion.getUrlImagen().equals("default")) {
             Bitmap defaultImg = BitmapFactory.decodeResource(
                     context.getResources(),
                     R.drawable.ic_person
             );
             holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
         } else {
+
+            // Obtener imagen del perfil de la empresa.
             new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
                 @Override
                 public void alAceptarPeticion(Bitmap bitmap) {
-                    holder.civFotoPerfilEmpresa.setImageBitmap(bitmap);
+                    Glide.with(context)
+                            .load(bitmap)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(holder.civFotoPerfilEmpresa);
                 }
             }, new CasoUso.EventoPeticionRechazada() {
                 @Override
@@ -120,18 +129,24 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
                             context.getResources(),
                             R.drawable.ic_person
                     );
-                    holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
+
+                    Glide.with(context)
+                            .load(defaultImg)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(holder.civFotoPerfilEmpresa);
+
                 }
-            }).enviarPeticion(publicacion.getUrlImagenEmpresa());
+            }).enviarPeticion(publicacion.getUrlImagen());
         }
 
-        if (publicacion.getUrlImagenTrabajo().equals("default")) {
+        if (publicacion.getUrlImagenTrabajo().equals("desc_publicacion")) {
             Bitmap defaultImg = BitmapFactory.decodeResource(
                     context.getResources(),
                     R.drawable.ic_portfolio
             );
-            holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
+            holder.ivImagenPublicacionTrabajo.setImageBitmap(defaultImg);
         } else {
+            // Obtener imagen del trabajo de la empresa.
             new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
                 @Override
                 public void alAceptarPeticion(Bitmap bitmap) {
@@ -144,7 +159,7 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
                             context.getResources(),
                             R.drawable.ic_portfolio
                     );
-                    holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
+                    holder.ivImagenPublicacionTrabajo.setImageBitmap(defaultImg);
                 }
             }).enviarPeticion(publicacion.getUrlImagenTrabajo());
         }
