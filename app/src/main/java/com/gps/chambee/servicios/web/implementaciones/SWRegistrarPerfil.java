@@ -18,30 +18,36 @@ public class SWRegistrarPerfil extends ServicioWebEscritura{
 
     @Override
     protected Map<String, String> definirParams(Object... args) {
-        Perfil perfil = (Perfil) args[0];
+        String ciudad = args[0].toString();
+        String estado = args[1].toString();
+        String pais = args[2].toString();
+        String calle = args[3].toString();
+        String colonia = args[4].toString();
+        String especialidad = args[5].toString();
+        String acerca = args[6].toString();
+        String imagenPortada = args[7].toString();
+        String imagenPerfil = args[8].toString();
+        String fechaNacimiento = args[9].toString();
+        String idUsuarios = args[10].toString();
 
         Map<String, String> params = new HashMap<>();
-        params.put("urlPerfil", perfil.getUrlPerfil());
-        params.put("urlPortada", perfil.getUrlPortada());
-        params.put("oficio", perfil.getOficio());
-        params.put("acerca", perfil.getAcerca());
-        params.put("fechaNacimiento", perfil.getFechaNacimiento());
-        params.put("idLocalidad", String.valueOf(perfil.getIdLocalidad()));
-        params.put("idUsuario", perfil.getIdUsuario());
-        params.put("idColonia", perfil.getIdColonia());
-        params.put("idCalle", perfil.getIdCalle());
-        params.put("calificacion", String.valueOf(perfil.getCalificacion()));
+        params.put("ciudad", ciudad);
+        params.put("estado", estado);
+        params.put("pais", pais);
+        params.put("calle", calle);
+        params.put("colonia", colonia);
+        params.put("especialidad", especialidad);
+        params.put("acerca", acerca);
+        params.put("imagen_portada", imagenPortada);
+        params.put("imagen_perfil", imagenPerfil);
+        params.put("fecha_nacimiento", fechaNacimiento);
+        params.put("id_usuarios", idUsuarios);
 
         return params;
     }
 
     @Override
     protected String definirUrl(Object... args) {
-        return "chabee.online/chambee_php/escritura/alta/serviceweb_alta_perfiles.php";
-    }
-
-    @Override
-    protected Request definirRequest(String url, Object... args) {
-        return null;
+        return "http://chambee.online/chambee_php/escritura/alta/serviceweb_registrar_perfil.php";
     }
 }

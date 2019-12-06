@@ -9,19 +9,14 @@ import com.gps.chambee.servicios.web.ServicioWebLectura;
 import org.json.JSONObject;
 
 public class SWSeleccionarPerfilDetallado  extends ServicioWebLectura {
-    public SWSeleccionarPerfilDetallado(Context context,
-                                        Response.Listener<JSONObject> responseListener,
-                                        Response.ErrorListener errorListener) {
+
+    public SWSeleccionarPerfilDetallado(Context context, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
         super(context, responseListener, errorListener);
     }
 
     @Override
-    protected Request definirRequest(String url, Object... args) {
-        return super.definirRequest(url, args);
-    }
-
-    @Override
     protected String definirUrl(Object... args) {
-        return "";
+        String idUsuario = args[0].toString();
+        return "http://chambee.online/chambee_php/lectura/serviceweb_lectura_detalles_usuario.php?id_usuario=" + idUsuario;
     }
 }

@@ -41,7 +41,7 @@ public class PresentadorListaPublicacionPersona extends
 //
 //            assert jsonObject != null;
 //            PublicacionPersona publicacion = new PublicacionPersona.PublicacionPersonaBuilder()
-//                    .setNombrePersona(jsonObject.optString("nombre"))
+//                    .setNombreUsuario(jsonObject.optString("nombre"))
 //                    .setComentarios(jsonObject.optInt("comentarios"))
 //                    .setDescripcion(jsonObject.optString("descripcion"))
 //                    .setEtiqueta(jsonObject.optString("etiqueta"))

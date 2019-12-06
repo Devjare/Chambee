@@ -5,9 +5,11 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,10 +17,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.common.util.Base64Utils;
 import com.gps.chambee.R;
+import com.gps.chambee.entidades.UsuarioFirebase;
+import com.gps.chambee.negocios.casos.CURegistrarPerfil;
+import com.gps.chambee.negocios.casos.CasoUso;
 import com.gps.chambee.negocios.validadores.ValidadorPool;
 import com.gps.chambee.negocios.validadores.propiedades.ValidadorFecha;
 import com.gps.chambee.negocios.validadores.propiedades.ValidadorStringNoVacio;
+import com.gps.chambee.ui.Sesion;
+import com.gps.chambee.ui.Utils;
 import com.gps.chambee.ui.adaptadores.PostRegistroAdapter;
 import com.gps.chambee.ui.fragmentos.PostRegistroDosFragment;
 import com.gps.chambee.ui.fragmentos.PostRegistroTresFragment;
@@ -36,14 +44,16 @@ public class PostRegistroActivity extends AppCompatActivity {
     private Button btnSiguientePuntos;
 
     // Datos de post-registro
-    private Bitmap imagenUsuario;
+    private Bitmap imagenPerfil;
     private String acercaDeMi;
     private String profesion;
     private String localidad;
     private String colonia;
     private String fecha;
 
-    List<Fragment> fragmentos = new ArrayList<>();
+    private List<Fragment> fragmentos = new ArrayList<>();
+
+    private UsuarioFirebase usuarioFirebase = (UsuarioFirebase) Sesion.instance().obtenerEntidad(UsuarioFirebase.getNombreClase());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +125,7 @@ public class PostRegistroActivity extends AppCompatActivity {
 
             case 0: {
                 PostRegistroUnoFragment post1 = (PostRegistroUnoFragment) fragment;
-                imagenUsuario = post1.getImagenUsuario();
+                imagenPerfil = post1.getImagenUsuario();
                 acercaDeMi = post1.getAcercaDeMi();
 
                 if (!validarDatosFragmento1())
@@ -195,8 +205,59 @@ public class PostRegistroActivity extends AppCompatActivity {
     }
 
     private void actualizarPerfilUsuarioIniciarSesion() {
-        // TODO Servicio web para la actualizacion de los datos del perfil del usuario recien registrado
+        Log.e("chambee", "Actualizando perfil de usuario");
 
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Registrando perfil");
+        progressDialog.show();
+
+        Log.e("chambee", "Antes de codificar imagenes");
+
+        Log.e("chambee", String.format("%dx%d", imagenPerfil.getWidth(), imagenPerfil.getHeight()));
+
+        String string64Portada = Utils.bitmapToBase64String(imagenPerfil);
+        String string64Perfil = Utils.bitmapToBase64String(imagenPerfil);
+
+        Log.e("chambee", "Despues de codificar imagenes");
+
+        Log.e("chambee", "Imagen portada: " + string64Portada);
+        Log.e("chambee", "Imagen perfil: " + string64Perfil);
+
+        new CURegistrarPerfil(this, new CasoUso.EventoPeticionAceptada<String>() {
+
+            @Override
+            public void alAceptarPeticion(String s) {
+                progressDialog.dismiss();
+
+                iniciarSesion();
+            }
+
+        }, new CasoUso.EventoPeticionRechazada() {
+
+            @Override
+            public void alRechazarOperacion() {
+                progressDialog.dismiss();
+                Toast.makeText(PostRegistroActivity.this, "No se pudo hacer el postregistro", Toast.LENGTH_SHORT).show();
+            }
+
+        }).enviarPeticion(
+                "El Mante", // ciudad
+                "Tamaulipas", // estado
+                "Mexico", // pais
+                "Abasolo", // calle
+                "Aeropuerto", // colonia
+                "LOGOPEDIA", // especialidad
+                acercaDeMi, // acerca
+                string64Portada, // imagen portada (base 64)
+                string64Perfil, // imagen perfil (base 64)
+                fecha, // fecha de nacimiento
+                usuarioFirebase.getId() // id usuario
+        );
+
+        Log.e("chambee", "Peticion enviada");
+    }
+
+    private void iniciarSesion() {
         startActivity(new Intent(PostRegistroActivity.this, MainActivity.class));
         finish();
     }

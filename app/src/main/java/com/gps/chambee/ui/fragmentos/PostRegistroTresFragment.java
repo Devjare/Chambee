@@ -40,8 +40,8 @@ public class PostRegistroTresFragment extends Fragment {
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        fecha = i2+"-"+(i1+1)+"-"+i;
+                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                        fecha = String.format("%s-%s-%s", year, dayOfMonth, monthOfYear);
                         btnFecha.setText(fecha);
                     }
                 }, ano, mes, dia);
@@ -52,6 +52,7 @@ public class PostRegistroTresFragment extends Fragment {
 
         return view;
     }
+
     public String getLocalidad(){
         return etLocalidad.getText().toString();
     }

@@ -15,6 +15,8 @@ import com.google.firebase.database.DatabaseError;
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Usuario;
 import com.gps.chambee.entidades.UsuarioFirebase;
+import com.gps.chambee.negocios.casos.CURegistrarUsuario;
+import com.gps.chambee.negocios.casos.CasoUso;
 import com.gps.chambee.negocios.casos.firebase.CFRegistrarUsuario;
 import com.gps.chambee.negocios.casos.firebase.CFSeleccionarUsuarioFirebase;
 import com.gps.chambee.negocios.casos.firebase.CasoUsoFirebase;
@@ -40,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     private Usuario usuario;
+    private UsuarioFirebase usuarioFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,28 +121,31 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void registrarUsuarioSW() {
         progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Registrando usuario SW...");
         progressDialog.show();
 
-        new CFRegistrarUsuario(new CasoUsoFirebase.EventoPeticionAceptada<String>() {
+        new CURegistrarUsuario(this, new CasoUso.EventoPeticionAceptada<String>() {
+
             @Override
             public void alAceptarPeticion(String s) {
                 progressDialog.dismiss();
-                Toast.makeText(RegisterActivity.this, s, Toast.LENGTH_LONG).show();
+                iniciarSesion();
             }
-        }, new CasoUsoFirebase.EventoPeticionRechazada() {
+
+        }, new CasoUso.EventoPeticionRechazada() {
+
             @Override
-            public void alRechazarOperacion(DatabaseError databaseError) {
-
+            public void alRechazarOperacion() {
                 progressDialog.dismiss();
-                Toast.makeText(RegisterActivity.this, "No se pudo hacer el registro sw", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(RegisterActivity.this, "No se pudo hacer el registro sw", Toast.LENGTH_SHORT).show();
             }
-        }).enviarPeticion(usuario);
+
+        }).enviarPeticion(usuarioFirebase);
     }
 
     private void registrarUsuarioFB() {
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Registrando usuario...");
+        progressDialog.setMessage("Registrando usuario FB...");
         progressDialog.show();
 
         new SFRegistrarUsuario(new ServicioFirebase.EventoTareaCompletada<String>() {
@@ -147,7 +153,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void alCompletarTarea(String s) {
                 progressDialog.dismiss();
-                agregarUsuarioSesion();
+                agregarUsuarioFBSesion();
             }
 
         }, new ServicioFirebase.EventoTareaCancelada() {
@@ -161,23 +167,20 @@ public class RegisterActivity extends AppCompatActivity {
         }).ejecutarTarea(usuario);
     }
 
-    private void agregarUsuarioSesion() {
+    private void agregarUsuarioFBSesion() {
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Iniciando sesión...");
+        progressDialog.setMessage("Agregando usuario FB a la sesion...");
         progressDialog.show();
 
-        // agregar usuario al singleton de sesion
         new CFSeleccionarUsuarioFirebase(new CasoUsoFirebase.EventoPeticionAceptada<UsuarioFirebase>() {
             @Override
             public void alAceptarPeticion(UsuarioFirebase usuarioFirebase) {
                 progressDialog.dismiss();
 
+                RegisterActivity.this.usuarioFirebase = usuarioFirebase;
                 Sesion.instance().agregarEntidad(UsuarioFirebase.getNombreClase(), usuarioFirebase);
 
-                Intent intent = new Intent(RegisterActivity.this, PostRegistroActivity.class);
-                startActivity(intent);
-                finish();
-
+                registrarUsuarioSW();
             }
         }, new CasoUsoFirebase.EventoPeticionRechazada() {
             @Override
@@ -187,8 +190,11 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this, "Error al obtener usuario de firebase", Toast.LENGTH_SHORT).show();
             }
         }).enviarPeticion();
+    }
 
-        // TODO servicio web para obtener datos del usuario (normal, no firebase)
-        // TODO agregar usuario (normal, no firebase) al singleton de sesion
+    private void iniciarSesion() {
+        Intent intent = new Intent(RegisterActivity.this, PostRegistroActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

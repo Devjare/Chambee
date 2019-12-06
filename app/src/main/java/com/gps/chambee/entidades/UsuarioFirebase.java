@@ -47,11 +47,11 @@ public class UsuarioFirebase extends EntidadChambee {
         }
     }
 
-    private String apellidos;
-    private String contrasena;
-    private String correo;
     private String id;
     private String nombres;
+    private String apellidos;
+    private String correo;
+    private String contrasena;
     private String telefono;
 
     public UsuarioFirebase() {}

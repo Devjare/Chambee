@@ -1,6 +1,7 @@
 package com.gps.chambee.negocios.casos;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -18,7 +19,12 @@ public class CURegistrarPerfil extends CasoUso<String> {
         return new SWRegistrarPerfil(context, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                eventoPeticionAceptada.alAceptarPeticion(response);
+                Log.e("chambee", "Respuesta JSON: " + response);
+
+                if (response.equals("1"))
+                    eventoPeticionAceptada.alAceptarPeticion(response);
+                else
+                    eventoPeticionRechazada.alRechazarOperacion();
             }
         }, new Response.ErrorListener() {
             @Override
