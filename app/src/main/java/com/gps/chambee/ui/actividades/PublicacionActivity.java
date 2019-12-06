@@ -20,6 +20,7 @@ import com.gps.chambee.R;
 import com.gps.chambee.entidades.Categoria;
 import com.gps.chambee.entidades.Publicacion;
 import com.gps.chambee.entidades.Usuario;
+import com.gps.chambee.entidades.UsuarioFirebase;
 import com.gps.chambee.entidades.vistas.ComentarioPublicacion;
 import com.gps.chambee.entidades.vistas.DetallePublicacion;
 import com.gps.chambee.entidades.Perfil;
@@ -31,6 +32,7 @@ import com.gps.chambee.negocios.casos.CUObtenerComentariosPublicacion;
 import com.gps.chambee.negocios.casos.CUObtenerInteresados;
 import com.gps.chambee.negocios.casos.CURegistrarComentarioPublicacion;
 import com.gps.chambee.negocios.casos.CasoUso;
+import com.gps.chambee.servicios.web.ServicioWeb;
 import com.gps.chambee.ui.Sesion;
 import com.gps.chambee.ui.adaptadores.ComentarioTrabajoAdapter;
 import com.gps.chambee.ui.adaptadores.EtiquetaAdapter;
@@ -258,6 +260,9 @@ public class PublicacionActivity extends AppCompatActivity {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM");
         Date date = new Date();
 
+        UsuarioFirebase usuario = (UsuarioFirebase) Sesion.instance().obtenerEntidad(UsuarioFirebase.getNombreClase());
+        final String id = usuario.getId();
+
         final String fecha = formatter.format(date);
         ivComentar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -276,7 +281,7 @@ public class PublicacionActivity extends AppCompatActivity {
                                 Toast.makeText(PublicacionActivity.this, "Fallo al enviar comentario!", Toast.LENGTH_SHORT).show();
                             }
                         }
-                ).enviarPeticion( datosPublicacion.getIdPublicacion(), datosPublicacion.getIdUsuario(), comentario);
+                ).enviarPeticion( datosPublicacion.getIdPublicacion(), id, comentario);
             }
         });
     }

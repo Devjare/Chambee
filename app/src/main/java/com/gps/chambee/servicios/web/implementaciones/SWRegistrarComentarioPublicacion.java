@@ -21,7 +21,7 @@ public class SWRegistrarComentarioPublicacion extends ServicioWebEscritura {
 
         Map<String, String> params = new HashMap<>();
         params.put("id_publicaciones", args[0].toString());
-        params.put("id_perfil", args[1].toString());
+        params.put("id_perfiles", args[1].toString());
         params.put("comentario", args[2].toString());
 
         return params;
