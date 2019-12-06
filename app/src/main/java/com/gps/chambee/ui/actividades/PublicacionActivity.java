@@ -90,10 +90,10 @@ public class PublicacionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                comentar(publicacionGeneral);
+
                 etComentario.setText("");
                 rvComentariosTrabajo.requestFocus();
-
-                comentar(publicacionGeneral);
             }
         });
 

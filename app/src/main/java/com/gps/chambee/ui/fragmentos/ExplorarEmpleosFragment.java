@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.vistas.PublicacionEmpresa;
+import com.gps.chambee.entidades.vistas.PublicacionGeneral;
+import com.gps.chambee.negocios.casos.CUListarPublicaciones;
 import com.gps.chambee.negocios.casos.CUListarPublicacionesEmpresas;
 import com.gps.chambee.negocios.casos.CasoUso;
 import com.gps.chambee.ui.adaptadores.PublicacionEmpresaAdapter;
@@ -31,31 +33,53 @@ public class ExplorarEmpleosFragment extends Fragment {
 
         rvEmpleos.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        //PublicacionEmpresaAdapter adapter = new PublicacionEmpresaAdapter(view.getContext(),lista);
-        //rvEmpleos.setAdapter(adapter);
-
-        /*new CUListarPublicacionesEmpresas(getContext(), new CasoUso.EventoPeticionAceptada<List<PublicacionEmpresa>>() {
-
-            @Override
-            public void alAceptarPeticion(List<PublicacionEmpresa> publicaciones) {
-                llenarPublicacionesEmpresas(publicaciones, view);
-            }
-        }, new CasoUso.EventoPeticionRechazada() {
-            @Override
-            public void alRechazarOperacion() {
-            }
-        }).enviarPeticion();*/
+        cargarPublicaciones(view);
 
         return view;
     }
 
-    private void llenarPublicacionesEmpresas(List<PublicacionEmpresa> publicaciones, View view){
-        PublicacionEmpresaAdapter adapter = new PublicacionEmpresaAdapter(view.getContext(), publicaciones);
-        rvEmpleos.setLayoutManager(new LinearLayoutManager(view.getContext()){
+    private void cargarPublicaciones(final View view) {
+        new CUListarPublicaciones(getContext(),
+                new CasoUso.EventoPeticionAceptada<List<PublicacionGeneral>>() {
+                    @Override
+                    public void alAceptarPeticion(List<PublicacionGeneral> publicacionGenerals) {
+                        llenarPublicaciones(publicacionGenerals, view);
+                    }
+                },
+                new CasoUso.EventoPeticionRechazada() {
+                    @Override
+                    public void alRechazarOperacion() {
+
+                    }
+                }).enviarPeticion();
+    }
+
+    private void llenarPublicaciones(List<PublicacionGeneral> publicacionGenerals, View view) {
+        List<PublicacionEmpresa> publicacionEmpresas = new ArrayList<>();
+
+        for (PublicacionGeneral publicacion: publicacionGenerals) {
+
+            if (!(publicacion.getUrlImagenTrabajo().length() < 1 && publicacion.getNombreTrabajo().length() < 1)) {
+
+            } else {
+                PublicacionEmpresa publicacionEmpresa = publicacion.toPublicacionEmpresa();
+                publicacionEmpresas.add( publicacionEmpresa );
+            }
+        }
+
+        llenarPublicacionesEmpresas(publicacionEmpresas, view);
+    }
+
+    private void llenarPublicacionesEmpresas(List<PublicacionEmpresa> publicacionEmpresas, View view) {
+        PublicacionEmpresaAdapter ppAdapter = new PublicacionEmpresaAdapter(
+                view.getContext(),
+                publicacionEmpresas);
+        rvEmpleos.setLayoutManager(new LinearLayoutManager(view.getContext()) {
             @Override
-            public boolean canScrollVertically(){return false;}
+            public boolean canScrollVertically() {
+                return false;
+            }
         });
-        rvEmpleos.setHasFixedSize(true);
-        rvEmpleos.setAdapter(adapter);
+        rvEmpleos.setAdapter(ppAdapter);
     }
 }
