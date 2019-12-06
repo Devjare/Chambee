@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gps.chambee.R;
-import com.gps.chambee.entidades.Comentario;
 import com.gps.chambee.entidades.vistas.ComentarioPublicacion;
 import com.gps.chambee.negocios.casos.CUObtenerImagen;
 import com.gps.chambee.negocios.casos.CasoUso;

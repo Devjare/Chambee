@@ -29,15 +29,7 @@ public class SWRegistrarComentarioPublicacion extends ServicioWebEscritura {
 
     @Override
     protected String definirUrl(Object... args) {
-        int idPublicacion = Integer.parseInt(args[0].toString());
-        int idPerfil = Integer.parseInt(args[1].toString());
-        String comentario = args[2].toString();
-
-        return context.getString(R.string.sw_alta_comentario_publicacion) + "?id_publicaciones=" + idPublicacion +"&id_perfil=" + idPerfil + "&comentario=" + comentario;
+        return context.getString(R.string.sw_alta_comentario_publicacion);
     }
 
-    @Override
-    protected Request definirRequest(String url, Object... args) {
-        return null;
-    }
 }

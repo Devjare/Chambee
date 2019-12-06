@@ -24,6 +24,7 @@ import com.gps.chambee.entidades.UsuarioFirebase;
 import com.gps.chambee.entidades.vistas.ComentarioPublicacion;
 import com.gps.chambee.entidades.vistas.DetallePublicacion;
 import com.gps.chambee.entidades.Perfil;
+import com.gps.chambee.entidades.vistas.PerfilDetallado;
 import com.gps.chambee.entidades.vistas.PublicacionEmpresa;
 import com.gps.chambee.entidades.vistas.PublicacionGeneral;
 import com.gps.chambee.entidades.vistas.PublicacionPersona;
@@ -31,6 +32,7 @@ import com.gps.chambee.negocios.casos.CUObtenerCategoriasPublicacion;
 import com.gps.chambee.negocios.casos.CUObtenerComentariosPublicacion;
 import com.gps.chambee.negocios.casos.CUObtenerInteresados;
 import com.gps.chambee.negocios.casos.CURegistrarComentarioPublicacion;
+import com.gps.chambee.negocios.casos.CUSeleccionarPerfilDetallado;
 import com.gps.chambee.negocios.casos.CasoUso;
 import com.gps.chambee.servicios.web.ServicioWeb;
 import com.gps.chambee.ui.Sesion;
@@ -62,6 +64,7 @@ public class PublicacionActivity extends AppCompatActivity {
 
     private PublicacionGeneral publicacionGeneral;
     private DetallePublicacion detallePublicacion;
+    private PerfilDetallado perfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,10 @@ public class PublicacionActivity extends AppCompatActivity {
         ivComentar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                etComentario.setText("");
+                rvComentariosTrabajo.requestFocus();
+
                 comentar(publicacionGeneral);
             }
         });
@@ -108,6 +115,8 @@ public class PublicacionActivity extends AppCompatActivity {
 
     private void cargarDetallesPublicacion(PublicacionGeneral publicacionGeneral, int tipo) {
 
+        obtenerPerfil();
+
         cargarDatosGenerales(publicacionGeneral, tipo);
 
         cargarInteresados(publicacionGeneral);
@@ -115,6 +124,7 @@ public class PublicacionActivity extends AppCompatActivity {
         cargarCategorias(publicacionGeneral.getIdPublicacion());
 
         cargarComentarios(publicacionGeneral);
+
     }
 
     private void cargarComentarios(PublicacionGeneral publicacionGeneral) {
@@ -254,14 +264,32 @@ public class PublicacionActivity extends AppCompatActivity {
         });
     }
 
+    private void obtenerPerfil() {
+
+        UsuarioFirebase usuario = (UsuarioFirebase) Sesion.instance().obtenerEntidad(UsuarioFirebase.getNombreClase());
+
+        new CUSeleccionarPerfilDetallado(getApplicationContext(),
+                new CasoUso.EventoPeticionAceptada<PerfilDetallado>() {
+            @Override
+            public void alAceptarPeticion(PerfilDetallado perfilDetallado) {
+                perfil = perfilDetallado;
+            }
+
+        }, new CasoUso.EventoPeticionRechazada() {
+
+            @Override
+            public void alRechazarOperacion() {
+                Toast.makeText(getApplicationContext(), "Error al obtener perfil detallado del usuario", Toast.LENGTH_SHORT).show();
+            }
+
+        }).enviarPeticion(usuario.getId());
+    }
+
     private void comentar(final PublicacionGeneral datosPublicacion){
         final String comentario = etComentario.getText().toString();
         // anio-dia-mes
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM");
         Date date = new Date();
-
-        UsuarioFirebase usuario = (UsuarioFirebase) Sesion.instance().obtenerEntidad(UsuarioFirebase.getNombreClase());
-        final String id = usuario.getId();
 
         final String fecha = formatter.format(date);
         ivComentar.setOnClickListener(new View.OnClickListener() {
@@ -273,6 +301,8 @@ public class PublicacionActivity extends AppCompatActivity {
                             @Override
                             public void alAceptarPeticion(String s) {
                                 Toast.makeText(PublicacionActivity.this, "Comentado exitosamente!", Toast.LENGTH_SHORT).show();
+
+                                cargarComentarios(publicacionGeneral);
                             }
                         },
                         new CasoUso.EventoPeticionRechazada() {
@@ -281,7 +311,7 @@ public class PublicacionActivity extends AppCompatActivity {
                                 Toast.makeText(PublicacionActivity.this, "Fallo al enviar comentario!", Toast.LENGTH_SHORT).show();
                             }
                         }
-                ).enviarPeticion( datosPublicacion.getIdPublicacion(), id, comentario);
+                ).enviarPeticion( datosPublicacion.getIdPublicacion(), perfil.getIdPerfil(), comentario);
             }
         });
     }
