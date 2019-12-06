@@ -4,6 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class ComentarioPublicacion implements Parcelable {
+
+    private int idUsuario;
+
     private String comentario;
     private String nombreUsuario;
     private String tiempo;
@@ -16,6 +19,7 @@ public class ComentarioPublicacion implements Parcelable {
         this.tiempo = builder.tiempo;
         this.interesados = builder.interesados;
         this.url_imagen = builder.url_imagen;
+        this.idUsuario = builder.idUsuario;
     }
 
     protected ComentarioPublicacion(Parcel in) {
@@ -59,6 +63,8 @@ public class ComentarioPublicacion implements Parcelable {
         private String interesados;
         private String url_imagen;
 
+        private int idUsuario;
+
         public ComentarioPublicacion build() {
             return new ComentarioPublicacion(this);
         }
@@ -87,6 +93,11 @@ public class ComentarioPublicacion implements Parcelable {
             this.url_imagen = url_imagen;
             return this;
         }
+
+        public ComentarioPublcacionBuilder setIdUsuario(int idUsuario) {
+            this.idUsuario = idUsuario;
+            return this;
+        }
     }
 
     public String getComentario() {
@@ -107,5 +118,9 @@ public class ComentarioPublicacion implements Parcelable {
 
     public String getUrl_imagen() {
         return url_imagen;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
     }
 }

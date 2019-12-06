@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Comentario;
 import com.gps.chambee.entidades.vistas.ComentarioPublicacion;
@@ -68,7 +70,12 @@ public class ComentarioTrabajoAdapter extends RecyclerView.Adapter<ComentarioTra
                 new CasoUso.EventoPeticionAceptada<Bitmap>() {
                     @Override
                     public void alAceptarPeticion(Bitmap bitmap) {
-                        holder.civFotoComentario.setImageBitmap(bitmap);
+
+                        Glide.with(context)
+                                .load(bitmap)
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(holder.civFotoComentario);
+
                     }
                 },
                 new CasoUso.EventoPeticionRechazada() {
@@ -78,7 +85,12 @@ public class ComentarioTrabajoAdapter extends RecyclerView.Adapter<ComentarioTra
                                 context.getResources(),
                                 R.drawable.ic_person
                         );
-                        holder.civFotoComentario.setImageBitmap(imagen);
+
+                        Glide.with(context)
+                                .load(imagen)
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(holder.civFotoComentario);
+
                     }
                 }
         ).enviarPeticion(comentario.getUrl_imagen());

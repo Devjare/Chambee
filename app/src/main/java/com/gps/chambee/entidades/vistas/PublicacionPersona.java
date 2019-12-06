@@ -20,6 +20,13 @@ public class PublicacionPersona implements Parcelable{
     private Integer vista;
     private Integer interesada;
 
+    private Integer idUsuario;
+    private String apellidos;
+    private String urlPortada;
+    private Double pagoMax;
+    private Double pagoMin;
+    private String fecha;
+
     public PublicacionPersona(PublicacionPersonaBuilder builder) {
         this.idPublicacion = builder.idPublicacion;
         this.urlImagen = builder.urlImagen;
@@ -50,6 +57,13 @@ public class PublicacionPersona implements Parcelable{
         private String urlImagenTrabajo;
         private Integer vista;
         private Integer interesada;
+
+        private Integer idUsuario;
+        private String apellidos;
+        private String urlPortada;
+        private Double pagoMax;
+        private Double pagoMin;
+        private String fecha;
 
         public PublicacionPersona build(){
             return new PublicacionPersona(this);
@@ -117,6 +131,36 @@ public class PublicacionPersona implements Parcelable{
 
         public PublicacionPersonaBuilder setInteresada(Integer interesada) {
             this.interesada = interesada;
+            return this;
+        }
+
+        public PublicacionPersonaBuilder setIdUsuario(Integer idUsuario) {
+            this.idUsuario = idUsuario;
+            return this;
+        }
+
+        public PublicacionPersonaBuilder setApellidos(String apellidos) {
+            this.apellidos = apellidos;
+            return this;
+        }
+
+        public PublicacionPersonaBuilder setUrlPortada(String urlPortada) {
+            this.urlPortada = urlPortada;
+            return this;
+        }
+
+        public PublicacionPersonaBuilder setPagoMax(Double pagoMax) {
+            this.pagoMax = pagoMax;
+            return this;
+        }
+
+        public PublicacionPersonaBuilder setPagoMin(Double pagoMin) {
+            this.pagoMin = pagoMin;
+            return this;
+        }
+
+        public PublicacionPersonaBuilder setFecha(String fecha) {
+            this.fecha = fecha;
             return this;
         }
     }
@@ -323,4 +367,77 @@ public class PublicacionPersona implements Parcelable{
     public static Creator<PublicacionPersona> getCREATOR() {
         return CREATOR;
     }
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getUrlPortada() {
+        return urlPortada;
+    }
+
+    public void setUrlPortada(String urlPortada) {
+        this.urlPortada = urlPortada;
+    }
+
+    public Double getPagoMax() {
+        return pagoMax;
+    }
+
+    public void setPagoMax(Double pagoMax) {
+        this.pagoMax = pagoMax;
+    }
+
+    public Double getPagoMin() {
+        return pagoMin;
+    }
+
+    public void setPagoMin(Double pagoMin) {
+        this.pagoMin = pagoMin;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public PublicacionGeneral toPublicacionGeneral(){
+        return new PublicacionGeneral.PublicacionGeneralBuilder()
+                .setIdPublicacion(this.idPublicacion)
+                .setComentarios(this.comentarios)
+                .setDescripcion(this.descripcion)
+                .setEtiqueta(this.etiqueta)
+                .setInteresada(this.interesada)
+                .setInteresados(this.interesados)
+                .setNombre(this.nombre)
+                .setTiempo(this.tiempo)
+                .setNombreTrabajo(this.nombreTrabajo)
+                .setUrlImagen(this.urlImagen)
+                .setUrlImagenTrabajo(this.urlImagenTrabajo)
+                .setVista(this.vista)
+                .setVistos(this.vistos)
+                .setIdUsuario(this.idUsuario)
+                .setApellidos(this.apellidos)
+                .setUrlPortada(this.urlPortada)
+                .setPagoMax(this.pagoMax)
+                .setPagoMin(this.pagoMin)
+                .setFecha(this.fecha)
+                .build();
+    }
+
 }

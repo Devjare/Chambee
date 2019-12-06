@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.request.RequestOptions;
 import com.gps.chambee.R;
+import com.gps.chambee.entidades.vistas.PublicacionGeneral;
 import com.gps.chambee.entidades.vistas.PublicacionPersona;
 import com.gps.chambee.negocios.casos.CasoUso;
 
@@ -38,7 +39,7 @@ public class PublicacionPersonaAdapter extends RecyclerView.Adapter<PublicacionP
         TextView tvVistosPersona;
         TextView tvDescripcionPersona;
 
-        public int idPublicacion;
+        PublicacionPersona publicacion;
 
         public ViewHolder(@NonNull View itemView) {
 
@@ -53,13 +54,12 @@ public class PublicacionPersonaAdapter extends RecyclerView.Adapter<PublicacionP
             tvVistosPersona = itemView.findViewById(R.id.tvVistosPersona);
             tvDescripcionPersona = itemView.findViewById(R.id.tvDescripcionPersona);
 
-            idPublicacion = -1;
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, PublicacionActivity.class);
-                    intent.putExtra("id", idPublicacion);
+                    intent.putExtra("publicacion", publicacion.toPublicacionGeneral());
+                    intent.putExtra("tipo", PublicacionGeneral.PERSONA);
                     context.startActivity(intent);
                 }
             });
@@ -87,7 +87,7 @@ public class PublicacionPersonaAdapter extends RecyclerView.Adapter<PublicacionP
 
         PublicacionPersona publicacion = lista.get(position);
 
-        holder.idPublicacion = publicacion.getIdPublicacion();
+        holder.publicacion = publicacion;
 
         holder.tvComentariosPersona.setText(publicacion.getComentarios().toString());
         holder.tvDescripcionPersona.setText(publicacion.getDescripcion());

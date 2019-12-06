@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 public class PublicacionGeneral implements Parcelable {
 
+    public static final int EMPRESA = 1;
+    public static final int PERSONA = 0;
+
     private int idPublicacion;
     private String urlImagen;
     private String nombre;
@@ -18,6 +21,13 @@ public class PublicacionGeneral implements Parcelable {
     private String urlImagenTrabajo;
     private Integer vista;
     private Integer interesada;
+
+    private Integer idUsuario;
+    private String apellidos;
+    private String urlPortada;
+    private Double pagoMax;
+    private Double pagoMin;
+    private String fecha;
 
     public PublicacionGeneral(PublicacionGeneralBuilder builder) {
         this.idPublicacion = builder.idPublicacion;
@@ -145,6 +155,13 @@ public class PublicacionGeneral implements Parcelable {
         private Integer vista;
         private Integer interesada;
 
+        private Integer idUsuario;
+        private String apellidos;
+        private String urlPortada;
+        private Double pagoMax;
+        private Double pagoMin;
+        private String fecha;
+
         public PublicacionGeneral build() {
             return new PublicacionGeneral(this);
         }
@@ -211,6 +228,36 @@ public class PublicacionGeneral implements Parcelable {
 
         public PublicacionGeneralBuilder setInteresada(Integer interesada) {
             this.interesada = interesada;
+            return this;
+        }
+
+        public PublicacionGeneralBuilder setIdUsuario(Integer idUsuario) {
+            this.idUsuario = idUsuario;
+            return this;
+        }
+
+        public PublicacionGeneralBuilder setApellidos(String apellidos) {
+            this.apellidos = apellidos;
+            return this;
+        }
+
+        public PublicacionGeneralBuilder setUrlPortada(String urlPortada) {
+            this.urlPortada = urlPortada;
+            return this;
+        }
+
+        public PublicacionGeneralBuilder setPagoMax(Double pagoMax) {
+            this.pagoMax = pagoMax;
+            return this;
+        }
+
+        public PublicacionGeneralBuilder setPagoMin(Double pagoMin) {
+            this.pagoMin = pagoMin;
+            return this;
+        }
+
+        public PublicacionGeneralBuilder setFecha(String fecha) {
+            this.fecha = fecha;
             return this;
         }
     }
@@ -319,6 +366,54 @@ public class PublicacionGeneral implements Parcelable {
         this.interesada = interesada;
     }
 
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getUrlPortada() {
+        return urlPortada;
+    }
+
+    public void setUrlPortada(String urlPortada) {
+        this.urlPortada = urlPortada;
+    }
+
+    public Double getPagoMax() {
+        return pagoMax;
+    }
+
+    public void setPagoMax(Double pagoMax) {
+        this.pagoMax = pagoMax;
+    }
+
+    public Double getPagoMin() {
+        return pagoMin;
+    }
+
+    public void setPagoMin(Double pagoMin) {
+        this.pagoMin = pagoMin;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
     public PublicacionEmpresa toPublicacionEmpresa() {
         return  new PublicacionEmpresa.PublicacionEmpresaBuilder()
                 .setVistos(this.vistos)
@@ -334,6 +429,12 @@ public class PublicacionGeneral implements Parcelable {
                 .setComentarios(this.comentarios)
                 .setIdPublicacion(this.idPublicacion)
                 .setInteresada(this.interesada)
+                .setIdUsuario(this.idUsuario)
+                .setApellidos(this.apellidos)
+                .setUrlPortada(this.urlPortada)
+                .setPagoMax(this.pagoMax)
+                .setPagoMin(this.pagoMin)
+                .setFecha(this.fecha)
                 .build();
     }
 
@@ -352,6 +453,12 @@ public class PublicacionGeneral implements Parcelable {
                 .setComentarios(this.comentarios)
                 .setIdPublicacion(this.idPublicacion)
                 .setInteresada(this.interesada)
+                .setIdUsuario(this.idUsuario)
+                .setApellidos(this.apellidos)
+                .setUrlPortada(this.urlPortada)
+                .setPagoMax(this.pagoMax)
+                .setPagoMin(this.pagoMin)
+                .setFecha(this.fecha)
                 .build();
     }
 }

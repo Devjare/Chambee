@@ -11,9 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Publicacion;
 import com.gps.chambee.entidades.vistas.PublicacionEmpresa;
+import com.gps.chambee.entidades.vistas.PublicacionGeneral;
 import com.gps.chambee.entidades.vistas.PublicacionPersona;
 import com.gps.chambee.negocios.casos.CUObtenerImagen;
 import com.gps.chambee.negocios.casos.CasoUso;
@@ -41,7 +44,7 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
         TextView tvDescripcionPublicacionTrabajo;
         ImageView ivImagenPublicacionTrabajo;
 
-        int idPublicacion;
+        PublicacionEmpresa publicacion;
 
         public ViewHolder(@NonNull View itemView) {
 
@@ -62,7 +65,8 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, PublicacionActivity.class);
-                    intent.putExtra("id", idPublicacion);
+                    intent.putExtra("publicacion", publicacion.toPublicacionGeneral());
+                    intent.putExtra("tipo", PublicacionGeneral.EMPRESA);
                     context.startActivity(intent);
                 }
             });
@@ -90,7 +94,7 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
       
         PublicacionEmpresa publicacion = lista.get(position);
 
-        holder.idPublicacion = publicacion.getIdPublicacion();
+        holder.publicacion = publicacion;
 
         holder.tvComentariosEmpresa.setText(publicacion.getComentarios().toString());
         holder.tvDescripcionPublicacionTrabajo.setText(publicacion.getDescripcion());
@@ -113,7 +117,10 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
             new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
                 @Override
                 public void alAceptarPeticion(Bitmap bitmap) {
-                    holder.civFotoPerfilEmpresa.setImageBitmap(bitmap);
+                    Glide.with(context)
+                            .load(bitmap)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(holder.civFotoPerfilEmpresa);
                 }
             }, new CasoUso.EventoPeticionRechazada() {
                 @Override
@@ -122,7 +129,12 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
                             context.getResources(),
                             R.drawable.ic_person
                     );
-                    holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
+
+                    Glide.with(context)
+                            .load(defaultImg)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(holder.civFotoPerfilEmpresa);
+
                 }
             }).enviarPeticion(publicacion.getUrlImagen());
         }
@@ -132,7 +144,7 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
                     context.getResources(),
                     R.drawable.ic_portfolio
             );
-            holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
+            holder.ivImagenPublicacionTrabajo.setImageBitmap(defaultImg);
         } else {
             // Obtener imagen del trabajo de la empresa.
             new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
@@ -147,7 +159,7 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
                             context.getResources(),
                             R.drawable.ic_portfolio
                     );
-                    holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
+                    holder.ivImagenPublicacionTrabajo.setImageBitmap(defaultImg);
                 }
             }).enviarPeticion(publicacion.getUrlImagenTrabajo());
         }

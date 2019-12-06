@@ -12,4 +12,6 @@
     <string name="sw_registrar_perfil">chabee.online/chambee_php/escritura/alta/serviceweb_alta_perfiles.php</string>
     <string name="sw_obtener_imagen">url_servicio_web_imagen?imagen=</string>
     <string name="sw_listar_todas_publicaciones">http://chambee.online/chambee_php/lectura/serviceweb_lectura_publicacion_usuario_perfil.php</string>
+    <string name="sw_leer_comentarios_publicacion">http://chambee.online/chambee_php/lectura/serviceweb_lectura_detalles_comentario.php</string>
+    <string name="sw_leer_interesados">http://www.chambee.online/chambee_php/lectura/vistas/select_id_intersados.php</string>
 </resources>

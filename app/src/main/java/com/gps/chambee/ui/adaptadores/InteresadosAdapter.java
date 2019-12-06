@@ -7,8 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Perfil;
+import com.gps.chambee.negocios.casos.CUObtenerImagen;
+import com.gps.chambee.negocios.casos.CasoUso;
 
 import java.util.List;
 
@@ -33,14 +37,40 @@ public class InteresadosAdapter extends RecyclerView.Adapter<InteresadosAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         Perfil perfil = lista.get(position);
 
-        if (perfil.getUrlPerfil() == "default"){
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_person);
-            holder.civInteresado.setImageBitmap(bitmap);
-        }
+        new CUObtenerImagen(
+                context,
+                new CasoUso.EventoPeticionAceptada<Bitmap>() {
+                    @Override
+                    public void alAceptarPeticion(Bitmap bitmap) {
+
+                        Glide.with(context)
+                                .load(bitmap)
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(holder.civInteresado);
+
+                    }
+                },
+                new CasoUso.EventoPeticionRechazada() {
+                    @Override
+                    public void alRechazarOperacion() {
+                        Bitmap imagen = BitmapFactory.decodeResource(
+                                context.getResources(),
+                                R.drawable.ic_person
+                        );
+
+                        Glide.with(context)
+                                .load(imagen)
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(holder.civInteresado);
+
+                    }
+                }
+        ).enviarPeticion(perfil.getUrlPerfil());
+
     }
 
     @Override

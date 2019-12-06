@@ -39,7 +39,13 @@ public class PresentadorListaPublicacionesGenerales extends Presentador<List<Pub
                     .setVista(jsonObject.optInt("vista"))
                     .setVistos(jsonObject.optInt("vistos"))
                     .setUrlImagenTrabajo(jsonObject.optString("url_desc_publicacion"))
-                    .setUrlImagen(jsonObject.optString("url_perfil_perfil")).build();
+                    .setUrlImagen(jsonObject.optString("url_perfil_perfil"))
+                    .setIdUsuario(jsonObject.optInt("id_usuario"))
+                    .setApellidos(jsonObject.optString("apellidos_usuario"))
+                    .setUrlPortada(jsonObject.optString("url_portada_perfil"))
+                    .setPagoMax(jsonObject.optDouble("pago_max_publicacion"))
+                    .setPagoMin(jsonObject.optDouble("pago_min_publicacion"))
+                    .setFecha(jsonObject.optString("fecha_publicacion")).build();
 
             publicaciones.add(publicacion);
         }

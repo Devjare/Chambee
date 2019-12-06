@@ -15,12 +15,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.dynamic.IFragmentWrapper;
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Categoria;
+import com.gps.chambee.entidades.Publicacion;
 import com.gps.chambee.entidades.Usuario;
 import com.gps.chambee.entidades.vistas.ComentarioPublicacion;
 import com.gps.chambee.entidades.vistas.DetallePublicacion;
 import com.gps.chambee.entidades.Perfil;
+import com.gps.chambee.entidades.vistas.PublicacionEmpresa;
+import com.gps.chambee.entidades.vistas.PublicacionGeneral;
+import com.gps.chambee.entidades.vistas.PublicacionPersona;
+import com.gps.chambee.negocios.casos.CUObtenerComentariosPublicacion;
+import com.gps.chambee.negocios.casos.CUObtenerInteresados;
 import com.gps.chambee.negocios.casos.CURegistrarComentarioPublicacion;
 import com.gps.chambee.negocios.casos.CasoUso;
 import com.gps.chambee.ui.Sesion;
@@ -50,6 +57,7 @@ public class PublicacionActivity extends AppCompatActivity {
     private TextView tvCostos;
     private EditText etComentario;
 
+    private PublicacionGeneral publicacionGeneral;
     private DetallePublicacion detallePublicacion;
 
     @Override
@@ -75,8 +83,7 @@ public class PublicacionActivity extends AppCompatActivity {
         ivComentar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Agregar servicio web para comentar.
-
+                comentar(publicacionGeneral);
             }
         });
 
@@ -87,96 +94,85 @@ public class PublicacionActivity extends AppCompatActivity {
             }
         });
 
-        final Usuario usuario = (Usuario) Sesion.instance().obtenerEntidad("usuario");
-
         Intent intent = getIntent();
-        final int idPublicacion = intent.getIntExtra("id", -1);
 
-        detallePublicacion = new DetallePublicacion.DetallePublicacionBuilder()
-                .setCantidadInteresados(1)
-                .setTrabajo("Trabajo 1")
-                .setCantidadInteresados(10)
-                .setNombrePerfil("Andres")
-                .setDescripcion("Mi descripcin es esta alv")
-                .setUrlPortada("default")
-                .setCostos("100")
-                .build();
+        int tipo = intent.getIntExtra("tipo", -1);
+        publicacionGeneral = intent.getParcelableExtra("publicacion");
 
-        tvCostos.setText(detallePublicacion.getCostos());
-        tvDescripcionTrabajo.setText(detallePublicacion.getDescripcion());
-        tvNombrePerfil.setText(detallePublicacion.getNombrePerfil());
-        tvNombreTrabajo.setText(detallePublicacion.getNombreTrabajo());
+        cargarDetallesPublicacion(publicacionGeneral, tipo);
 
-        Categoria cat = new Categoria.CategoriaBuilder().setNombre("cat").build();
-        Categoria cat1 = new Categoria.CategoriaBuilder().setNombre("cat 2").build();
+    }
 
-        List<Categoria> areasDeInteres = new ArrayList<>();
-        areasDeInteres.add(cat);
-        areasDeInteres.add(cat1);
+    private void cargarDetallesPublicacion(PublicacionGeneral publicacionGeneral, int tipo) {
 
-        detallePublicacion.setListaAreasDeInteres(areasDeInteres);
+        cargarDatosGenerales(publicacionGeneral, tipo);
 
+        cargarInteresados(publicacionGeneral);
 
-        Perfil perfil = new Perfil.PerfilBuilder()
-                .setUrlPerfil("default")
-                .setAcerca("SOy yo, si soy.")
-                .setCalificacion(10)
-                .setFechaNacimiento("1998-07-09")
-                .setId(1)
-                .setIdUsuario("1")
-                .setOficio("programador alv")
-                .setUrlPortada("default")
-                .build();
+        cargarCategorias(publicacionGeneral.getIdPublicacion());
 
-        List<Perfil> interesados = new ArrayList<Perfil>();
-        interesados.add(perfil);
+        cargarComentarios(publicacionGeneral);
+    }
 
-        detallePublicacion.setListaInteresados(interesados);
-        detallePublicacion.setCantidadInteresados(interesados.size());
+    private void cargarComentarios(PublicacionGeneral publicacionGeneral) {
 
-        ComentarioPublicacion comentario1 = new ComentarioPublicacion.ComentarioPublcacionBuilder()
-                .setComentario("Este es un comentario")
-                .setInteresados("1")
-                .setNombreUsuario("Pedro pinche pablo")
-                .setTiempo("12 horas")
-                .setUrl_imagen("default")
-                .build();
-
-        ComentarioPublicacion comentario2 = new ComentarioPublicacion.ComentarioPublcacionBuilder()
-                .setComentario("Este es un comentario")
-                .setInteresados("10")
-                .setNombreUsuario("Ay papantla tus hijos vuelan")
-                .setTiempo("12 horas")
-                .setUrl_imagen("default")
-                .build();
-
-        List<ComentarioPublicacion> comentarios = new ArrayList<>();
-        comentarios.add(comentario1);
-        comentarios.add(comentario2);
-
-        detallePublicacion.setListaComentarios(comentarios);
-
-        EtiquetaAdapter categoriasAdapter = new EtiquetaAdapter(
+        new CUObtenerComentariosPublicacion(
                 getApplicationContext(),
-                detallePublicacion.getListaAreasDeInteres());
-        rvEtiquetas.setAdapter(categoriasAdapter);
-        rvEtiquetas.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
+                new CasoUso.EventoPeticionAceptada<List<ComentarioPublicacion>>() {
+                    @Override
+                    public void alAceptarPeticion(List<ComentarioPublicacion> comentarioPublicacions) {
+                        llenarComentariosPublicacion(comentarioPublicacions);
+                    }
+                },
+                new CasoUso.EventoPeticionRechazada() {
+                    @Override
+                    public void alRechazarOperacion() {
+                        Toast.makeText(PublicacionActivity.this, "Fallo al cargar comentarios publicacion", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ).enviarPeticion(publicacionGeneral.getIdPublicacion());
+    }
+
+    private void llenarComentariosPublicacion(List<ComentarioPublicacion> comentarioPublicacions) {
 
         ComentarioTrabajoAdapter comentariosAdapter = new ComentarioTrabajoAdapter(
                 getApplicationContext(),
-                detallePublicacion.getListaComentarios()
+                comentarioPublicacions
         );
         rvComentariosTrabajo.setAdapter(comentariosAdapter);
         rvComentariosTrabajo.setLayoutManager(new LinearLayoutManager(this));
 
+    }
+
+    private void cargarInteresados(PublicacionGeneral publicacionGeneral) {
+
+        new CUObtenerInteresados(
+                getApplicationContext(),
+                new CasoUso.EventoPeticionAceptada<List<Perfil>>() {
+                    @Override
+                    public void alAceptarPeticion(List<Perfil> interesados) {
+                        llenarInteresados(interesados);
+                    }
+                },
+                new CasoUso.EventoPeticionRechazada() {
+                    @Override
+                    public void alRechazarOperacion() {
+                        Toast.makeText(PublicacionActivity.this, "Fallo al cargar interesados", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
+    }
+
+    private void llenarInteresados(List<Perfil> interesados) {
+
+        if (interesados.size() < 1){
+            Toast.makeText(this, "Ningun interesado en esta publicacion!", Toast.LENGTH_SHORT).show();
+        }
+        
         InteresadosAdapter interesadosAdapter = new InteresadosAdapter(
                 getApplicationContext(),
-                detallePublicacion.getListaInteresados()
+                interesados
         );
         rvInteresados.setAdapter(interesadosAdapter);
         rvInteresados.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false) {
@@ -186,142 +182,62 @@ public class PublicacionActivity extends AppCompatActivity {
             }
         });
 
-//        new CUObtenerDetallePublicacion(
-//            getApplicationContext(),
-//            new CasoUso.EventoPeticionAceptada<DetallePublicacion>() {
-//
-//                @Override
-//                public void alAceptarPeticion(final DetallePublicacion detallePublicacion) {
-//
-////                    tvCostos.setText(detallePublicacion.getCostos());
-////                    tvDescripcionTrabajo.setText(detallePublicacion.getDescripcion());
-////                    tvNombrePerfil.setText(detallePublicacion.getNombrePerfil());
-////                    tvNombreTrabajo.setText(detallePublicacion.getNombreTrabajo());
-////                    tvNumeroInteresados.setText(detallePublicacion.getListaInteresados().size());
-////
-////                    Categoria cat = new Categoria.CategoriaBuilder().setNombre("cat").build();
-////                    Categoria cat1 = new Categoria.CategoriaBuilder().setNombre("cat 2").build();
-////
-////                    List<Categoria> areasDeInteres = new ArrayList<>();
-////                    areasDeInteres.add(cat);
-////                    areasDeInteres.add(cat1);
-////
-////                    detallePublicacion.setListaAreasDeInteres(areasDeInteres);
-////
-//////                    new CUSeleccionarCategorias(
-//////                            getApplicationContext(),
-//////                            new CasoUso.EventoPeticionAceptada<List<Categoria>>() {
-//////                                @Override
-//////                                public void alAceptarPeticion(List<Categoria> categorias) {
-//////                                    detallePublicacion.setListaAreasDeInteres(categorias);
-//////                                }
-//////                            },
-//////                            new CasoUso.EventoPeticionRechazada() {
-//////                                @Override
-//////                                public void alRechazarOperacion() {
-//////                                    Toast.makeText(PublicacionActivity.this, "Fallo cargar etiquetas", Toast.LENGTH_SHORT).show();
-//////                                    //detallePublicacion.setListaAreasDeInteres(new List<Categoria>());
-//////                                }
-//////                            }
-//////                    ).enviarPeticion(idPublicacion);
-////
-////                    Perfil perfil = new Perfil.PerfilBuilder()
-////                            .setUrlPerfil("default")
-////                            .setAcerca("SOy yo, si soy.")
-////                            .setCalificacion(10)
-////                            .setFechaNacimiento("1998-07-09")
-////                            .setId(1)
-////                            .setIdUsuario("1")
-////                            .setOficio("programador alv")
-////                            .setUrlPortada("default")
-////                            .build();
-////
-////                    List<Perfil> interesados = new ArrayList<Perfil>();
-////                    interesados.add(perfil);
-////
-////                    detallePublicacion.setListaInteresados(interesados);
-////
-//////                    new CUSeleccionarInteresados(
-//////                            getApplicationContext(),
-//////                            new CasoUso.EventoPeticionAceptada<List<Perfil>>() {
-//////                                @Override
-//////                                public void alAceptarPeticion(List<Perfil> perfiles) {
-//////                                    detallePublicacion.setListaInteresados(perfiles);
-//////                                }
-//////                            },
-//////                            new CasoUso.EventoPeticionRechazada() {
-//////                                @Override
-//////                                public void alRechazarOperacion() {
-//////
-//////                                }
-//////                            }
-//////                    ).enviarPeticion(idPublicacion);
-////
-////                    ComentarioPublicacion comentario = new ComentarioPublicacion.ComentarioPublcacionBuilder()
-////                            .setComentario("Este es un comentario")
-////                            .setInteresados("1")
-////                            .setNombreUsuario("Pedro pinche pablo")
-////                            .setTiempo("12 horas")
-////                            .setUrl_imagen("default")
-////                            .build();
-////
-////                    ComentarioPublicacion comentario1 = new ComentarioPublicacion.ComentarioPublcacionBuilder()
-////                            .setComentario("Este es un comentario")
-////                            .setInteresados("10")
-////                            .setNombreUsuario("Ay papantla tus hijos vuelan")
-////                            .setTiempo("12 horas")
-////                            .setUrl_imagen("default")
-////                            .build();
-////
-////                    List<ComentarioPublicacion> comentarios = new ArrayList<>();
-////                    comentarios.add(comentario);
-////                    comentarios.add(comentario1);
-////
-////                    detallePublicacion.setListaComentarios(comentarios);
-////
-//////                    new CUSeleccionarComentarios(
-//////                            getApplicationContext(),
-//////                            new CasoUso.EventoPeticionAceptada<List<ComentarioPublicacion>>() {
-//////                                @Override
-//////                                public void alAceptarPeticion(List<ComentarioPublicacion> comentarios) {
-//////                                    detallePublicacion.setListaComentarios(comentarios);
-//////                                }
-//////                            },
-//////                            new CasoUso.EventoPeticionRechazada() {
-//////                                @Override
-//////                                public void alRechazarOperacion() {
-//////
-//////                                }
-//////                            }
-//////                    ).enviarPeticion(idPublicacion);
-////
-////                    EtiquetaAdapter categoriasAdapter = new EtiquetaAdapter(
-////                            getApplicationContext(),
-////                            detallePublicacion.getListaAreasDeInteres());
-////                    rvEtiquetas.setAdapter(categoriasAdapter);
-////
-////                    ComentarioTrabajoAdapter comentariosAdapter = new ComentarioTrabajoAdapter(
-////                            getApplicationContext(),
-////                            detallePublicacion.getListaComentarios()
-////                    );
-////                    rvComentariosTrabajo.setAdapter(comentariosAdapter);
-////
-////                    InteresadosAdapter interesadosAdapter = new InteresadosAdapter(
-////                            getApplicationContext(),
-////                            detallePublicacion.getListaInteresados()
-////                    );
-////                    rvInteresados.setAdapter(interesadosAdapter);
-//
-//                }
-//            },
-//            new CasoUso.EventoPeticionRechazada() {
-//                @Override
-//                public void alRechazarOperacion() {
-//                    // TODO Alternativa en rechazo.
-//                }
-//            }
-//        ).enviarPeticion(usuario);
+    }
 
+    private void cargarDatosGenerales(PublicacionGeneral publicacionGeneral, int tipo) {
+
+        if (tipo == PublicacionGeneral.EMPRESA) {
+
+            detallePublicacion = new DetallePublicacion.DetallePublicacionBuilder()
+                    .setCantidadInteresados(publicacionGeneral.getInteresados())
+                    .setTrabajo(publicacionGeneral.getNombreTrabajo())
+                    .setNombrePerfil(publicacionGeneral.getNombre())
+                    .setDescripcion(publicacionGeneral.getDescripcion())
+                    .setUrlPortada(publicacionGeneral.getUrlPortada())
+                    .setCostos("Min: " + publicacionGeneral.getPagoMin() + ", " +
+                            "Max: " + publicacionGeneral.getPagoMax())
+                    .setUrlPerfil(publicacionGeneral.getUrlImagen())
+                    .build();
+
+        } else {
+
+            detallePublicacion = new DetallePublicacion.DetallePublicacionBuilder()
+                    .setCantidadInteresados(publicacionGeneral.getInteresados())
+                    .setTrabajo(publicacionGeneral.getNombreTrabajo())
+                    .setNombrePerfil(publicacionGeneral.getNombre())
+                    .setDescripcion(publicacionGeneral.getDescripcion())
+                    .setUrlPortada(publicacionGeneral.getUrlPortada())
+                    .setCostos("Min: " + publicacionGeneral.getPagoMin() + ", " +
+                            "Max: " + publicacionGeneral.getPagoMax())
+                    .setUrlPerfil(publicacionGeneral.getUrlImagen())
+                    .build();
+        }
+
+        tvCostos.setText(detallePublicacion.getCostos());
+        tvDescripcionTrabajo.setText(detallePublicacion.getDescripcion());
+        tvNombrePerfil.setText(detallePublicacion.getNombrePerfil());
+        tvNombreTrabajo.setText(detallePublicacion.getNombreTrabajo());
+
+    }
+
+    private void cargarCategorias(int idPublicacion) {
+
+    }
+
+    private void llenarCategorias(List<Categoria> areasDeInteres){
+        EtiquetaAdapter categoriasAdapter = new EtiquetaAdapter(
+                getApplicationContext(),
+                areasDeInteres);
+        rvEtiquetas.setAdapter(categoriasAdapter);
+        rvEtiquetas.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+    }
+
+    private void comentar(final PublicacionGeneral datosPublicacion){
         final String comentario = etComentario.getText().toString();
         // anio-dia-mes
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM");
@@ -345,7 +261,7 @@ public class PublicacionActivity extends AppCompatActivity {
                                 Toast.makeText(PublicacionActivity.this, "Fallo al enviar comentario!", Toast.LENGTH_SHORT).show();
                             }
                         }
-                ).enviarPeticion( usuario.getId(), comentario, fecha, idPublicacion);
+                ).enviarPeticion( datosPublicacion.getIdUsuario(), comentario, fecha, datosPublicacion.getIdPublicacion());
             }
         });
     }
