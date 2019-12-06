@@ -41,6 +41,16 @@ public class InteresadosAdapter extends RecyclerView.Adapter<InteresadosAdapter.
 
         Perfil perfil = lista.get(position);
 
+        Bitmap imagen = BitmapFactory.decodeResource(
+                context.getResources(),
+                R.drawable.ic_person
+        );
+
+        Glide.with(context)
+                .load(imagen)
+                .apply(RequestOptions.circleCropTransform())
+                .into(holder.civInteresado);
+
         new CUObtenerImagen(
                 context,
                 new CasoUso.EventoPeticionAceptada<Bitmap>() {

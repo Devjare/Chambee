@@ -26,6 +26,7 @@ import com.gps.chambee.entidades.Perfil;
 import com.gps.chambee.entidades.vistas.PublicacionEmpresa;
 import com.gps.chambee.entidades.vistas.PublicacionGeneral;
 import com.gps.chambee.entidades.vistas.PublicacionPersona;
+import com.gps.chambee.negocios.casos.CUObtenerCategoriasPublicacion;
 import com.gps.chambee.negocios.casos.CUObtenerComentariosPublicacion;
 import com.gps.chambee.negocios.casos.CUObtenerInteresados;
 import com.gps.chambee.negocios.casos.CURegistrarComentarioPublicacion;
@@ -160,7 +161,7 @@ public class PublicacionActivity extends AppCompatActivity {
                         Toast.makeText(PublicacionActivity.this, "Fallo al cargar interesados", Toast.LENGTH_SHORT).show();
                     }
                 }
-        );
+        ).enviarPeticion(publicacionGeneral.getIdPublicacion());
 
     }
 
@@ -221,7 +222,21 @@ public class PublicacionActivity extends AppCompatActivity {
     }
 
     private void cargarCategorias(int idPublicacion) {
-
+        new CUObtenerCategoriasPublicacion(
+                getApplicationContext(),
+                new CasoUso.EventoPeticionAceptada<List<Categoria>>() {
+                    @Override
+                    public void alAceptarPeticion(List<Categoria> categorias) {
+                        llenarCategorias(categorias);
+                    }
+                },
+                new CasoUso.EventoPeticionRechazada() {
+                    @Override
+                    public void alRechazarOperacion() {
+                        Toast.makeText(PublicacionActivity.this, "Fallo al cargar categorias publicacion", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ).enviarPeticion(idPublicacion);
     }
 
     private void llenarCategorias(List<Categoria> areasDeInteres){
@@ -261,7 +276,7 @@ public class PublicacionActivity extends AppCompatActivity {
                                 Toast.makeText(PublicacionActivity.this, "Fallo al enviar comentario!", Toast.LENGTH_SHORT).show();
                             }
                         }
-                ).enviarPeticion( datosPublicacion.getIdUsuario(), comentario, fecha, datosPublicacion.getIdPublicacion());
+                ).enviarPeticion( datosPublicacion.getIdPublicacion(), datosPublicacion.getIdUsuario(), comentario);
             }
         });
     }
