@@ -23,8 +23,6 @@ import com.gps.chambee.entidades.vistas.PublicacionEmpresa;
 import com.gps.chambee.entidades.vistas.PublicacionGeneral;
 import com.gps.chambee.entidades.vistas.PublicacionPersona;
 import com.gps.chambee.negocios.casos.CUListarPublicaciones;
-import com.gps.chambee.negocios.casos.CUListarPublicacionesEmpresas;
-import com.gps.chambee.negocios.casos.CUListarPublicacionesPersonas;
 import com.gps.chambee.negocios.casos.CUSeleccionarCategorias;
 import com.gps.chambee.negocios.casos.CasoUso;
 import com.gps.chambee.ui.actividades.PublicacionActivity;
@@ -34,7 +32,6 @@ import com.gps.chambee.ui.adaptadores.CategoriasAdapter;
 import com.gps.chambee.ui.adaptadores.PublicacionEmpresaAdapter;
 import com.gps.chambee.ui.adaptadores.PublicacionPersonaAdapter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 

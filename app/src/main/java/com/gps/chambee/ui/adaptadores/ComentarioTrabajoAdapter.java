@@ -11,10 +11,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gps.chambee.R;
-import com.gps.chambee.entidades.Comentario;
 import com.gps.chambee.entidades.vistas.ComentarioPublicacion;
 import com.gps.chambee.negocios.casos.CUObtenerImagen;
 import com.gps.chambee.negocios.casos.CasoUso;
+import com.gps.chambee.ui.Sesion;
 
 import java.util.List;
 
@@ -63,37 +63,44 @@ public class ComentarioTrabajoAdapter extends RecyclerView.Adapter<ComentarioTra
 
     @Override
     public void onBindViewHolder(@NonNull final ComentarioTrabajoAdapter.ViewHolder holder, int position) {
-        ComentarioPublicacion comentario = lista.get(position);
+        final ComentarioPublicacion comentario = lista.get(position);
 
-        new CUObtenerImagen(
-                context,
-                new CasoUso.EventoPeticionAceptada<Bitmap>() {
-                    @Override
-                    public void alAceptarPeticion(Bitmap bitmap) {
+        if (!Sesion.instance().existeImagen(comentario.getUrl_imagen())) {
+            // Obtener imagen del perfil de la empresa.
+            new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
+                @Override
+                public void alAceptarPeticion(Bitmap bitmap) {
 
-                        Glide.with(context)
-                                .load(bitmap)
-                                .apply(RequestOptions.circleCropTransform())
-                                .into(holder.civFotoComentario);
+                    Sesion.instance().agregarImagen(comentario.getUrl_imagen(), bitmap);
 
-                    }
-                },
-                new CasoUso.EventoPeticionRechazada() {
-                    @Override
-                    public void alRechazarOperacion() {
-                        Bitmap imagen = BitmapFactory.decodeResource(
-                                context.getResources(),
-                                R.drawable.ic_person
-                        );
-
-                        Glide.with(context)
-                                .load(imagen)
-                                .apply(RequestOptions.circleCropTransform())
-                                .into(holder.civFotoComentario);
-
-                    }
+                    Glide.with(context)
+                            .load(bitmap)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(holder.civFotoComentario);
                 }
-        ).enviarPeticion(comentario.getUrl_imagen());
+            }, new CasoUso.EventoPeticionRechazada() {
+                @Override
+                public void alRechazarOperacion() {
+                    Bitmap defaultImg = BitmapFactory.decodeResource(
+                            context.getResources(),
+                            R.drawable.ic_person
+                    );
+
+                    Glide.with(context)
+                            .load(defaultImg)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(holder.civFotoComentario);
+
+                }
+            }).enviarPeticion(comentario.getUrl_imagen());
+        } else {
+            Bitmap bitmap = Sesion.instance().obtenerImagen(comentario.getUrl_imagen());
+
+            Glide.with(context)
+                    .load(bitmap)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(holder.civFotoComentario);
+        }
 
         String comentarioCompelto = comentario.getComentario();
         String usuario = comentario.getNombreUsuario();
