@@ -20,6 +20,7 @@ import com.gps.chambee.entidades.vistas.PublicacionGeneral;
 import com.gps.chambee.entidades.vistas.PublicacionPersona;
 import com.gps.chambee.negocios.casos.CUObtenerImagen;
 import com.gps.chambee.negocios.casos.CasoUso;
+import com.gps.chambee.ui.Sesion;
 import com.gps.chambee.ui.actividades.MainActivity;
 import com.gps.chambee.ui.actividades.PublicacionActivity;
 
@@ -92,7 +93,7 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
       
-        PublicacionEmpresa publicacion = lista.get(position);
+        final PublicacionEmpresa publicacion = lista.get(position);
 
         holder.publicacion = publicacion;
 
@@ -105,18 +106,14 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
         holder.tvNombreTrabajoPublicacion.setText(publicacion.getNombre());
         holder.tvVistos.setText(publicacion.getVistos().toString());
 
-        if (publicacion.getUrlImagen().equals("default")) {
-            Bitmap defaultImg = BitmapFactory.decodeResource(
-                    context.getResources(),
-                    R.drawable.ic_person
-            );
-            holder.civFotoPerfilEmpresa.setImageBitmap(defaultImg);
-        } else {
-
+        if (!Sesion.instance().existeImagen(publicacion.getUrlImagen())) {
             // Obtener imagen del perfil de la empresa.
             new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
                 @Override
                 public void alAceptarPeticion(Bitmap bitmap) {
+
+                    Sesion.instance().agregarImagen(publicacion.getUrlImagen(), bitmap);
+
                     Glide.with(context)
                             .load(bitmap)
                             .apply(RequestOptions.circleCropTransform())
@@ -137,32 +134,52 @@ public class PublicacionEmpresaAdapter extends RecyclerView.Adapter<PublicacionE
 
                 }
             }).enviarPeticion(publicacion.getUrlImagen());
+        } else {
+            Bitmap bitmap = Sesion.instance().obtenerImagen(publicacion.getUrlImagen());
+
+            Glide.with(context)
+                    .load(bitmap)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(holder.civFotoPerfilEmpresa);
         }
 
-        if (publicacion.getUrlImagenTrabajo().equals("desc_publicacion")) {
-            Bitmap defaultImg = BitmapFactory.decodeResource(
-                    context.getResources(),
-                    R.drawable.ic_portfolio
-            );
-            holder.ivImagenPublicacionTrabajo.setImageBitmap(defaultImg);
-        } else {
-            // Obtener imagen del trabajo de la empresa.
+        if (!Sesion.instance().existeImagen(publicacion.getUrlImagenTrabajo())) {
+            // Obtener imagen del perfil de la empresa.
             new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
                 @Override
                 public void alAceptarPeticion(Bitmap bitmap) {
-                    holder.ivImagenPublicacionTrabajo.setImageBitmap(bitmap);
+
+                    Sesion.instance().agregarImagen(publicacion.getUrlImagenTrabajo(), bitmap);
+
+                    Glide.with(context)
+                            .load(bitmap)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(holder.civFotoPerfilEmpresa);
                 }
             }, new CasoUso.EventoPeticionRechazada() {
                 @Override
                 public void alRechazarOperacion() {
                     Bitmap defaultImg = BitmapFactory.decodeResource(
                             context.getResources(),
-                            R.drawable.ic_portfolio
+                            R.drawable.ic_person
                     );
-                    holder.ivImagenPublicacionTrabajo.setImageBitmap(defaultImg);
+
+                    Glide.with(context)
+                            .load(defaultImg)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(holder.civFotoPerfilEmpresa);
+
                 }
             }).enviarPeticion(publicacion.getUrlImagenTrabajo());
+        } else {
+            Bitmap bitmap = Sesion.instance().obtenerImagen(publicacion.getUrlImagenTrabajo());
+
+            Glide.with(context)
+                    .load(bitmap)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(holder.civFotoPerfilEmpresa);
         }
+
     }
 
     @Override
