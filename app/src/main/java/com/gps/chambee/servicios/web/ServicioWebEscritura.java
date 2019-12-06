@@ -10,7 +10,9 @@ import java.util.Map;
 
 public abstract class ServicioWebEscritura extends ServicioWeb<String> {
 
-    public ServicioWebEscritura(Context context, Response.Listener<String> responseListener, Response.ErrorListener errorListener) {
+    public ServicioWebEscritura(Context context,
+                                Response.Listener<String> responseListener,
+                                Response.ErrorListener errorListener) {
         super(context, responseListener, errorListener);
     }
 
@@ -18,7 +20,8 @@ public abstract class ServicioWebEscritura extends ServicioWeb<String> {
 
     @Override
     protected Request definirRequest(String url, final Object... args) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, responseListener, errorListener) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                url, responseListener, errorListener) {
             @Override
             protected Map<String, String> getParams() {
                 return definirParams(args);
@@ -29,3 +32,5 @@ public abstract class ServicioWebEscritura extends ServicioWeb<String> {
     }
 
 }
+
+

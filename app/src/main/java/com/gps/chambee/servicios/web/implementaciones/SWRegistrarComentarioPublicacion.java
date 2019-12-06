@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.gps.chambee.R;
 import com.gps.chambee.entidades.Comentario;
 import com.gps.chambee.servicios.web.ServicioWebEscritura;
 
@@ -17,20 +18,22 @@ public class SWRegistrarComentarioPublicacion extends ServicioWebEscritura {
 
     @Override
     protected Map<String, String> definirParams(Object... args) {
-        Comentario comentario = (Comentario) args[0];
 
         Map<String, String> params = new HashMap<>();
-        params.put("idPerfil", String.valueOf(comentario.getIdPerfil()));
-        params.put("comentario", comentario.getComentario());
-        params.put("fecha", comentario.getFecha());
-        params.put("idPublicacion", String.valueOf(comentario.getIdPublicacion()));
+        params.put("id_publicaciones", args[0].toString());
+        params.put("id_perfiles", args[1].toString());
+        params.put("comentario", args[2].toString());
 
         return params;
     }
 
     @Override
     protected String definirUrl(Object... args) {
-        return "chabee.online/escritura/serviceweb_alta_comentario_publicacion.php";
+        int idPublicacion = Integer.parseInt(args[0].toString());
+        int idPerfil = Integer.parseInt(args[1].toString());
+        String comentario = args[2].toString();
+
+        return context.getString(R.string.sw_alta_comentario_publicacion) + "?id_publicaciones=" + idPublicacion +"&id_perfil=" + idPerfil + "&comentario=" + comentario;
     }
 
     @Override

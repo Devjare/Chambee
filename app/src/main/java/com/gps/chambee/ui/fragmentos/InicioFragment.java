@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Categoria;
 import com.gps.chambee.entidades.vistas.PublicacionEmpresa;
+import com.gps.chambee.entidades.vistas.PublicacionGeneral;
 import com.gps.chambee.entidades.vistas.PublicacionPersona;
+import com.gps.chambee.negocios.casos.CUListarPublicaciones;
 import com.gps.chambee.negocios.casos.CUListarPublicacionesEmpresas;
 import com.gps.chambee.negocios.casos.CUListarPublicacionesPersonas;
 import com.gps.chambee.negocios.casos.CUSeleccionarCategorias;
@@ -34,6 +34,7 @@ import com.gps.chambee.ui.adaptadores.CategoriasAdapter;
 import com.gps.chambee.ui.adaptadores.PublicacionEmpresaAdapter;
 import com.gps.chambee.ui.adaptadores.PublicacionPersonaAdapter;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +51,9 @@ public class InicioFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inicio, container, false);
 
         rvPublicaciones = view.findViewById(R.id.rvPublicaciones);
@@ -79,110 +82,77 @@ public class InicioFragment extends Fragment {
             }
         });
 
-        List<PublicacionEmpresa> publicaciones = new ArrayList<>();
+        // TODO Agregar funcion click a elementos de categorias.
 
-        publicaciones.add(
-                new PublicacionEmpresa.PublicacionEmpresaBuilder()
-                        .setIdPublicacionEmpresa(1)
-                        .setComentarios(1)
-                        .setDescripcion("Desc")
-                        .setEtiqueta("etiqueta")
-                        .setInteresada(1)
-                        .setInteresados(2)
-                        .setNombreEmpresa("Empresa")
-                        .setNombreTrabajo("Trabajo")
-                        .setTiempo("Tiempo")
-                        .setUrlImagenEmpresa("default")
-                        .setUrlImagenTrabajo("default")
-                        .setVista(1)
-                        .setVistos(4)
-                        .build()
-
-        );
-
-        llenarPublicacionesEmpresas(publicaciones, view);
-
-        List<PublicacionPersona> publicacionPersonas = new ArrayList<>();
-        publicacionPersonas.add(
-                new PublicacionPersona.PublicacionPersonaBuilder()
-                .setIdPublicacionPersona(1)
-                .setNombrePersona("Andres")
-                .setComentarios(1)
-                .setDescripcion("Andres Reyna Descripcion")
-                .setEtiqueta("lolis")
-                .setInteresada(1)
-                .setInteresados(10)
-                .setTiempo("12 horas")
-                .setUrlImagenPersona("default")
-                .setVista(1)
-                .setVistos(15)
-                .build()
-        );
-
-        llenarPublicacionesPersonas(publicacionPersonas, view);
-
-        /*String result = cargarInicio(view);
-        Log.d(TAG, "onCreateView: cargarInicio result: " + result);
-        if (result != "Everything went well!"){
-            Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
-        }*/
+        cargarInicio(view);
 
         return view;
     }
 
-    private String cargarInicio(final View view){
 
-        final String[] message = {"Everything went well!"};
 
+    private void cargarInicio(final View view){
+        cargarCategorias(view);
+        cargarPublicaciones(view);
+    }
+
+    private void cargarPublicaciones(final View view) {
+        new CUListarPublicaciones(getContext(),
+                new CasoUso.EventoPeticionAceptada<List<PublicacionGeneral>>() {
+                    @Override
+                    public void alAceptarPeticion(List<PublicacionGeneral> publicacionGenerals) {
+                        llenarPublicaciones(publicacionGenerals, view);
+                    }
+                },
+                new CasoUso.EventoPeticionRechazada() {
+                    @Override
+                    public void alRechazarOperacion() {
+
+                    }
+                }).enviarPeticion();
+    }
+
+    private void llenarPublicaciones(List<PublicacionGeneral> pubilcaciones, final View view) {
+
+        List<PublicacionPersona> publicacionPersonas = new ArrayList<>();
+        List<PublicacionEmpresa> publicacionEmpresas = new ArrayList<>();
+
+        for (PublicacionGeneral publicacion: pubilcaciones) {
+
+            if (publicacion.getUrlImagenTrabajo().length() < 1 && publicacion.getNombreTrabajo().length() < 1){
+
+                publicacionPersonas.add(publicacion.toPublicacionPersona());
+            }else{
+                PublicacionEmpresa publicacionEmpresa = publicacion.toPublicacionEmpresa();
+                publicacionEmpresas.add( publicacionEmpresa );
+            }
+        }
+
+        llenarPublicacionesEmpresas(publicacionEmpresas, view);
+        llenarPublicacionesPersonas(publicacionPersonas, view);
+    }
+
+    private void cargarCategorias(final View view) {
         CUSeleccionarCategorias cuSeleccionarCategorias = new CUSeleccionarCategorias(getContext(),
                 new CasoUso.EventoPeticionAceptada<List<Categoria>>() {
-            @Override
-            public void alAceptarPeticion(List<Categoria> categorias) {
-                // mostrar categorías.
-                llenarCategorias(categorias, view);
-            }
-        }, new CasoUso.EventoPeticionRechazada() {
-            @Override
-            public void alRechazarOperacion() {
-                message[0] = "Failed to load categories!";
-            }
-        });
-
-        cuSeleccionarCategorias.enviarPeticion();
-
-//        new CUListarPublicacionesEmpresas(getContext(),
-//                new CasoUso.EventoPeticionAceptada<List<PublicacionEmpresa>>() {
-//            @Override
-//            public void alAceptarPeticion(List<PublicacionEmpresa> publicaciones) {
-//                // mostrar categorías.
-//                llenarPublicacionesEmpresas(publicaciones, view);
-//            }
-//        }, new CasoUso.EventoPeticionRechazada() {
-//            @Override
-//            public void alRechazarOperacion() {
-//                message[0] = "Failed to load categories!";
-//                Log.i("InicioFragment", message[0]);
-//            }
-//        }).enviarPeticion();
-
-        new CUListarPublicacionesPersonas(
-                getContext(),
-                new CasoUso.EventoPeticionAceptada<List<PublicacionPersona>>() {
                     @Override
-                    public void alAceptarPeticion(List<PublicacionPersona> publicacionPersonas) {
-                        llenarPublicacionesPersonas(publicacionPersonas, view);
+                    public void alAceptarPeticion(List<Categoria> categorias) {
+                        // mostrar categorías.
+                        llenarCategorias(categorias, view);
                     }
                 }, new CasoUso.EventoPeticionRechazada() {
             @Override
             public void alRechazarOperacion() {
-                message[0] = "Failed to load categories!";
+                Toast.makeText(getContext(), "Fallo al cargar categorias", Toast.LENGTH_SHORT).show();
             }
-        }).enviarPeticion();
+        });
 
-        return message[0];
+        cuSeleccionarCategorias.enviarPeticion();
     }
 
     private void llenarCategorias(List<Categoria> categorias, View view) {
+
+        // TODO Filtrar resultados categorias.
 
         CategoriasAdapter caAdapter = new CategoriasAdapter(view.getContext(), categorias);
         rvCategorias.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayout.HORIZONTAL, false) {
@@ -223,3 +193,5 @@ public class InicioFragment extends Fragment {
         rvPublicaciones.setAdapter(adapter);
     }
 }
+
+

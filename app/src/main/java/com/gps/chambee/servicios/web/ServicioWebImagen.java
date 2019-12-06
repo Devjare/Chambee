@@ -10,7 +10,9 @@ import com.android.volley.toolbox.ImageRequest;
 
 public abstract class ServicioWebImagen extends ServicioWeb<Bitmap> {
 
-    public ServicioWebImagen(Context context, Response.Listener<Bitmap> responseListener, Response.ErrorListener errorListener) {
+    public ServicioWebImagen(Context context,
+                             Response.Listener<Bitmap> responseListener,
+                             Response.ErrorListener errorListener) {
         super(context, responseListener, errorListener);
     }
 
@@ -29,3 +31,5 @@ public abstract class ServicioWebImagen extends ServicioWeb<Bitmap> {
         return imageRequest;
     }
 }
+
+

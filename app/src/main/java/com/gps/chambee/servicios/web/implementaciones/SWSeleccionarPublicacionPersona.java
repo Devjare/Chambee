@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.gps.chambee.R;
 import com.gps.chambee.servicios.web.ServicioWebLectura;
 
 import org.json.JSONObject;
@@ -21,6 +22,6 @@ public class SWSeleccionarPublicacionPersona extends ServicioWebLectura {
 
     @Override
     protected String definirUrl(Object... args) {
-        return "http://chambee.online/chambee_php/lectura/serviceweb_lectura_categorias.php";
+        return context.getString(R.string.sw_select_publicaciones);
     }
 }

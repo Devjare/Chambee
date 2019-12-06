@@ -10,7 +10,9 @@ import org.json.JSONObject;
 
 public abstract class ServicioWebLectura extends ServicioWeb<JSONObject> {
 
-    public ServicioWebLectura(Context context, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+    public ServicioWebLectura(Context context,
+                              Response.Listener<JSONObject> responseListener,
+                              Response.ErrorListener errorListener) {
         super(context, responseListener, errorListener);
     }
 
@@ -27,3 +29,5 @@ public abstract class ServicioWebLectura extends ServicioWeb<JSONObject> {
     }
 
 }
+
+
