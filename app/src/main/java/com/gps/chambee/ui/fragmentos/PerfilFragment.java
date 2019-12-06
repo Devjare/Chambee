@@ -82,6 +82,8 @@ public class PerfilFragment extends Fragment {
                 tvEdadUsuario.setText(String.valueOf(perfilDetallado.getFechaNac()));
                 tvPuertoUsuario.setText(perfilDetallado.getPuesto());
                 tvPuntajeEstrellas.setText(String.valueOf(perfilDetallado.getCalificacion()));
+                tvCiudadUsuario.setText(perfilDetallado.getCiudad());
+                tvAcercaDeMi.setText(perfilDetallado.getAcerca());
             }
 
         }, new CasoUso.EventoPeticionRechazada() {
