@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.dynamic.IFragmentWrapper;
 import com.gps.chambee.R;
 import com.gps.chambee.entidades.Categoria;
@@ -24,13 +28,16 @@ import com.gps.chambee.entidades.UsuarioFirebase;
 import com.gps.chambee.entidades.vistas.ComentarioPublicacion;
 import com.gps.chambee.entidades.vistas.DetallePublicacion;
 import com.gps.chambee.entidades.Perfil;
+import com.gps.chambee.entidades.vistas.PerfilDetallado;
 import com.gps.chambee.entidades.vistas.PublicacionEmpresa;
 import com.gps.chambee.entidades.vistas.PublicacionGeneral;
 import com.gps.chambee.entidades.vistas.PublicacionPersona;
 import com.gps.chambee.negocios.casos.CUObtenerCategoriasPublicacion;
 import com.gps.chambee.negocios.casos.CUObtenerComentariosPublicacion;
+import com.gps.chambee.negocios.casos.CUObtenerImagen;
 import com.gps.chambee.negocios.casos.CUObtenerInteresados;
 import com.gps.chambee.negocios.casos.CURegistrarComentarioPublicacion;
+import com.gps.chambee.negocios.casos.CUSeleccionarPerfilDetallado;
 import com.gps.chambee.negocios.casos.CasoUso;
 import com.gps.chambee.servicios.web.ServicioWeb;
 import com.gps.chambee.ui.Sesion;
@@ -62,6 +69,7 @@ public class PublicacionActivity extends AppCompatActivity {
 
     private PublicacionGeneral publicacionGeneral;
     private DetallePublicacion detallePublicacion;
+    private PerfilDetallado perfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +116,8 @@ public class PublicacionActivity extends AppCompatActivity {
 
     private void cargarDetallesPublicacion(PublicacionGeneral publicacionGeneral, int tipo) {
 
+        obtenerPerfil();
+
         cargarDatosGenerales(publicacionGeneral, tipo);
 
         cargarInteresados(publicacionGeneral);
@@ -115,6 +125,7 @@ public class PublicacionActivity extends AppCompatActivity {
         cargarCategorias(publicacionGeneral.getIdPublicacion());
 
         cargarComentarios(publicacionGeneral);
+
     }
 
     private void cargarComentarios(PublicacionGeneral publicacionGeneral) {
@@ -221,6 +232,114 @@ public class PublicacionActivity extends AppCompatActivity {
         tvNombrePerfil.setText(detallePublicacion.getNombrePerfil());
         tvNombreTrabajo.setText(detallePublicacion.getNombreTrabajo());
 
+        if (detallePublicacion.getUrlPerfil() == "" || detallePublicacion.getUrlPerfil() == null){
+            Bitmap defaultImg = BitmapFactory.decodeResource(
+                    getApplicationContext().getResources(),
+                    R.drawable.ic_person
+            );
+
+            Glide.with(getApplicationContext())
+                    .load(defaultImg)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(civFotoPerfil);
+        } else {
+            cargarImagenPerfil(detallePublicacion.getUrlPerfil());
+        }
+
+        if (detallePublicacion.getUrlPortada() == "" || detallePublicacion.getUrlPortada() == null){
+            Bitmap defaultImg = BitmapFactory.decodeResource(
+                    getApplicationContext().getResources(),
+                    R.drawable.ic_person
+            );
+
+            Glide.with(getApplicationContext())
+                    .load(defaultImg)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(ivPortada);
+        } else {
+            cargarImagenPortada(detallePublicacion.getUrlPortada());
+        }
+
+
+    }
+
+    private void cargarImagenPerfil(final String urlPerfil) {
+
+        if (!Sesion.instance().existeImagen(urlPerfil)) {
+            new CUObtenerImagen(getApplicationContext(), new CasoUso.EventoPeticionAceptada<Bitmap>() {
+                @Override
+                public void alAceptarPeticion(Bitmap bitmap) {
+
+                    Sesion.instance().agregarImagen(urlPerfil, bitmap);
+
+                    Glide.with(getApplicationContext())
+                            .load(bitmap)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(civFotoPerfil);
+                }
+            }, new CasoUso.EventoPeticionRechazada() {
+                @Override
+                public void alRechazarOperacion() {
+                    Bitmap defaultImg = BitmapFactory.decodeResource(
+                            getApplicationContext().getResources(),
+                            R.drawable.ic_person
+                    );
+
+                    Glide.with(getApplicationContext())
+                            .load(defaultImg)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(civFotoPerfil);
+
+                }
+            }).enviarPeticion(urlPerfil);
+        } else {
+            Bitmap bitmap = Sesion.instance().obtenerImagen(urlPerfil);
+
+            Glide.with(getApplicationContext())
+                    .load(bitmap)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(civFotoPerfil);
+        }
+    }
+
+    private void cargarImagenPortada(final String urlPortada) {
+
+        if (!Sesion.instance().existeImagen(urlPortada)) {
+            new CUObtenerImagen(getApplicationContext(), new CasoUso.EventoPeticionAceptada<Bitmap>() {
+                @Override
+                public void alAceptarPeticion(Bitmap bitmap) {
+
+                    Sesion.instance().agregarImagen(urlPortada, bitmap);
+
+                    Glide.with(getApplicationContext())
+                            .load(bitmap)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(ivPortada);
+                }
+            }, new CasoUso.EventoPeticionRechazada() {
+                @Override
+                public void alRechazarOperacion() {
+                    Bitmap defaultImg = BitmapFactory.decodeResource(
+                            getApplicationContext().getResources(),
+                            R.drawable.ic_person
+                    );
+
+                    Glide.with(getApplicationContext())
+                            .load(defaultImg)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(ivPortada);
+
+                }
+            }).enviarPeticion(urlPortada);
+        } else {
+            Bitmap bitmap = Sesion.instance().obtenerImagen(urlPortada);
+
+            Glide.with(getApplicationContext())
+                    .load(bitmap)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(ivPortada);
+        }
+
     }
 
     private void cargarCategorias(int idPublicacion) {
@@ -254,14 +373,32 @@ public class PublicacionActivity extends AppCompatActivity {
         });
     }
 
+    private void obtenerPerfil() {
+
+        UsuarioFirebase usuario = (UsuarioFirebase) Sesion.instance().obtenerEntidad(UsuarioFirebase.getNombreClase());
+
+        new CUSeleccionarPerfilDetallado(getApplicationContext(),
+                new CasoUso.EventoPeticionAceptada<PerfilDetallado>() {
+            @Override
+            public void alAceptarPeticion(PerfilDetallado perfilDetallado) {
+                perfil = perfilDetallado;
+            }
+
+        }, new CasoUso.EventoPeticionRechazada() {
+
+            @Override
+            public void alRechazarOperacion() {
+                Toast.makeText(getApplicationContext(), "Error al obtener perfil detallado del usuario", Toast.LENGTH_SHORT).show();
+            }
+
+        }).enviarPeticion(usuario.getId());
+    }
+
     private void comentar(final PublicacionGeneral datosPublicacion){
         final String comentario = etComentario.getText().toString();
         // anio-dia-mes
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM");
         Date date = new Date();
-
-        UsuarioFirebase usuario = (UsuarioFirebase) Sesion.instance().obtenerEntidad(UsuarioFirebase.getNombreClase());
-        final String id = usuario.getId();
 
         final String fecha = formatter.format(date);
         ivComentar.setOnClickListener(new View.OnClickListener() {
@@ -273,6 +410,11 @@ public class PublicacionActivity extends AppCompatActivity {
                             @Override
                             public void alAceptarPeticion(String s) {
                                 Toast.makeText(PublicacionActivity.this, "Comentado exitosamente!", Toast.LENGTH_SHORT).show();
+
+                                cargarComentarios(publicacionGeneral);
+
+                                etComentario.setText("");
+                                rvComentariosTrabajo.requestFocus();
                             }
                         },
                         new CasoUso.EventoPeticionRechazada() {
@@ -281,7 +423,7 @@ public class PublicacionActivity extends AppCompatActivity {
                                 Toast.makeText(PublicacionActivity.this, "Fallo al enviar comentario!", Toast.LENGTH_SHORT).show();
                             }
                         }
-                ).enviarPeticion( datosPublicacion.getIdPublicacion(), id, comentario);
+                ).enviarPeticion( datosPublicacion.getIdPublicacion(), perfil.getIdPerfil(), comentario);
             }
         });
     }

@@ -55,25 +55,23 @@ public class ExplorarEmpleadosFragment extends Fragment {
     }
 
     private void llenarPublicaciones(List<PublicacionGeneral> publicacionGenerals, View view) {
-        List<PublicacionEmpresa> publicacionEmpresas = new ArrayList<>();
+        List<PublicacionPersona> publicaciones = new ArrayList<>();
 
         for (PublicacionGeneral publicacion: publicacionGenerals) {
 
             if (!(publicacion.getUrlImagenTrabajo().length() < 1 && publicacion.getNombreTrabajo().length() < 1)) {
-
-            } else {
-                PublicacionEmpresa publicacionEmpresa = publicacion.toPublicacionEmpresa();
-                publicacionEmpresas.add( publicacionEmpresa );
+                PublicacionPersona publicacionPersona = publicacion.toPublicacionPersona();
+                publicaciones.add( publicacionPersona );
             }
         }
 
-        llenarPublicacionesEmpresas(publicacionEmpresas, view);
+        llenarPublicacionesEmpleados(publicaciones, view);
     }
 
-    private void llenarPublicacionesEmpresas(List<PublicacionEmpresa> publicacionEmpresas, View view) {
-        PublicacionEmpresaAdapter ppAdapter = new PublicacionEmpresaAdapter(
+    private void llenarPublicacionesEmpleados(List<PublicacionPersona> publicaciones, View view){
+        PublicacionPersonaAdapter ppAdapter = new PublicacionPersonaAdapter(
                 view.getContext(),
-                publicacionEmpresas);
+                publicaciones);
         rvEmpleados.setLayoutManager(new LinearLayoutManager(view.getContext()) {
             @Override
             public boolean canScrollVertically() {
@@ -81,15 +79,5 @@ public class ExplorarEmpleadosFragment extends Fragment {
             }
         });
         rvEmpleados.setAdapter(ppAdapter);
-    }
-
-    private void llenarPublicacionesEmpleados(List<PublicacionPersona> publicaciones, View view){
-        PublicacionPersonaAdapter adapter = new PublicacionPersonaAdapter(view.getContext(), publicaciones);
-        rvEmpleados.setLayoutManager(new LinearLayoutManager(view.getContext()){
-            @Override
-            public boolean canScrollVertically(){return false;}
-        });
-        rvEmpleados.setHasFixedSize(true);
-        rvEmpleados.setAdapter(adapter);
     }
 }

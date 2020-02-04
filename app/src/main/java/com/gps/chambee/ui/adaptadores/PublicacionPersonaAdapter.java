@@ -18,6 +18,7 @@ import com.gps.chambee.entidades.vistas.PublicacionPersona;
 import com.gps.chambee.negocios.casos.CasoUso;
 
 import com.gps.chambee.negocios.casos.CUObtenerImagen;
+import com.gps.chambee.ui.Sesion;
 import com.gps.chambee.ui.actividades.PublicacionActivity;
 
 import java.util.List;
@@ -85,7 +86,7 @@ public class PublicacionPersonaAdapter extends RecyclerView.Adapter<PublicacionP
     @Override
     public void onBindViewHolder(@NonNull final PublicacionPersonaAdapter.ViewHolder holder, int position) {
 
-        PublicacionPersona publicacion = lista.get(position);
+        final PublicacionPersona publicacion = lista.get(position);
 
         holder.publicacion = publicacion;
 
@@ -97,25 +98,13 @@ public class PublicacionPersonaAdapter extends RecyclerView.Adapter<PublicacionP
         holder.tvTiempoPublicacionPersona.setText(publicacion.getTiempo().toString());
         holder.tvVistosPersona.setText(publicacion.getVistos().toString());
 
-        if (publicacion.getUrlImagen().equals("default")) {
-            Bitmap defaultImg = BitmapFactory.decodeResource(
-                    context.getResources(),
-                    R.drawable.ic_person
-            );
-            if (defaultImg != null)
-                holder.civFotoPerfilPersona.setImageBitmap(defaultImg);
-        } else {
+        if (!Sesion.instance().existeImagen(publicacion.getUrlImagen())) {
+            // Obtener imagen del perfil de la empresa.
             new CUObtenerImagen(context, new CasoUso.EventoPeticionAceptada<Bitmap>() {
                 @Override
                 public void alAceptarPeticion(Bitmap bitmap) {
 
-                    if (bitmap == null){
-                        Bitmap defaultImg = BitmapFactory.decodeResource(
-                                context.getResources(),
-                                R.drawable.ic_person
-                        );
-                        holder.civFotoPerfilPersona.setImageBitmap(defaultImg);
-                    }
+                    Sesion.instance().agregarImagen(publicacion.getUrlImagen(), bitmap);
 
                     Glide.with(context)
                             .load(bitmap)
@@ -137,6 +126,13 @@ public class PublicacionPersonaAdapter extends RecyclerView.Adapter<PublicacionP
 
                 }
             }).enviarPeticion(publicacion.getUrlImagen());
+        } else {
+            Bitmap bitmap = Sesion.instance().obtenerImagen(publicacion.getUrlImagen());
+
+            Glide.with(context)
+                    .load(bitmap)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(holder.civFotoPerfilPersona);
         }
 
     }
